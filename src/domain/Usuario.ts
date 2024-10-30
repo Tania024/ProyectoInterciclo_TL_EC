@@ -3,8 +3,8 @@ import { Vehiculo } from "./Vehiculo";
 
 export class Usuario {
     public id?: number;
-    public usuario?: string;
-    public contrasena?:string;
+    public usuario: string = '';
+    public contrasena: string = '';
     public nombre?: string;
     public email?: string;
     public rol?: 'usuario' | 'administrador';
