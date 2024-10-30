@@ -1,3 +1,4 @@
+// Representa información de perfil extendida para el usuario.
 import { Usuario } from "./Usuario";
 
 export class Perfil {
