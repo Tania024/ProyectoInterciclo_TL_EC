@@ -1,0 +1,79 @@
+.container {
+  display: flex;
+  max-width: 800px;
+  margin: 20px auto;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.izq {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.izq img {
+  max-width: 150px; /* Tamaño mediano */
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+}
+
+.registration-form {
+  flex: 2;
+  padding: 20px;
+}
+
+.registration-form h1 {
+  text-align: center;
+  color: #333;
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.label {
+  display: block;
+  margin-bottom: 5px;
+  color: #555;
+  font-weight: bold;
+}
+
+.input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+  outline: none;
+}
+
+.input:focus {
+  border-color: #007bff;
+}
+
+.button {
+  width: 100%;
+  padding: 10px;
+  margin-top: 10px;
+  font-size: 16px;
+  font-weight: bold;
+  color: #fff;
+  background-color: #007bff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.button:hover {
+  background-color: #0056b3;
+}

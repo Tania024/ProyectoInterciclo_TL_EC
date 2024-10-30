@@ -1,19 +1,20 @@
 import { Component, NgModule } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonModule, NgFor } from '@angular/common';
-import { AngularFirestore } from '@angular/fire/compat/firestore';
+//import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Usuario } from '../../../domain/Usuario';
+import { FormsModule } from '@angular/forms';
 
 
 @Component({
   selector: 'app-iniciar-sesion',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule,FormsModule],
   templateUrl: './iniciar-sesion.component.html',
   styleUrl: './iniciar-sesion.component.scss'
 })
 export class IniciarSesionComponent {
-  constructor(private firestore: AngularFirestore, private router: Router) {}
+  /*constructor(private firestore: AngularFirestore, private router: Router) {}
 
   // Asegúrate de que el método `iniciarSesion` acepta dos parámetros: usuario y contrasena
   async iniciarSesion(usuario: string, contrasena: string) {
@@ -36,6 +37,6 @@ export class IniciarSesionComponent {
     } catch (error) {
       console.error("Error en el inicio de sesión:", error);
     }
-  }
+  }*/
   
 }

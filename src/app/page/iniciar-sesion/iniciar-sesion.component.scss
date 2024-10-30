@@ -1,53 +1,108 @@
-.login-container {
-    max-width: 400px;
-    margin: 0 auto;
-    padding: 1rem;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    background-color: #f9f9f9;
-  }
-  
-  h2 {
-    text-align: center;
-    color: #333;
-  }
-  
-  .form-group {
-    margin-bottom: 1rem;
-  }
-  
-  label {
-    display: block;
-    margin-bottom: 0.5rem;
-    font-weight: bold;
-  }
-  
-  input {
-    width: 100%;
-    padding: 0.5rem;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    box-sizing: border-box;
-  }
-  
-  .btn {
-    width: 100%;
-    padding: 0.75rem;
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    font-size: 1rem;
-    cursor: pointer;
-  }
-  
-  .btn:hover {
-    background-color: #0056b3;
-  }
-  
-  .register-link {
-    text-align: center;
-    margin-top: 1rem;
-  }
-  
+#iniciarSesion {
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+  background-color: #f5f5f5;
+}
+
+.container {
+  display: flex;
+  max-width: 800px;
+  width: 100%;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #fff;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.izq {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.izq img {
+  max-width: 150px; /* Tamaño mediano para el logo */
+  height: auto;
+  border-radius: 8px;
+}
+
+.der {
+  flex: 2;
+  padding: 20px;
+}
+
+h1 {
+  text-align: center;
+  color: #333;
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.label {
+  display: block;
+  margin-bottom: 5px;
+  color: #555;
+  font-weight: bold;
+}
+
+.input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+  outline: none;
+}
+
+.input:focus {
+  border-color: #007bff;
+}
+
+.button {
+  width: 100%;
+  padding: 10px;
+  margin-top: 10px;
+  font-size: 16px;
+  font-weight: bold;
+  color: #fff;
+  background-color: #007bff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.button:hover {
+  background-color: #0056b3;
+}
+
+.google-button, .facebook-button {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  color: #444;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.google-button:hover {
+  background-color: #f0f0f0;
+}
+
+.facebook-button {
+  margin-top: 10px;
+}
+
+.facebook-button:hover {
+  background-color: #e6e6e6;
+}
