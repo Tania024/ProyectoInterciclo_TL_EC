@@ -4,6 +4,8 @@ import { Observable } from 'rxjs';
 import { Usuario } from '../../domain/Usuario';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 
+
+
 @Injectable({
   providedIn: 'root'
 })
@@ -45,4 +47,9 @@ export class UsuarioService {
       );
     });
   }
+
+
+
+
+
 }
