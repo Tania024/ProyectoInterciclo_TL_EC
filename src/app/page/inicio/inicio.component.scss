@@ -1,3 +1,217 @@
+
+/* Sección de Seguridad */
+.safety-section {
+  background-color: #eeeeee;
+  text-align: center;
+  padding: 50px 20px;
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+}
+
+.safety-section h3 {
+  font-size: 18px;
+  color: #333333;
+  text-transform: uppercase;
+  font-weight: bold;
+  margin: 0;
+}
+
+.safety-section h1 {
+  font-size: 36px;
+  color: #333333;
+  font-weight: bold;
+  margin: 10px 0;
+}
+
+.safety-section h1 span {
+  color: #003399; /* Color azul para destacar "es importante" */
+}
+
+.safety-section p {
+  color: #666666;
+  font-size: 16px;
+  margin-top: 15px;
+}
+
+.safety-section .car-image img {
+  width: 300px;
+  margin: 20px 0;
+}
+
+.safety-section .note {
+  color: #999999;
+  font-size: 12px;
+  margin-top: 10px;
+}
+
+/* Elementos decorativos amarillos */
+.safety-section::before,
+.safety-section::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%) rotate(45deg);
+  width: 150px;
+  height: 150px;
+  background-color: #FFD700; /* Color amarillo */
+}
+
+.safety-section::before {
+  left: -75px; /* Posiciona el rombo amarillo a la izquierda */
+}
+
+.safety-section::after {
+  right: -75px; /* Posiciona el rombo amarillo a la derecha */
+}
+
+/* Ajustes de Responsividad */
+@media (max-width: 768px) {
+  .safety-section .car-image img {
+    width: 200px; /* Reduce el tamaño de la imagen en pantallas pequeñas */
+  }
+
+  .safety-section h1 {
+    font-size: 28px;
+  }
+
+  .safety-section::before,
+  .safety-section::after {
+    display: none; /* Oculta los elementos amarillos en pantallas pequeñas */
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Sección de Estadísticas */
+.stats-section {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  background-color: #ffffff;
+  padding: 40px 20px;
+  text-align: center;
+}
+
+.stat {
+  flex: 1;
+  margin: 0 10px;
+}
+
+.number {
+  font-size: 48px;
+  color: #cccccc; /* Color gris para los números */
+  font-weight: 300;
+  margin: 0;
+}
+
+.label {
+  font-size: 14px;
+  color: #333333; /* Color gris oscuro para las etiquetas */
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: bold;
+  margin-top: 5px;
+}
+
+/* Responsividad */
+@media (max-width: 768px) {
+  .stats-section {
+    flex-direction: column;
+  }
+
+  .stat {
+    margin: 20px 0;
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Sección de Características */
+.features-section {
+  background-color: #0d1b2a;
+  color: #ffffff;
+  display: flex;
+  justify-content: space-around;
+  padding: 30px 20px;
+  text-align: center;
+  width: 100%;
+}
+
+.feature {
+  flex: 1;
+  max-width: 250px;
+  margin: 10px;
+}
+
+.feature img {
+  width: 50px;
+  height: 50px;
+  margin-bottom: 10px;
+  background-color: transparent; /* Asegura que no haya fondo de color en CSS */
+}
+
+.feature h3 {
+  font-size: 18px;
+  font-weight: bold;
+  color: #ffffff;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /* Footer General Styles */
 .footer {
   background-color: #0d0d2d;
