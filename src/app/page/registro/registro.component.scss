@@ -18,7 +18,7 @@
 }
 
 .izq img {
-  max-width: 150px; /* Tamaño mediano */
+  max-width: 150px;
   width: 100%;
   height: auto;
   border-radius: 8px;
@@ -76,4 +76,12 @@
 
 .button:hover {
   background-color: #0056b3;
+}
+
+.button-secondary {
+  background-color: #6c757d;
+}
+
+.button-secondary:hover {
+  background-color: #5a6268;
 }

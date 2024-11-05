@@ -1,40 +1,48 @@
 import { Injectable } from '@angular/core';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { Observable } from 'rxjs';
 import { Usuario } from '../../domain/Usuario';
+import { AngularFireAuth } from '@angular/fire/compat/auth';
+
 @Injectable({
   providedIn: 'root'
 })
-export class UsuariosService {
-  private usuarios: Usuario[] = [];
+export class UsuarioService {
+  private collectionName = 'usuarios';
 
-  obtenerUsuarios(rol: 'usuario' | 'administrador'): Usuario[] | null {
-    if (rol === 'administrador') {
-      return this.usuarios;
-    } else {
-      console.error("Acceso denegado: solo los administradores pueden ver la lista de usuarios.");
-      return null;
-    }
+  constructor(private firestore: AngularFirestore, private afAuth: AngularFireAuth) {}
+
+  registrarUsuario(usuario: Usuario): Promise<void> {
+    const id = this.firestore.createId();
+    usuario.id = id;
+    // Eliminar propiedades undefined para evitar errores de Firebase
+    const usuarioData = JSON.parse(JSON.stringify(usuario));
+    return this.firestore.collection(this.collectionName).doc(id).set(usuarioData);
   }
 
-  agregarUsuario(usuario: Usuario): void {
-    this.usuarios.push(usuario);
+  obtenerUsuarios(): Observable<Usuario[]> {
+    return this.firestore.collection<Usuario>(this.collectionName).valueChanges();
   }
 
-  actualizarPerfil(id: number, usuarioActualizado: Usuario, rol: 'usuario' | 'administrador'): void {
-    const index = this.usuarios.findIndex(u => u.id === id);
-    if (index !== -1) {
-      if (rol === 'administrador' || this.usuarios[index].id === usuarioActualizado.id) {
-        this.usuarios[index] = usuarioActualizado;
-      } else {
-        console.error("Acceso denegado: solo los administradores pueden actualizar perfiles de otros usuarios.");
-      }
-    }
+  obtenerUsuarioPorId(id: string): Observable<Usuario | undefined> {
+    return this.firestore.collection<Usuario>(this.collectionName).doc(id).valueChanges();
   }
 
-  eliminarUsuario(id: number, rol: 'administrador'): void {
-    if (rol === 'administrador') {
-      this.usuarios = this.usuarios.filter(u => u.id !== id);
-    } else {
-      console.error("Acceso denegado: solo los administradores pueden eliminar usuarios.");
-    }
+  iniciarSesion(username: string, contrasena: string): Promise<Usuario | undefined> {
+    return new Promise((resolve, reject) => {
+      this.firestore.collection<Usuario>(this.collectionName, ref => ref.where('username', '==', username).where('contrasena', '==', contrasena)).get().subscribe(
+        (querySnapshot) => {
+          if (querySnapshot.empty) {
+            reject('Usuario o contraseña incorrectos');
+          } else {
+            const usuario = querySnapshot.docs[0].data();
+            resolve(usuario);
+          }
+        },
+        (error) => {
+          reject(error);
+        }
+      );
+    });
   }
 }

@@ -2,12 +2,12 @@ import { Ticket } from "./Ticket";
 import { Vehiculo } from "./Vehiculo";
 
 export class Usuario {
-    public id?: number;
-    public usuario: string = '';
+    public id?: string;
+    public username: string = '';
     public contrasena: string = '';
     public nombre?: string;
     public email?: string;
-    public rol?: 'usuario' | 'administrador';
+    public rol?: 'cliente' | 'administrador';
     public telefono?: string;
     public perfilCompleto?: boolean;
     public tickets: Ticket[] = []; // Lista de tickets asociados al usuario

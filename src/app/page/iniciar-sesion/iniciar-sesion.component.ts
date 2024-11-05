@@ -4,6 +4,7 @@ import { CommonModule, NgFor } from '@angular/common';
 //import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Usuario } from '../../../domain/Usuario';
 import { FormsModule } from '@angular/forms';
+import { UsuarioService } from '../../services/usuarios.service';
 
 
 @Component({
@@ -38,5 +39,26 @@ export class IniciarSesionComponent {
       console.error("Error en el inicio de sesión:", error);
     }
   }*/
+
+
+
+    username: string = '';
+  contrasena: string = '';
+
+  constructor(private usuarioService: UsuarioService, private router: Router) {}
+
+  iniciarSesion(): void {
+    this.usuarioService.iniciarSesion(this.username, this.contrasena)
+      .then((usuario) => {
+        if (usuario) {
+          alert('Inicio de sesión exitoso');
+          this.router.navigate(['/inicio']);
+        }
+      })
+      .catch(error => {
+        console.error('Error al iniciar sesión:', error);
+        alert('Usuario o contraseña incorrectos');
+      });
+  }
   
 }

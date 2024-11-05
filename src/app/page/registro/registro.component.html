@@ -1,37 +1,29 @@
-    <div class="container">
-      <div class="izq">
-      <img src="../../../assets/img/LOGOINI.png" alt="Logo de la aplicación">
-     
-    </div>
-  
-    <div class="registration-form">
-      <h1>Registro</h1>
-      <form>
-        <div class="form-group">
-          <label for="nombre" class="label">Nombre:</label>
-          <input type="text" id="nombre" class="input" placeholder="Ingrese su nombre">
-        </div>
-        <div class="form-group">
-          <label for="usuario" class="label">Usuario:</label>
-          <input type="text" id="usuario" class="input" placeholder="Ingrese su usuario">
-        </div>
-        <div class="form-group">
-          <label for="email" class="label">Correo electrónico:</label>
-          <input type="email" id="email" class="input" placeholder="Ingrese su correo electrónico">
-        </div>
-        <div class="form-group">
-          <label for="contrasena" class="label">Contraseña:</label>
-          <input type="password" id="contrasena" class="input" placeholder="Ingrese su contraseña">
-        </div>
-        <div class="form-group">
-          <label for="rol" class="label">Selecciona tu rol:</label>
-          <select id="rol" class="input">
-            <option value="cliente">Cliente</option>
-            <option value="administrador">Administrador</option>
-          </select>
-        </div>
-        <button type="submit" class="button">Registrar</button>
-      </form>
-      <button class="button">¿Ya tienes cuenta? Inicia sesión</button>
-    </div>
+<div class="container">
+  <div class="izq">
+    <img src="../../../assets/img/LOGOINI.png" alt="Logo de la aplicación">
   </div>
+  <div class="registration-form">
+    <h1>Registro de Cliente</h1>
+    <form (ngSubmit)="registrar()">
+      <div class="form-group">
+        <label for="nombre" class="label">Nombre:</label>
+        <input type="text" id="nombre" class="input" [(ngModel)]="usuario.nombre" name="nombre" placeholder="Ingrese su nombre">
+      </div>
+      <div class="form-group">
+        <label for="usuario" class="label">Usuario:</label>
+        <input type="text" id="usuario" class="input" [(ngModel)]="usuario.username" name="usuario" placeholder="Ingrese su usuario">
+      </div>
+      <div class="form-group">
+        <label for="email" class="label">Correo electrónico:</label>
+        <input type="email" id="email" class="input" [(ngModel)]="usuario.email" name="email" placeholder="Ingrese su correo electrónico">
+      </div>
+      <div class="form-group">
+        <label for="contrasena" class="label">Contraseña:</label>
+        <input type="password" id="contrasena" class="input" [(ngModel)]="usuario.contrasena" name="contrasena" placeholder="Ingrese su contraseña">
+      </div>
+      <button type="submit" class="button">Registrar</button>
+    </form>
+    <button class="button button-secondary" (click)="redirigirALogin()">¿Ya tienes cuenta? Inicia sesión</button>
+
+  </div>
+</div>

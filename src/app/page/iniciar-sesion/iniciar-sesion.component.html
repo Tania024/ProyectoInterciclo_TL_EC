@@ -1,28 +1,21 @@
-<!------------------------------------------BODY----------------------------->
 <section id="iniciarSesion">
-  
   <div class="container">
     <div class="izq imagen">
       <img src="../../../assets/img/LOGOINI.png" alt="Logo de la aplicación">
     </div>
-
     <div class="der">
       <h1>Iniciar sesión</h1>
-      <form>
+      <form (ngSubmit)="iniciarSesion()">
         <div class="form-group">
-          <label for="usuario" class="label">Usuario:</label>
-          <input type="text" id="usuario" class="input" placeholder="Ingrese su nombre de usuario">
+          <label for="username" class="label">Usuario:</label>
+          <input type="text" id="username" class="input" [(ngModel)]="username" name="username" placeholder="Ingrese su nombre de usuario">
         </div>
-
         <div class="form-group">
           <label for="contrasena" class="label">Contraseña:</label>
-          <input type="password" id="contrasena" class="input" placeholder="Ingrese su contraseña">
+          <input type="password" id="contrasena" class="input" [(ngModel)]="contrasena" name="contrasena" placeholder="Ingrese su contraseña">
         </div>
-
         <button type="submit" class="button">Login</button>
-
         <br><br>
-
         <div class="form-group">
           <button type="button" class="google-button">Iniciar sesión con Google</button>
           <br><br>
