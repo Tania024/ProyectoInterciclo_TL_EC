@@ -6,6 +6,11 @@ import { FormsModule } from '@angular/forms';
 import { UsuarioService } from '../../services/usuarios.service';
 
 
+
+import { Usuario } from '../../../domain/Usuario';
+import { AuthService } from '../../services/auth.service';
+
+
 @Component({
   selector: 'app-iniciar-sesion',
   standalone: true,
@@ -18,7 +23,56 @@ export class IniciarSesionComponent {
     username: string = '';
   contrasena: string = '';
 
-  constructor(private usuarioService: UsuarioService, private router: Router) {}
+//mio
+  errorMessage: string = '';
+  usuario: Usuario = new Usuario();
+    
+  constructor(private usuarioService: UsuarioService, private router: Router,private authService: AuthService) {}
+
+  signInWithGoogle() {
+    this.authService.signInWithGoogle().then(() => {
+      this.router.navigate(['/inicio']);
+    }).catch((error) => {
+      this.errorMessage = error.message;
+    });
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   iniciarSesion(): void {
     this.usuarioService.iniciarSesion(this.username, this.contrasena)

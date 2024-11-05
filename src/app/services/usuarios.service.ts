@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { Usuario } from '../../domain/Usuario';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 
-
+//import { getAuth, createUserWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, Auth, signOut, signInWithEmailAndPassword, UserCredential, onAuthStateChanged, User, updateProfile } from 'firebase/auth';
 
 @Injectable({
   providedIn: 'root'
