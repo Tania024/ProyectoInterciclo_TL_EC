@@ -17,7 +17,7 @@ export class EspaciosParqueaderoService {
   }
 
   // Crear un nuevo espacio de parqueo
-  crearEspacio(espacio: EspacioParqueadero): Promise<void> {
+  crearEspacio(espacio: any): Promise<void> {
     const id = this.firestore.createId();
     espacio.id = id;
     return this.firestore.collection(this.collectionName).doc(id).set(espacio);

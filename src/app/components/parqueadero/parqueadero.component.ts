@@ -4,6 +4,8 @@ import { EspaciosParqueaderoService } from '../../services/espacios-parqueadero.
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { UsuarioService } from '../../services/usuarios.service';
+import { Tarifa } from '../../../domain/Tarifa';
+import { TarifasService } from '../../services/tarifas.service';
 
 @Component({
   selector: 'app-parqueadero',
@@ -16,15 +18,18 @@ export class ParqueaderoComponent {
   espacios: EspacioParqueadero[] = [];
   nuevoEspacio: EspacioParqueadero = new EspacioParqueadero();
   esAdministrador: boolean = false;
+  tarifas: Tarifa[] = [];
 
   constructor(
     private espacioService: EspaciosParqueaderoService,
-    private usuarioService: UsuarioService
+    private usuarioService: UsuarioService,
+    private tarifaService: TarifasService
   ) {}
 
   ngOnInit(): void {
     this.esAdministrador = this.usuarioService.esAdministrador();
     this.cargarEspacios();
+    this.cargarTarifas();
   }
 
   cargarEspacios(): void {
@@ -33,11 +38,24 @@ export class ParqueaderoComponent {
     });
   }
 
-  agregarEspacio(): void {
-    this.espacioService.crearEspacio(this.nuevoEspacio).then(() => {
-      this.nuevoEspacio = new EspacioParqueadero(); // Resetear el formulario
+  cargarTarifas(): void {
+    this.tarifaService.obtenerTarifas().subscribe((tarifas) => {
+      this.tarifas = tarifas;
     });
   }
+
+  agregarEspacio(): void {
+    // Convertir el objeto en un objeto plano JSON
+    const espacioPlano = JSON.parse(JSON.stringify(this.nuevoEspacio));
+  
+    this.espacioService.crearEspacio(espacioPlano).then(() => {
+      this.nuevoEspacio = new EspacioParqueadero(); // Resetear el formulario
+      this.cargarEspacios(); // Recargar la lista de espacios
+    }).catch(error => {
+      console.error('Error al agregar espacio:', error);
+    });
+  }
+  
 
   seleccionarEspacio(espacio: EspacioParqueadero): void {
     this.nuevoEspacio = { ...espacio };
@@ -53,6 +71,11 @@ export class ParqueaderoComponent {
 
   eliminarEspacio(id: string): void {
     this.espacioService.eliminarEspacio(id);
+  }
+
+  obtenerNombreTarifa(tarifaId: string | undefined): string {
+    const tarifa = this.tarifas.find(t => t.id === tarifaId);
+    return tarifa ? `${tarifa.nombreTarifa} - ${tarifa.precio} USD / ${tarifa.intervalo}` : 'Tarifa no asignada';
   }
 
 }

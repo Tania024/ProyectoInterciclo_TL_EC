@@ -7,8 +7,7 @@ export class EspacioParqueadero {
     public id?: string;
     public ubicacion?: string;
     public disponible?: boolean;
-    // public tarifa?: Tarifa; // Relación con la tarifa aplicada a este espacio
-    public tarifa: Tarifa = new Tarifa();
+    public tarifaId?: string; // Almacena solo el ID de la tarifa
     public contratoId?: number;
     public tickets: Ticket[] = []; // Lista de tickets asociados a este espacio de parqueo
 
