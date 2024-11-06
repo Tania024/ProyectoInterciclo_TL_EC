@@ -1,9 +1,10 @@
 //Representa las tarifas aplicables en el parqueadero.
 
 export class Tarifa {
-    public id?: number;
+    public id?: string;
     public nombreTarifa?: string;
-    public precioHora: number = 0;
+    public precio: number = 0;
     public descripcion?: string;
+    public intervalo: 'hora' | 'dia' | 'mes' = 'hora';
 
 }

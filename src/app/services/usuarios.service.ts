@@ -38,6 +38,10 @@ export class UsuarioService {
             reject('Usuario o contraseña incorrectos');
           } else {
             const usuario = querySnapshot.docs[0].data();
+            // Guardar el rol en localStorage para controlar el acceso
+            if (usuario.rol) {
+              localStorage.setItem('rol', usuario.rol);
+            }
             resolve(usuario);
           }
         },
@@ -46,6 +50,17 @@ export class UsuarioService {
         }
       );
     });
+  }
+
+  cerrarSesion(): Promise<void> {
+    localStorage.removeItem('rol'); // Eliminar el rol del localStorage al cerrar sesión
+    return this.afAuth.signOut();
+  }
+
+  // Método para verificar si el usuario es administrador
+  esAdministrador(): boolean {
+    const rol = localStorage.getItem('rol');
+    return rol === 'administrador';
   }
 
 

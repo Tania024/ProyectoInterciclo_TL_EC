@@ -1,44 +1,33 @@
 import { Injectable } from '@angular/core';
 import { Tarifa } from '../../domain/Tarifa';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
 export class TarifasService {
-  private tarifas: Tarifa[] = [];
+  private tarifasCollection = 'tarifas';
 
-  obtenerTarifas(rol: 'usuario' | 'administrador'): Tarifa[] | null {
-    if (rol === 'administrador') {
-      return this.tarifas;
-    } else {
-      console.error("Acceso denegado: solo los administradores pueden ver las tarifas.");
-      return null;
-    }
+  constructor(private firestore: AngularFirestore) {}
+
+  // Obtener lista de tarifas
+  obtenerTarifas(): Observable<Tarifa[]> {
+    return this.firestore.collection<Tarifa>(this.tarifasCollection).valueChanges({ idField: 'id' });
   }
 
-  agregarTarifa(tarifa: Tarifa, rol: 'administrador'): void {
-    if (rol === 'administrador') {
-      this.tarifas.push(tarifa);
-    } else {
-      console.error("Acceso denegado: solo los administradores pueden agregar tarifas.");
-    }
+  // Crear una nueva tarifa
+  crearTarifa(tarifa: Tarifa): Promise<void> {
+    const id = this.firestore.createId();
+    return this.firestore.collection(this.tarifasCollection).doc(id).set({ ...tarifa, id });
   }
 
-  actualizarTarifa(id: number, tarifaActualizada: Tarifa, rol: 'administrador'): void {
-    if (rol === 'administrador') {
-      const index = this.tarifas.findIndex(t => t.id === id);
-      if (index !== -1) {
-        this.tarifas[index] = tarifaActualizada;
-      }
-    } else {
-      console.error("Acceso denegado: solo los administradores pueden actualizar tarifas.");
-    }
+  // Actualizar una tarifa existente
+  actualizarTarifa(tarifa: Tarifa): Promise<void> {
+    return this.firestore.collection(this.tarifasCollection).doc(tarifa.id?.toString()).update(tarifa);
   }
 
-  eliminarTarifa(id: number, rol: 'administrador'): void {
-    if (rol === 'administrador') {
-      this.tarifas = this.tarifas.filter(t => t.id !== id);
-    } else {
-      console.error("Acceso denegado: solo los administradores pueden eliminar tarifas.");
-    }
+  // Eliminar una tarifa
+  eliminarTarifa(id: string): Promise<void> {
+    return this.firestore.collection(this.tarifasCollection).doc(id).delete();
   }
 }

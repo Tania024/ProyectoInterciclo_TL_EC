@@ -1,0 +1,92 @@
+<div class="tarifa-container" *ngIf="esAdministrador">
+    <h2>Gestión de Tarifas</h2>
+  
+    <!-- Formulario para agregar tarifas -->
+    <div class="tarifa-form">
+        <div class="form-group">
+            <label for="nombre" class="label">Nombre:</label>
+            <input type="text" id="nombre" class="input" [(ngModel)]="nuevaTarifa.nombreTarifa" name="nombre" placeholder="Nombre de Tarifa">
+        </div>
+
+        <div class="form-group">
+            <label for="precio" class="label">Precio:</label>
+            <input type="number" id="precio" class="input" [(ngModel)]="nuevaTarifa.precio" name="precio" placeholder="Precio"  >
+        </div>
+
+      <div class="form-group">
+        <label for="descripcion" class="label">Descripcion:</label>
+        <input type="text" id="descripcion" class="input" [(ngModel)]="nuevaTarifa.descripcion" name="descripcion"  placeholder="Descripción">
+      </div>
+
+      <div class="form-group">
+        <label for="intervalo" class="label">Intervalo:</label>
+        <select type="text" id="intervalo" class="input"  [(ngModel)]="nuevaTarifa.intervalo" name="intervalo" >
+            <option value="hora">Hora</option>
+            <option value="dia">Día</option>
+            <option value="mes">Mes</option>
+      </select>
+      </div>
+      <button (click)="agregarTarifa()">Agregar Tarifa</button>
+    </div>
+  
+    <!-- Lista de tarifas -->
+    <table class="tarifas-table">
+      <thead>
+        <tr>
+          <th>Nombre</th>
+          <th>Precio</th>
+          <th>Descripción</th>
+          <th>Intervalo</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let tarifa of tarifas">
+          <td>{{ tarifa.nombreTarifa }}</td>
+          <td>{{ tarifa.precio | currency:'USD' }}</td>
+          <td>{{ tarifa.descripcion }}</td>
+          <td>{{ tarifa.intervalo }}</td>
+          <td>
+            <button (click)="seleccionarTarifa(tarifa)">Editar</button>
+            <button (click)="eliminarTarifa(tarifa.id!)">Eliminar</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  
+    <!-- Formulario para editar una tarifa -->
+    <div *ngIf="editandoTarifa" class="tarifa-form">
+        <h3>Editando Tarifa</h3>
+        <div class="form-group">
+            <label for="nombre" class="label">Nombre:</label>
+            <input type="text" id="nombre" class="input" [(ngModel)]="editandoTarifa.nombreTarifa" name="nombre" placeholder="Nombre de Tarifa">
+        </div>
+
+        <div class="form-group">
+            <label for="precio" class="label">Precio:</label>
+            <input type="number" id="precio" class="input" [(ngModel)]="editandoTarifa.precio" name="precio" placeholder="Precio"  >
+        </div>
+
+      <div class="form-group">
+        <label for="descripcion" class="label">Descripcion:</label>
+        <input type="text" id="descripcion" class="input" [(ngModel)]="editandoTarifa.descripcion" name="descripcion"  placeholder="Descripción">
+      </div>
+
+      <div class="form-group">
+        <label for="intervalo" class="label">Intervalo:</label>
+        <select type="text" id="intervalo" class="input"  [(ngModel)]="editandoTarifa.intervalo" name="intervalo" >
+            <option value="hora">Hora</option>
+            <option value="dia">Día</option>
+            <option value="mes">Mes</option>
+      </select>
+      </div>
+      <button (click)="actualizarTarifa()">Guardar Cambios</button>
+      <button (click)="editandoTarifa = null">Cancelar</button>
+    </div>
+  </div>
+  
+  <!-- Mensaje para usuarios que no son administradores -->
+  <div *ngIf="!esAdministrador" class="acceso-denegado">
+    <p>No tienes permisos para acceder a la gestión de tarifas.</p>
+  </div>
+  

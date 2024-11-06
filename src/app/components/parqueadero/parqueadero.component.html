@@ -1,0 +1,101 @@
+<div class="espacio-container">
+    <h2>Gestión de Espacios de Parqueadero</h2>
+  
+    
+    <div *ngIf="esAdministrador">
+      <div class="espacio-form">
+        <div class="form-group">
+            <label for="ubicacion" class="label">Ubicacion:</label>
+            <input type="text" id="ubicacion" class="input" [(ngModel)]="nuevoEspacio.ubicacion"  name="ubicacion" placeholder="Ubicación">
+        </div>
+
+        <div class="form-group">
+            <label for="tarifa" class="label">Tarifa:</label>
+            <input type="number"  id="tarifa" class="input"[(ngModel)]="nuevoEspacio.tarifa.precio" name="tarifa" placeholder="Tarifa" >
+        </div>
+
+        <div class="form-group">
+            <label for="intervalo" class="label">Intervalo:</label>
+            <select type="text" id="intervalo" class="input" [(ngModel)]="nuevoEspacio.tarifa.intervalo" name="intervalo" >
+                <option value="hora">Hora</option>
+                <option value="dia">Día</option>
+                <option value="mes">Mes</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="espacio" class="label">Espacio:</label>
+            <select type="tex" id="espacio" class="input" [(ngModel)]="nuevoEspacio.disponible" name="espacio">
+                <option [ngValue]="true">Disponible</option>
+                <option [ngValue]="false">No Disponible</option>
+            </select>
+        </div>
+
+        <button (click)="nuevoEspacio.id ? actualizarEspacio() : agregarEspacio()">
+          {{ nuevoEspacio.id ? 'Actualizar Espacio' : 'Agregar Espacio' }}
+        </button>
+      </div>
+  
+      <table class="espacios-table">
+        <thead>
+          <tr>
+            <th>Ubicación</th>
+            <th>Disponibilidad</th>
+            <th>Tarifa</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let espacio of espacios">
+            <td>{{ espacio.ubicacion || 'No especificada' }}</td>
+            <td [ngClass]="{'disponible': espacio.disponible, 'no-disponible': !espacio.disponible}">
+              {{ espacio.disponible ? 'Disponible' : 'No Disponible' }}
+            </td>
+            <td>
+              {{ espacio.tarifa.precio | currency:'USD' }}
+              <span>/ {{ espacio.tarifa.intervalo }}</span>
+            </td>
+            <td>
+              <button (click)="seleccionarEspacio(espacio)">Editar</button>
+              <button (click)="eliminarEspacio(espacio.id!)">Eliminar</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  
+    <!-- Vista de cliente: Solo visualización -->
+    <div *ngIf="!esAdministrador">
+      <table class="espacios-table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Ubicación</th>
+            <th>Disponibilidad</th>
+            <th>Tarifa</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let espacio of espacios">
+            <td>{{ espacio.id }}</td>
+            <td>{{ espacio.ubicacion || 'No especificada' }}</td>
+            <td [ngClass]="{'disponible': espacio.disponible, 'no-disponible': !espacio.disponible}">
+              {{ espacio.disponible ? 'Disponible' : 'No Disponible' }}
+            </td>
+            <td>
+              {{ espacio.tarifa.precio | currency:'USD' }}
+              <span>/ {{ espacio.tarifa.intervalo }}</span>
+            </td>
+            <td>
+              <button *ngIf="espacio.disponible" class="btn-adquirir">Adquirir</button>
+              <button *ngIf="!espacio.disponible" disabled>No disponible</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  
+  
+  
