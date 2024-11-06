@@ -27,12 +27,39 @@ export class AuthService {
     this.db = getFirestore(app);
   }
 
-
-  signInWithGoogle() {
+  async signInWithGoogle() {
     const provider = new GoogleAuthProvider();
-    return signInWithPopup(this.auth, provider)
-      .catch(error => {
-        console.error('Error al iniciar sesión con Google:', error);
-      });
+    try {
+      const result = await signInWithPopup(this.auth, provider);
+      const user = result.user;
+      if (user) {
+        await this.checkOrCreateUser(user);
+        this.router.navigate(['/inicio']);
+      }
+    } catch (error) {
+      console.error('Error al iniciar sesión con Google:', error);
+    }
+  }
+
+  // Verifica si el usuario existe en Firestore, si no, lo crea con rol de "cliente"
+  private async checkOrCreateUser(user: User) {
+    const userDocRef = doc(this.db, 'usuarios', user.uid);
+    const userDoc = await getDoc(userDocRef);
+
+    if (!userDoc.exists()) {
+      // Crear nuevo usuario con rol de "cliente"
+      const newUser: Usuario = {
+        id: user.uid,
+        username: user.displayName || '',
+        email: user.email || '',
+        contrasena: '',
+        rol: 'cliente',
+        perfilCompleto: false,
+        tickets: [],
+        vehiculos: []
+      };
+      await setDoc(userDocRef, newUser);
+      console.log('Usuario creado como cliente:', newUser);
+    }
   }
 }

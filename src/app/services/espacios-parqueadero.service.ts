@@ -25,7 +25,7 @@ export class EspaciosParqueaderoService {
 
   // Actualizar un espacio de parqueo existente
   actualizarEspacio(espacio: EspacioParqueadero): Promise<void> {
-    return this.firestore.collection(this.collectionName).doc(espacio.id).update(espacio);
+    return this.firestore.collection(this.collectionName).doc(espacio.id).update({ disponible: espacio.disponible });
   }
 
   // Eliminar un espacio de parqueo

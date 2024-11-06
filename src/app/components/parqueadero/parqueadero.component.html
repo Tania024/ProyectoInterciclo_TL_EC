@@ -81,8 +81,9 @@
               {{ obtenerNombreTarifa(espacio.tarifaId) }}
             </td>
             <td>
-              <button *ngIf="espacio.disponible" class="btn-adquirir">Adquirir</button>
-              <button *ngIf="!espacio.disponible" disabled>No disponible</button>
+                <button *ngIf="espacio.disponible" class="btn-adquirir" (click)="adquirirEspacio(espacio)">Adquirir</button>
+                <button *ngIf="!espacio.disponible" disabled>Ocupado </button>
+
             </td>
           </tr>
         </tbody>

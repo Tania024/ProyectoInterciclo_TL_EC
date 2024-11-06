@@ -78,4 +78,19 @@ export class ParqueaderoComponent {
     return tarifa ? `${tarifa.nombreTarifa} - ${tarifa.precio} USD / ${tarifa.intervalo}` : 'Tarifa no asignada';
   }
 
+  // Método para cambiar el estado de disponibilidad al presionar "Adquirir"
+  adquirirEspacio(espacio: EspacioParqueadero): void {
+    espacio.disponible = false;  // Cambia el estado a "No disponible"
+    
+    // Opcional: Actualizar el estado en Firebase para reflejar el cambio
+    this.espacioService.actualizarEspacio(espacio).then(() => {
+      console.log("Espacio adquirido con éxito.");
+      alert("Has separado tu espacio en el parqueadero.");
+    }).catch(error => {
+      console.error("Error al actualizar el espacio:", error);
+    });
+  }
+  
+
+
 }

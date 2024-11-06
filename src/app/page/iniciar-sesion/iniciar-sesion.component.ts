@@ -32,8 +32,8 @@ export class IniciarSesionComponent {
   signInWithGoogle() {
     this.authService.signInWithGoogle().then(() => {
       this.router.navigate(['/inicio']);
-    }).catch((error) => {
-      this.errorMessage = error.message;
+    }).catch(error => {
+      console.error('Error al iniciar sesión con Google:', error);
     });
   }
 
