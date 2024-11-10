@@ -1,13 +1,3 @@
-//import { Injectable } from '@angular/core';
-/*import { getAuth, signInWithPopup, GoogleAuthProvider, Auth, User,onAuthStateChanged,signInWithEmailAndPassword } from 'firebase/auth';
-import { getAuth, signInWithPopup, GoogleAuthProvider, Auth, User as FirebaseUser } from 'firebase/auth';
-import { initializeApp } from 'firebase/app';
-import { Router } from '@angular/router';
-import { environment } from '../../environments/environment';
-import { Usuario } from '../../domain/Usuario';
-import { Firestore } from '@angular/fire/firestore';
-import { addDoc, collection, doc, getDoc, getDocs, getFirestore, query, setDoc, updateDoc, where } from 'firebase/firestore';
-//import { AngularFireAuth } from '@angular/fire/compat/auth';*/
 
 import { Injectable } from '@angular/core';
 import { GoogleAuthProvider } from 'firebase/auth';
@@ -68,7 +58,7 @@ export class AuthService {
     }
   }
 
-  // Método para actualizar la contraseña del usuario actual
+ /* // Método para actualizar la contraseña del usuario actual
   async actualizarContrasena(nuevaContrasena: string): Promise<void> {
     const user = await this.afAuth.currentUser; // Utiliza AngularFireAuth para obtener el usuario actual
     if (user) {
@@ -77,5 +67,17 @@ export class AuthService {
     } else {
       throw new Error("No hay un usuario autenticado.");
     }
-  }
+  }*/
+    async obtenerUsuarioActual(): Promise<Usuario | null> {
+      const user = await this.afAuth.currentUser;
+      if (user) {
+        const userDocRef = doc(this.db, 'usuarios', user.uid);
+        const userDoc = await getDoc(userDocRef);
+        if (userDoc.exists()) {
+          return userDoc.data() as Usuario;
+        }
+      }
+      return null;
+    }
+    
 }

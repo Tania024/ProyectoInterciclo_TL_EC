@@ -1,41 +1,33 @@
-<div class="perfil-container">
-  <h2>Editar Perfil</h2>
-  <form (ngSubmit)="actualizarPerfil()">
-    <div class="form-group">
-      <label for="nombre">Nombre:</label>
-      <input type="text" id="nombre" [(ngModel)]="usuario.nombre" name="nombre" placeholder="Nombre">
-    </div>
+<section id="perfil">
+    <div class="container">
+      <h1>Editar Perfil</h1>
+      <form (ngSubmit)="actualizarPerfil()">
+        <div class="form-group">
+          <label for="nombre">Nombre:</label>
+          <input type="text" id="nombre" [(ngModel)]="usuario.nombre" name="nombre" />
+        </div>
+        <div class="form-group">
+          <label for="email">Correo electrónico:</label>
+          <input type="email" id="email" [(ngModel)]="usuario.email" name="email" />
+        </div>
+        <div class="form-group">
+          <label for="telefono">Teléfono:</label>
+          <input type="text" id="telefono" [(ngModel)]="usuario.telefono" name="telefono" />
+        </div>
+        <div class="form-group">
+          <label for="biografia">Biografía:</label>
+          <textarea id="biografia" [(ngModel)]="usuario.biografia" name="biografia"></textarea>
+        </div>
+        <div class="form-group">
+          <label for="fotoPerfil">Foto de Perfil (URL):</label>
+          <input type="text" id="fotoPerfil" [(ngModel)]="usuario.fotoPerfil" name="fotoPerfil" />
+        </div>
+        <button type="submit" class="button">Guardar Cambios</button>
+      </form>
+      <div *ngIf="isLoading">Guardando cambios...</div>
+      <div *ngIf="successMessage" class="success">{{ successMessage }}</div>
+      <div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
 
-    <div class="form-group">
-      <label for="email">Correo electrónico:</label>
-      <input type="email" id="email" [(ngModel)]="usuario.email" name="email" placeholder="Correo electrónico">
     </div>
-
-    <div class="form-group">
-      <label for="username">Usuario:</label>
-      <input type="text" id="username" [(ngModel)]="usuario.username" name="username" placeholder="Usuario">
-    </div>
-
-    <div class="form-group">
-      <label for="contrasena">Contraseña:</label>
-      <input type="password" id="contrasena" [(ngModel)]="usuario.contrasena" name="contrasena" placeholder="Contraseña">
-    </div>
-
-    <div class="form-group">
-      <label for="telefono">Teléfono:</label>
-      <input type="text" id="telefono" [(ngModel)]="usuario.telefono" name="telefono" placeholder="Teléfono">
-    </div>
-
-    <div class="form-group">
-      <label for="biografia">Biografía:</label>
-      <textarea id="biografia" [(ngModel)]="usuario.biografia" name="biografia" placeholder="Biografía"></textarea>
-    </div>
-
-    <div class="form-group">
-      <label for="fotoPerfil">Foto de Perfil (URL):</label>
-      <input type="text" id="fotoPerfil" [(ngModel)]="usuario.fotoPerfil" name="fotoPerfil" placeholder="URL de la foto de perfil">
-    </div>
-
-    <button type="submit">Guardar Cambios</button>
-  </form>
-</div>
+  </section>
+  

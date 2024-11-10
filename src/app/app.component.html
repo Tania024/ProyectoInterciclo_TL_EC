@@ -1,4 +1,3 @@
-
 <!--------------------------------Encabezado ------------------------------>
 <header class="header">
   <div class="container">
@@ -11,7 +10,7 @@
           <li><a routerLink="/inicio">INICIO</a></li>
           <li><a routerLink="/parqueadero">PARQUEADERO</a></li>
           <li><a routerLink="/tarifa">TARIFA</a></li>
-          <li><a routerLink="/perfil">Perfil</a></li>
+          <li *ngIf="isAuthenticated && isCliente"><a routerLink="/perfil">Perfil</a></li>
 
         </ul>
       </nav>
@@ -19,14 +18,15 @@
         <button class="language-btn">🌐 EN</button>
       </div>
       <div class="auth-buttons">
-        <a routerLink="/iniciarSesion" class="sign-in-btn">Iniciar Sesión</a>
-        <a routerLink="/registro" class="sign-up-btn">Registro</a>
-       
+        <!-- Botones de Iniciar Sesión y Registro solo se muestran si no está autenticado -->
+        <a *ngIf="!isAuthenticated" routerLink="/iniciarSesion" class="sign-in-btn">Iniciar Sesión</a>
+        <a *ngIf="!isAuthenticated" routerLink="/registro" class="sign-up-btn">Registro</a>
+
+        <!-- Botón de Cerrar Sesión solo se muestra si el usuario está autenticado -->
+        <button *ngIf="isAuthenticated" (click)="cerrarSesion()" class="sign-out-btn">Cerrar Sesión</button>
       </div>
     </div>
   </div>
 </header>
 
-
 <router-outlet></router-outlet>
-

@@ -145,3 +145,25 @@ body, html {
     font-size: 12px;
   }
 }
+
+/* Botón de Cerrar Sesión */
+.sign-out-btn {
+  background-color: #178374; /* Rojo para indicar acción de cierre de sesión */
+  color: #ffffff;
+  font-size: 16px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+.sign-out-btn:hover {
+  background-color: #398f9ac3; /* Un rojo más oscuro al pasar el mouse */
+}
+
+.sign-out-btn:focus {
+  outline: none;
+  box-shadow: 0 0 4px #c0392b;
+}
+
