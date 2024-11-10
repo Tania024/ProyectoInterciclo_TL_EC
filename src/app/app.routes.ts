@@ -5,6 +5,7 @@ import { IniciarSesionComponent } from './page/iniciar-sesion/iniciar-sesion.com
 import { RegistroComponent } from './page/registro/registro.component';
 import { ParqueaderoComponent } from './components/parqueadero/parqueadero.component';
 import { TarifaComponent } from './components/tarifa/tarifa.component';
+import { PerfilComponent } from './components/perfil/perfil.component';
 
 export const routes: Routes = [
     { path: '', redirectTo: '/inicio', pathMatch: 'full' },
@@ -13,5 +14,6 @@ export const routes: Routes = [
     { path: 'registro', component: RegistroComponent },
     { path: 'parqueadero', component: ParqueaderoComponent },
     { path: 'tarifa', component: TarifaComponent },
+    { path: 'perfil', component: PerfilComponent }
    
   ];

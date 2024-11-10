@@ -23,15 +23,3 @@ bootstrapApplication(AppComponent, {
   ]
 }).catch((err) => console.error(err));
 
-
-
-
-// bootstrapApplication(AppComponent, {
-//   providers: [
-//     provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
-//     provideFirestore(() => getFirestore()),
-//     // provideAuth(() => getAuth()),
-//     // { provide: 'appConfig', useValue: appConfig } 
-//   ]
-// })
-// .catch((err) => console.error(err));

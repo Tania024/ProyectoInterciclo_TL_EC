@@ -4,7 +4,6 @@ import { Observable } from 'rxjs';
 import { Usuario } from '../../domain/Usuario';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 
-//import { getAuth, createUserWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, Auth, signOut, signInWithEmailAndPassword, UserCredential, onAuthStateChanged, User, updateProfile } from 'firebase/auth';
 
 @Injectable({
   providedIn: 'root'
@@ -52,6 +51,18 @@ export class UsuarioService {
     });
   }
 
+// Obtener perfil de usuario por ID
+obtenerPerfil(id: string): Observable<Usuario | undefined> {
+  return this.firestore.collection<Usuario>(this.collectionName).doc(id).valueChanges();
+}
+
+// Actualizar perfil de usuario
+actualizarPerfil(usuario: Usuario): Promise<void> {
+  if (!usuario.id) throw new Error("Usuario ID es requerido para actualizar el perfil");
+  return this.firestore.collection(this.collectionName).doc(usuario.id).update(JSON.parse(JSON.stringify(usuario)));
+}
+ 
+
   cerrarSesion(): Promise<void> {
     localStorage.removeItem('rol'); // Eliminar el rol del localStorage al cerrar sesión
     return this.afAuth.signOut();
@@ -62,8 +73,6 @@ export class UsuarioService {
     const rol = localStorage.getItem('rol');
     return rol === 'administrador';
   }
-
-
 
 
 

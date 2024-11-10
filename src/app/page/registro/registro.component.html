@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container"> 
   <div class="izq">
     <img src="../../../assets/img/LOGOINI.png" alt="Logo de la aplicación">
   </div>
@@ -21,9 +21,16 @@
         <label for="contrasena" class="label">Contraseña:</label>
         <input type="password" id="contrasena" class="input" [(ngModel)]="usuario.contrasena" name="contrasena" placeholder="Ingrese su contraseña">
       </div>
+      <div class="form-group">
+        <label for="biografia" class="label">Biografía:</label>
+        <textarea id="biografia" class="input" [(ngModel)]="usuario.biografia" name="biografia" placeholder="Ingrese su biografía"></textarea>
+      </div>
+      <div class="form-group">
+        <label for="fotoPerfil" class="label">Foto Perfil (URL):</label>
+        <input type="text" id="fotoPerfil" class="input" [(ngModel)]="usuario.fotoPerfil" name="fotoPerfil" placeholder="Ingrese la URL de su foto de perfil">
+      </div>
       <button type="submit" class="button">Registrar</button>
     </form>
     <button class="button button-secondary" (click)="redirigirALogin()">¿Ya tienes cuenta? Inicia sesión</button>
-
   </div>
 </div>

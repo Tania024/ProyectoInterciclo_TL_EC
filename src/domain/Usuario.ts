@@ -13,8 +13,7 @@ export class Usuario {
     public tickets: Ticket[] = []; // Lista de tickets asociados al usuario
     public vehiculos: Vehiculo[] = []; // Lista de vehículos asociados al usuario
 
-    // constructor() {
-    //     this.tickets = [];
-    //     this.vehiculos = [];
-    // }
+      // Datos de perfil
+      public fotoPerfil?: string; // Foto de perfil del usuario
+      public biografia?: string;
 }
