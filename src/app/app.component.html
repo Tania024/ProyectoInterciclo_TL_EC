@@ -8,8 +8,10 @@
       <nav class="nav">
         <ul>
           <li><a routerLink="/inicio">INICIO</a></li>
+          <li><a routerLink="/nosotros">Nosotros</a></li>
           <li><a routerLink="/parqueadero">PARQUEADERO</a></li>
           <li><a routerLink="/tarifa">TARIFA</a></li>
+          
           <li *ngIf="isAuthenticated && isCliente"><a routerLink="/perfil">Perfil</a></li>
 
         </ul>
