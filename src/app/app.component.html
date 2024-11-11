@@ -7,13 +7,14 @@
       </div>
       <nav class="nav">
         <ul>
-          <li><a routerLink="/inicio">INICIO</a></li>
+          <li><a routerLink="/inicio">Inicio</a></li>
           <li><a routerLink="/nosotros">Nosotros</a></li>
-          <li><a routerLink="/parqueadero">PARQUEADERO</a></li>
-          <li><a routerLink="/tarifa">TARIFA</a></li>
-          
+          <li><a routerLink="/parqueadero">Parqueadero</a></li>
+          <!-----<li><a routerLink="/tarifa">TARIFA</a></li>
+          <li *ngIf="isAdmin"><a routerLink="/tarifa">TARIFA</a></li>
           <li *ngIf="isAuthenticated && isCliente"><a routerLink="/perfil">Perfil</a></li>
-
+             ---->           
+          <li *ngIf="isAuthenticated"><a (click)="goToGestion()">Gestion</a></li>
         </ul>
       </nav>
       <div class="language">

@@ -35,29 +35,8 @@ export class UsuarioService {
     return this.firestore.collection<Usuario>(this.collectionName).doc(id).valueChanges();
   }
 
- /* iniciarSesion(username: string, contrasena: string): Promise<Usuario | undefined> {
-    return new Promise((resolve, reject) => {
-      this.firestore.collection<Usuario>(this.collectionName, ref => ref.where('username', '==', username).where('contrasena', '==', contrasena)).get().subscribe(
-        (querySnapshot) => {
-          if (querySnapshot.empty) {
-            reject('Usuario o contraseña incorrectos');
-          } else {
-            const usuario = querySnapshot.docs[0].data();
-            // Guardar el rol en localStorage para controlar el acceso
-            if (usuario.rol) {
-              localStorage.setItem('rol', usuario.rol);
-            }
-            resolve(usuario);
-          }
-        },
-        (error) => {
-          reject(error);
-        }
-      );
-    });
-  }*/
   
-    iniciarSesion(username: string, contrasena: string): Promise<Usuario | undefined> {
+    /*iniciarSesion(username: string, contrasena: string): Promise<Usuario | undefined> {
       return new Promise((resolve, reject) => {
         this.firestore.collection<Usuario>(this.collectionName, ref => ref.where('username', '==', username).where('contrasena', '==', contrasena)).get().subscribe(
           (querySnapshot) => {
@@ -83,7 +62,35 @@ export class UsuarioService {
           }
         );
       });
-    }
+    }*/
+
+      iniciarSesion(username: string, contrasena: string): Promise<Usuario | undefined> {
+        return new Promise((resolve, reject) => {
+          this.firestore.collection<Usuario>(this.collectionName, ref => ref.where('username', '==', username).where('contrasena', '==', contrasena)).get().subscribe(
+            (querySnapshot) => {
+              if (querySnapshot.empty) {
+                reject('Usuario o contraseña incorrectos');
+              } else {
+                const usuario = querySnapshot.docs[0].data();
+                
+                if (usuario.rol) {
+                  localStorage.setItem('userId', usuario.id ?? '');
+                  localStorage.setItem('rol', usuario.rol);
+      
+                  // Actualizar el estado global de autenticación
+                  this.isAuthenticatedSubject.next(true);
+                  this.isClienteSubject.next(usuario.rol === 'cliente');
+                }
+                resolve(usuario);
+              }
+            },
+            (error) => {
+              reject(error);
+            }
+          );
+        });
+      }
+      
     
 // Obtener perfil de usuario por ID
 obtenerPerfil(id: string): Observable<Usuario | undefined> {
