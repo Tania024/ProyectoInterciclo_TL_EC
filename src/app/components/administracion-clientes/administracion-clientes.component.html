@@ -1,0 +1,73 @@
+<!------------<section id="admin-clientes-lista">
+    <div class="container">
+      <h1>Administración de Clientes</h1>
+      <ul *ngIf="clientes.length > 0">
+        <li *ngFor="let cliente of clientes">
+          <div class="cliente-info">
+            <span><strong>Nombre:</strong> {{ cliente.nombre }}</span>
+            <span><strong>Email:</strong> {{ cliente.email }}</span>
+           <-------<span><strong>Contraseña:</strong> {{ cliente.contrasena }}</span>
+            <span><strong>Telefono:</strong> {{ cliente.telefono }}</span>
+            <span><strong>Biografia:</strong> {{ cliente.biografia }}</span>
+            <span><strong>FotoPerfil:</strong> {{ cliente.fotoPerfil }}</span>
+            <button (click)="eliminarCliente(cliente.id ?? '')">Eliminar</button>
+
+          </div>
+        </li>
+      </ul>
+    
+    </div>
+  </section>
+  ------------->
+
+  <section id="administracion-clientes-lista">
+    <div class="container">
+      <h1>Lista Clientes Registrados</h1>
+      <ul *ngIf="clientes.length > 0">
+        <li *ngFor="let cliente of clientes">
+          <div class="cliente-info">
+            <ng-container *ngIf="editCliente && editCliente.id === cliente.id; else viewMode">
+              <!-- Modo Edición -->
+              <div class="form-group">
+                <label>Nombre:</label>
+                <input type="text" [(ngModel)]="editCliente.nombre" />
+              </div>
+              <div class="form-group">
+                <label>Email:</label>
+                <input type="email" [(ngModel)]="editCliente.email" />
+              </div>
+              <div class="form-group">
+                <label>Teléfono:</label>
+                <input type="text" [(ngModel)]="editCliente.telefono" />
+              </div>
+              <div class="form-group">
+                <label>Biografía:</label>
+                <textarea [(ngModel)]="editCliente.biografia"></textarea>
+              </div>
+              <div class="form-group">
+                <label>Foto de Perfil (URL):</label>
+                <input type="text" [(ngModel)]="editCliente.fotoPerfil" />
+              </div>
+  
+              <button (click)="guardarCambios()">Guardar</button>
+              <button (click)="cancelarEdicion()">Cancelar</button>
+            </ng-container>
+  
+            <!-- Modo Vista -->
+            <ng-template #viewMode>
+              <span><strong>Nombre:</strong> {{ cliente.nombre }}</span>
+              <span><strong>Email:</strong> {{ cliente.email }}</span>
+              <span><strong>Teléfono:</strong> {{ cliente.telefono }}</span>
+              <span><strong>Biografía:</strong> {{ cliente.biografia }}</span>
+              <span><strong>Foto de Perfil:</strong></span>
+            
+              <button (click)="editarCliente(cliente)">Editar</button>
+              <button (click)="eliminarCliente(cliente.id)">Eliminar</button>
+            </ng-template>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </section>
+  
+  
