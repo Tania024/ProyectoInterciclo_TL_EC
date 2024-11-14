@@ -1,0 +1,130 @@
+/* Contenedor principal de la sección de administración de clientes */
+#administracion-clientes-lista .container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f4f4f9;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  font-family: Arial, sans-serif;
+}
+
+#administracion-clientes-lista h1 {
+  text-align: center;
+  color: #333;
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+/* Lista de clientes */
+#administracion-clientes-lista ul {
+  list-style: none;
+  padding: 0;
+}
+
+#administracion-clientes-lista li {
+  margin-bottom: 20px;
+}
+
+.cliente-info {
+  display: flex;
+  flex-direction: column;
+  padding: 15px;
+  background-color: #fff;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.cliente-info span {
+  font-size: 14px;
+  margin: 5px 0;
+  color: #555;
+}
+
+.cliente-info span strong {
+  color: #333;
+}
+
+/* Modo Edición */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+}
+
+.form-group label {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 4px;
+}
+
+.form-group input,
+.form-group textarea {
+  padding: 8px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  color: #333;
+}
+
+textarea {
+  resize: vertical;
+}
+
+/* Botones */
+button {
+  padding: 8px 12px;
+  font-size: 14px;
+  color: #191313;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin: 5px 5px 5px 0;
+}
+
+/* Botón de Guardar */
+button.guardar {
+  background-color: #28a745;
+}
+
+button.guardar:hover {
+  background-color: #218838;
+}
+
+/* Botón de Cancelar */
+button.cancelar {
+  background-color: #6c757d;
+}
+
+button.cancelar:hover {
+  background-color: #5a6268;
+}
+
+/* Botón de Editar */
+button.editar {
+  background-color: #007bff;
+}
+
+button.editar:hover {
+  background-color: #0056b3;
+}
+
+/* Botón de Eliminar */
+button.eliminar {
+  background-color: #dc3545;
+}
+
+button.eliminar:hover {
+  background-color: #c82333;
+}
+
+/* Vista previa de la foto de perfil */
+.cliente-info img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  margin-top: 10px;
+  object-fit: cover;
+}

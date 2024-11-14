@@ -7,6 +7,10 @@ import { ParqueaderoComponent } from './components/parqueadero/parqueadero.compo
 import { TarifaComponent } from './components/tarifa/tarifa.component';
 import { PerfilComponent } from './components/perfil/perfil.component';
 import { NosotrosComponent } from './components/nosotros/nosotros.component';
+import { AdministracionClientesComponent } from './components/administracion-clientes/administracion-clientes.component';
+import { AuthGuardService } from './services/auth-guard.service';
+
+
 export const routes: Routes = [
     { path: '', redirectTo: '/inicio', pathMatch: 'full' },
     { path: 'inicio', component: InicioComponent },
@@ -15,6 +19,7 @@ export const routes: Routes = [
     { path: 'parqueadero', component: ParqueaderoComponent },
     { path: 'tarifa', component: TarifaComponent },
     { path: 'nosotros', component: NosotrosComponent },
-    { path: 'perfil', component: PerfilComponent }
-   
+    { path: 'perfil', component: PerfilComponent },
+    { path: 'lista-clientes', component: PerfilComponent },
+    { path: 'administracion-clientes-lista', component: AdministracionClientesComponent}
   ];

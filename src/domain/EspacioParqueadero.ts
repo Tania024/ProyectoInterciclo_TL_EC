@@ -11,8 +11,5 @@ export class EspacioParqueadero {
     public contratoId?: number;
     public tickets: Ticket[] = []; // Lista de tickets asociados a este espacio de parqueo
 
-    // constructor() {
-    //     this.tarifa = new Tarifa();
-    // }
-
+  
 }
