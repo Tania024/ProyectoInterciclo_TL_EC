@@ -1,0 +1,47 @@
+<!-- Sección exclusiva para Administrador -->
+<div *ngIf="esAdministrador">
+  <h2>Gestión de Contratos de Arrendamiento</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Usuario</th>
+        <th>Espacio de Parqueo</th>
+        <th>Fecha Inicio</th>
+        <th>Fecha Fin</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let contrato of contratos">
+        <td>{{ contrato.usuario?.nombre || 'Usuario no encontrado' }}</td>
+        <td>{{ contrato.espacioParqueadero?.ubicacion || 'Espacio no encontrado' }}</td>
+        <td>{{ contrato.fechaInicio | date }}</td>
+        <td>{{ contrato.fechaFin | date }}</td>
+        <td><button (click)="deleteContrato(contrato.id!)">Eliminar</button></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Sección exclusiva para Cliente -->
+<div *ngIf="!esAdministrador">
+  <h2>Espacios Disponibles para Contratos</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Espacio de Parqueo</th>
+        <th>Disponibilidad</th>
+        <th>Acción</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let espacio of espaciosParqueadero">
+        <td>{{ espacio.ubicacion }}</td>
+        <td>{{ espacio.disponible ? 'Disponible' : 'Ocupado' }}</td>
+        <td>
+          <button *ngIf="espacio.disponible" (click)="rentarEspacio(espacio.id!)">Rentar</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

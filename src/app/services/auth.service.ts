@@ -51,7 +51,7 @@ export class AuthService {
         rol: 'cliente',
         perfilCompleto: false,
         tickets: [],
-        vehiculos: []
+        
       };
       await setDoc(userDocRef, newUser);
       console.log('Usuario creado como cliente:', newUser);

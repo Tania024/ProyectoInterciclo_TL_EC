@@ -1,6 +1,5 @@
 //Representa los espacios de parqueo disponibles en el sistema.
 
-import { Tarifa } from "./Tarifa";
 import { Ticket } from "./Ticket";
 
 export class EspacioParqueadero {

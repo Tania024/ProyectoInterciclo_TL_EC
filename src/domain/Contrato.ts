@@ -4,15 +4,12 @@ import { EspacioParqueadero } from "./EspacioParqueadero";
 import { Usuario } from "./Usuario";
 
 export class Contrato {
-    public id?: number;
-    public usuario?: Usuario; // Referencia directa al usuario con el contrato
-    public espacioParqueadero?: EspacioParqueadero; // Referencia directa al espacio de parqueo arrendado
-    public fechaInicio?: Date;
-    public fechaFin?: Date;
-
-    // constructor() {
-    //     this.usuario = new Usuario();
-    //     this.espacioParqueadero = new EspacioParqueadero();
-    // }
+    public id?: string;
+  public usuarioId?: string; // Almacena solo el ID del usuario
+  public usuario?: Usuario; // Almacena el objeto completo, si es necesario
+  public espacioParqueaderoId?: string; // Almacena solo el ID del espacio
+  public espacioParqueadero?: EspacioParqueadero; // Almacena el objeto completo, si es necesario
+  public fechaInicio?: Date;
+  public fechaFin?: Date;
 
 }

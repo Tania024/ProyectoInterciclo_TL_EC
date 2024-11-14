@@ -16,6 +16,10 @@ export class EspaciosParqueaderoService {
     return this.firestore.collection<EspacioParqueadero>(this.collectionName).valueChanges({ idField: 'id' });
   }
 
+  obtenerEspacioPorId(id: string): Observable<EspacioParqueadero | undefined> {
+    return this.firestore.collection<EspacioParqueadero>('EspacioParqueadero').doc(id).valueChanges();
+  }  
+
   // Crear un nuevo espacio de parqueo
   crearEspacio(espacio: any): Promise<void> {
     const id = this.firestore.createId();
@@ -24,9 +28,17 @@ export class EspaciosParqueaderoService {
   }
 
   // Actualizar un espacio de parqueo existente
-  actualizarEspacio(espacio: EspacioParqueadero): Promise<void> {
-    return this.firestore.collection(this.collectionName).doc(espacio.id).update({ disponible: espacio.disponible });
+  actualizarEspacio(espacio: Partial<EspacioParqueadero>): Promise<void> {
+    if (!espacio.id) {
+      return Promise.reject(new Error('El ID del espacio es necesario para actualizarlo.'));
+    }
+  
+    return this.firestore
+      .collection(this.collectionName)
+      .doc(espacio.id)
+      .update(JSON.parse(JSON.stringify(espacio)));
   }
+  
 
   // Eliminar un espacio de parqueo
   eliminarEspacio(id: string): Promise<void> {

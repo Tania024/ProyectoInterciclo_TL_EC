@@ -1,0 +1,129 @@
+/* Estilos generales para el contenedor del componente */
+.contrato-container {
+    width: 80%;
+    margin: auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Estilos para el título */
+  .contrato-container h2 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+  }
+  
+  /* Estilos para el formulario */
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-bottom: 30px;
+  }
+  
+  form label {
+    font-size: 14px;
+    font-weight: bold;
+    color: #555;
+  }
+  
+  form input,
+  form select,
+  form button {
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  form button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  form button:hover {
+    background-color: #45a049;
+  }
+  
+  /* Estilos para la tabla */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background-color: #fff;
+  }
+  
+  table th,
+  table td {
+    border: 1px solid #ddd;
+    text-align: center;
+    padding: 10px;
+    font-size: 14px;
+  }
+  
+  table th {
+    background-color: #f4f4f4;
+    color: #333;
+    font-weight: bold;
+  }
+  
+  table tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+  
+  table tr:hover {
+    background-color: #f1f1f1;
+  }
+  
+  /* Estilos para los botones de la tabla */
+  table button {
+    padding: 5px 10px;
+    font-size: 14px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  table button:first-child {
+    background-color: #2196F3;
+    color: white;
+    margin-right: 5px;
+  }
+  
+  table button:first-child:hover {
+    background-color: #0b7dda;
+  }
+  
+  table button:last-child {
+    background-color: #f44336;
+    color: white;
+  }
+  
+  table button:last-child:hover {
+    background-color: #d32f2f;
+  }
+  
+  /* Responsividad para dispositivos móviles */
+  @media (max-width: 768px) {
+    .contrato-container {
+      width: 95%;
+    }
+  
+    table {
+      font-size: 12px;
+    }
+  
+    form input,
+    form select,
+    form button {
+      font-size: 12px;
+      padding: 8px;
+    }
+  }
+  

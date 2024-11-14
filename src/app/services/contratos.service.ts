@@ -1,45 +1,38 @@
 import { Injectable } from '@angular/core';
 import { Contrato } from '../../domain/Contrato';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { Observable } from 'rxjs';
+import { Usuario } from '../../domain/Usuario';
 @Injectable({
   providedIn: 'root'
 })
 export class ContratosService {
+  private collectionName = 'contrato';
 
-  private contratos: Contrato[] = [];
+  constructor(private firestore: AngularFirestore) {}
 
-  obtenerContratos(rol: 'usuario' | 'administrador'): Contrato[] | null {
-    if (rol === 'administrador') {
-      return this.contratos;
-    } else {
-      console.error("Acceso denegado: solo los administradores pueden ver los contratos.");
-      return null;
-    }
+  // Obtener lista de contratos
+  obtenerContratos(): Observable<Contrato[]> {
+    return this.firestore.collection<Contrato>(this.collectionName).valueChanges({ idField: 'id' });
   }
 
-  agregarContrato(contrato: Contrato, rol: 'administrador'): void {
-    if (rol === 'administrador') {
-      this.contratos.push(contrato);
-    } else {
-      console.error("Acceso denegado: solo los administradores pueden agregar contratos.");
-    }
+  // Crear un nuevo contrato
+  crearContrato(contrato: Contrato): Promise<void> {
+    const id = this.firestore.createId();
+    contrato.id = id;
+    const contratoData = JSON.parse(JSON.stringify(contrato)); // Evita errores de propiedades undefined
+    return this.firestore.collection(this.collectionName).doc(id).set(contratoData);
   }
 
-  actualizarContrato(id: number, contratoActualizado: Contrato, rol: 'administrador'): void {
-    if (rol === 'administrador') {
-      const index = this.contratos.findIndex(c => c.id === id);
-      if (index !== -1) {
-        this.contratos[index] = contratoActualizado;
-      }
-    } else {
-      console.error("Acceso denegado: solo los administradores pueden actualizar contratos.");
-    }
+  // Actualizar un contrato existente
+  actualizarContrato(id: string, contrato: Partial<Contrato>): Promise<void> {
+    const contratoData = JSON.parse(JSON.stringify(contrato)); // Evita valores undefined
+    return this.firestore.collection(this.collectionName).doc(id).update(contratoData);
   }
 
-  eliminarContrato(id: number, rol: 'administrador'): void {
-    if (rol === 'administrador') {
-      this.contratos = this.contratos.filter(c => c.id !== id);
-    } else {
-      console.error("Acceso denegado: solo los administradores pueden eliminar contratos.");
-    }
+  // Eliminar un contrato
+  eliminarContrato(id: string): Promise<void> {
+    return this.firestore.collection(this.collectionName).doc(id).delete();
   }
+  
 }
