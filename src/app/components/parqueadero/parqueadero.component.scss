@@ -1,140 +1,184 @@
 .espacio-container {
-    max-width: 900px;
-    margin: 0 auto;
-    padding: 20px;
-    background-color: #f9f9f9;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  
-    h2 {
-      text-align: center;
-      font-size: 1.8em;
-      color: #333;
-      margin-bottom: 20px;
-    }
-  
-    .espacio-form {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 15px;
-      margin-bottom: 20px;
-      padding: 20px;
-      background-color: #ffffff;
-      border-radius: 8px;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  
-      .form-group {
-        display: flex;
-        flex-direction: column;
-        flex: 1 1 200px;
-        max-width: 250px;
-  
-        .label {
-          font-size: 1em;
-          font-weight: bold;
-          color: #555;
-          margin-bottom: 5px;
-        }
-  
-        .input {
-          padding: 10px;
-          font-size: 1em;
-          border: 1px solid #ccc;
-          border-radius: 4px;
-          transition: border-color 0.2s;
-  
-          &:focus {
-            border-color: #007bff;
-            outline: none;
-          }
-        }
-      }
-  
-      button {
-        padding: 10px 20px;
-        font-size: 1em;
-        font-weight: bold;
-        color: white;
-        background-color: #007bff;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-        transition: background-color 0.3s;
-        align-self: flex-start;
-        margin-top: 15px;
-  
-        &:hover {
-          background-color: #0056b3;
-        }
-      }
-    }
-  
-    .espacios-table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 20px;
-  
-      th, td {
-        padding: 12px;
-        border: 1px solid #ddd;
-        text-align: center;
-        font-size: 0.9em;
-      }
-  
-      th {
-        background-color: #f2f2f2;
-        color: #555;
-        font-weight: bold;
-      }
-  
-      tbody tr:hover {
-        background-color: #f1f1f1;
-      }
-  
-      .disponible {
-        color: green;
-        font-weight: bold;
-      }
-  
-      .no-disponible {
-        color: red;
-        font-weight: bold;
-      }
-  
-      button {
-        padding: 5px 10px;
-        margin: 0 5px;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-        color: white;
-        font-size: 0.9em;
-  
-        &:first-child {
-          background-color: #28a745;
-  
-          &:hover {
-            background-color: #218838;
-          }
-        }
-  
-        &:last-child {
-          background-color: #dc3545;
-  
-          &:hover {
-            background-color: #c82333;
-          }
-        }
-  
-        &.btn-adquirir {
-          background-color: #007bff;
-          color: white;
-  
-          &:hover {
-            background-color: #0056b3;
-          }
-        }
-      }
-    }
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.espacio-container h2 {
+  text-align: center;
+  font-size: 1.8em;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+/* Formulario */
+.espacio-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-bottom: 20px;
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.espacio-form .form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.espacio-form .label {
+  font-size: 1em;
+  font-weight: bold;
+  color: #555;
+  margin-bottom: 5px;
+}
+
+.espacio-form .input {
+  padding: 10px;
+  font-size: 1em;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  transition: border-color 0.2s;
+}
+
+.espacio-form .input:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+.espacio-form button {
+  padding: 10px 20px;
+  font-size: 1em;
+  font-weight: bold;
+  color: white;
+  background-color: #007bff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  align-self: center;
+  transition: background-color 0.2s;
+}
+
+.espacio-form button:hover {
+  background-color: #0056b3;
+}
+
+/* Tabla */
+.espacios-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.espacios-table th, .espacios-table td {
+  padding: 12px;
+  border: 1px solid #ddd;
+  text-align: center;
+  font-size: 0.9em;
+}
+
+.espacios-table th {
+  background-color: #f2f2f2;
+  color: #555;
+  font-weight: bold;
+}
+
+.espacios-table tbody tr:hover {
+  background-color: #f1f1f1;
+}
+
+/* Botones */
+button {
+  padding: 5px 10px;
+  margin: 0 5px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  color: white;
+  font-size: 0.9em;
+}
+
+button.editar {
+  background-color: #28a745;
+}
+
+button.editar:hover {
+  background-color: #218838;
+}
+
+button.eliminar {
+  background-color: #dc3545;
+}
+
+button.eliminar:hover {
+  background-color: #c82333;
+}
+
+/* Acceso denegado */
+.acceso-denegado {
+  margin-top: 20px;
+  padding: 15px;
+  text-align: center;
+  background-color: #ffe6e6;
+  border: 1px solid #ffcccc;
+  color: #cc0000;
+  font-weight: bold;
+  border-radius: 4px;
+}
+
+/* RESPONSIVE DESIGN */
+
+/* Pantallas pequeñas (teléfonos móviles) */
+@media (max-width: 768px) {
+  .espacio-form {
+    gap: 10px;
+    padding: 15px;
   }
-  
+
+  .espacios-table th, .espacios-table td {
+    font-size: 0.8em;
+    padding: 8px;
+  }
+
+  button {
+    font-size: 0.8em;
+    padding: 5px 8px;
+  }
+
+  .espacio-container h2 {
+    font-size: 1.5em;
+  }
+}
+
+/* Pantallas muy pequeñas (menores a 480px) */
+@media (max-width: 480px) {
+  .espacios-table {
+    display: block;
+    overflow-x: auto; /* Habilitar desplazamiento horizontal */
+    white-space: nowrap; /* Evitar salto de líneas en la tabla */
+  }
+
+  .espacio-form {
+    padding: 10px;
+    gap: 8px;
+  }
+
+  .espacio-form .input {
+    font-size: 0.9em;
+    padding: 8px;
+  }
+
+  .espacios-table th, .espacios-table td {
+    padding: 6px;
+  }
+
+  button {
+    font-size: 0.8em;
+    padding: 6px 10px;
+  }
+}

@@ -9,8 +9,6 @@ export class Horario {
     public horaCierre?: string;
     public espacioParqueadero?: EspacioParqueadero; // Relación opcional con EspacioParqueadero
 
-    // constructor() {
-    //     this.espacioParqueadero = new EspacioParqueadero();
-    // }
+   
 
 }

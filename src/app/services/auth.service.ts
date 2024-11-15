@@ -50,7 +50,7 @@ export class AuthService {
         contrasena: '',
         rol: 'cliente',
         perfilCompleto: false,
-        tickets: [],
+        
         
       };
       await setDoc(userDocRef, newUser);

@@ -1,93 +1,175 @@
 <div class="espacio-container">
-    <h2>Gestión de Espacios de Parqueadero</h2>
-  
-    <div *ngIf="esAdministrador">
-      <div class="espacio-form">
-        <div class="form-group">
-          <label for="ubicacion" class="label">Ubicación:</label>
-          <input type="text" id="ubicacion" class="input" [(ngModel)]="nuevoEspacio.ubicacion" name="ubicacion" placeholder="Ubicación">
-        </div>
-  
-        <div class="form-group">
-          <label for="tarifa" class="label">Tarifa:</label>
-          <select [(ngModel)]="nuevoEspacio.tarifaId" id="tarifa" class="input" name="tarifa">
-            <option *ngFor="let tarifa of tarifas" [value]="tarifa.id">
-              {{ tarifa.nombreTarifa }} - {{ tarifa.precio | currency:'USD' }} / {{ tarifa.intervalo }}
-            </option>
-          </select>
-        </div>
-  
-        <div class="form-group">
-          <label for="disponible" class="label">Disponible:</label>
-          <select id="disponible" class="input" [(ngModel)]="nuevoEspacio.disponible" name="disponible">
-            <option [ngValue]="true">Disponible</option>
-            <option [ngValue]="false">No Disponible</option>
-          </select>
-        </div>
-  
-        <button (click)="nuevoEspacio.id ? actualizarEspacio() : agregarEspacio()">
-          {{ nuevoEspacio.id ? 'Actualizar Espacio' : 'Agregar Espacio' }}
-        </button>
-      </div>
-  
-      <table class="espacios-table">
-        <thead>
-          <tr>
-            <th>Ubicación</th>
-            <th>Disponibilidad</th>
-            <th>Tarifa</th>
-            <th>Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let espacio of espacios">
-            <td>{{ espacio.ubicacion || 'No especificada' }}</td>
-            <td [ngClass]="{'disponible': espacio.disponible, 'no-disponible': !espacio.disponible}">
-              {{ espacio.disponible ? 'Disponible' : 'No Disponible' }}
-            </td>
-            <td>
-              <!-- Llama a la función del componente para obtener la información de la tarifa -->
-              {{ obtenerNombreTarifa(espacio.tarifaId) }}
-            </td>
-            <td>
-              <button (click)="seleccionarEspacio(espacio)">Editar</button>
-              <button (click)="eliminarEspacio(espacio.id!)">Eliminar</button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  
-    <!-- Vista de cliente: Solo visualización -->
-    <div *ngIf="!esAdministrador">
-      <table class="espacios-table">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Ubicación</th>
-            <th>Disponibilidad</th>
-            <th>Tarifa</th>
-            <th>Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let espacio of espacios">
-            <td>{{ espacio.id }}</td>
-            <td>{{ espacio.ubicacion || 'No especificada' }}</td>
-            <td [ngClass]="{'disponible': espacio.disponible, 'no-disponible': !espacio.disponible}">
-              {{ espacio.disponible ? 'Disponible' : 'No Disponible' }}
-            </td>
-            <td>
-              {{ obtenerNombreTarifa(espacio.tarifaId) }}
-            </td>
-            <td>
-                <button *ngIf="espacio.disponible" class="btn-adquirir" (click)="adquirirEspacio(espacio)">Adquirir</button>
-                <button *ngIf="!espacio.disponible" disabled>Ocupado </button>
+  <h2>Gestión de Espacios de Parqueadero</h2>
 
-            </td>
-          </tr>
-        </tbody>
-      </table>
+  <!-- Vista de Administrador -->
+  <div *ngIf="esAdministrador">
+    <div class="espacio-form">
+      <div class="form-group">
+        <label for="ubicacion" class="label">Ubicación:</label>
+        <input
+          type="text"
+          id="ubicacion"
+          class="input"
+          [(ngModel)]="nuevoEspacio.ubicacion"
+          name="ubicacion"
+          placeholder="Ubicación"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="tarifa" class="label">Tarifa:</label>
+        <select
+          [(ngModel)]="nuevoEspacio.tarifaId"
+          id="tarifa"
+          class="input"
+          name="tarifa"
+        >
+          <option *ngFor="let tarifa of tarifas" [value]="tarifa.id">
+            {{ tarifa.nombreTarifa }} - {{ tarifa.precio | currency: 'USD' }} /
+            {{ tarifa.intervalo }}
+          </option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="disponible" class="label">Disponible:</label>
+        <select
+          id="disponible"
+          class="input"
+          [(ngModel)]="nuevoEspacio.disponible"
+          name="disponible"
+        >
+          <option [ngValue]="true">Disponible</option>
+          <option [ngValue]="false">No Disponible</option>
+        </select>
+      </div>
+
+      <button class="btn-espacio" (click)="nuevoEspacio.id ? actualizarEspacio() : agregarEspacio()">
+        {{ nuevoEspacio.id ? 'Actualizar Espacio' : 'Agregar Espacio' }}
+      </button>
     </div>
+
+    <table class="espacios-table">
+      <thead>
+        <tr>
+          <th>Ubicación</th>
+          <th>Disponibilidad</th>
+          <th>Tarifa</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let espacio of espacios">
+          <td>{{ espacio.ubicacion || 'No especificada' }}</td>
+          <td
+            [ngClass]="{
+              disponible: espacio.disponible,
+              'no-disponible': !espacio.disponible
+            }"
+          >
+            {{ espacio.disponible ? 'Disponible' : 'No Disponible' }}
+          </td>
+          <td>
+            <div *ngIf="espacio.tarifaId as tarifaId">
+              <div>
+                <strong>Nombre:</strong>
+                <span class="tarifa-nombre">
+                  {{ obtenerDetalleTarifa(tarifaId).nombre }}
+                </span>
+              </div>
+              <div>
+                <strong>Precio:</strong>
+                <span class="tarifa-precio">
+                  {{ obtenerDetalleTarifa(tarifaId).precio }}
+                </span>
+              </div>
+              <div>
+                <strong>Descripción:</strong>
+                <span class="tarifa-descripcion">
+                  {{ obtenerDetalleTarifa(tarifaId).descripcion }}
+                </span>
+              </div>
+              <div>
+                <strong>Intervalo:</strong>
+                <span class="tarifa-intervalo">
+                  {{ obtenerDetalleTarifa(tarifaId).intervalo }}
+                </span>
+              </div>
+            </div>
+            <div *ngIf="!espacio.tarifaId">
+              <span class="tarifa-no-asignada">Tarifa no asignada</span>
+            </div>
+          </td>
+          <td>
+            <button class="editar" (click)="seleccionarEspacio(espacio)">Editar</button>
+            <button class="eliminar" (click)="eliminarEspacio(espacio.id!)">Eliminar</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </div>
-  
+
+  <!-- Vista de Cliente -->
+  <div *ngIf="!esAdministrador">
+    <!-- Vista de Cliente -->
+  <div *ngIf="!esAdministrador">
+    <table class="espacios-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Ubicación</th>
+          <th>Disponibilidad</th>
+          <th>Tarifa</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let espacio of espacios">
+          <td>{{ espacio.id }}</td>
+          <td>{{ espacio.ubicacion || 'No especificada' }}</td>
+          <td
+            [ngClass]="{
+              disponible: espacio.disponible,
+              'no-disponible': !espacio.disponible
+            }"
+          >
+            {{ espacio.disponible ? 'Disponible' : 'No Disponible' }}
+          </td>
+          <td>
+            <div *ngIf="espacio.tarifaId as tarifaId">
+              <div>
+                <strong>Nombre:</strong>
+                {{ obtenerDetalleTarifa(tarifaId).nombre }}
+              </div>
+              <div>
+                <strong>Precio:</strong>
+                {{ obtenerDetalleTarifa(tarifaId).precio }}
+              </div>
+              <div>
+                <strong>Descripción:</strong>
+                {{ obtenerDetalleTarifa(tarifaId).descripcion }}
+              </div>
+              <div>
+                <strong>Intervalo:</strong>
+                {{ obtenerDetalleTarifa(tarifaId).intervalo }}
+              </div>
+            </div>
+            <div *ngIf="!espacio.tarifaId">
+              <span class="tarifa-no-asignada">Tarifa no asignada</span>
+            </div>
+          </td>
+          <td>
+            <!-- Botón "Generar Contrato" solo cuando el intervalo es "mes" -->
+            <button class="generarContrato" *ngIf=" espacio.tarifaId && obtenerDetalleTarifa(espacio.tarifaId).intervalo === 'mes' && espacio.disponible " (click)="generarContrato(espacio)"> Generar Contrato </button>
+          
+            <!-- Botón "Adquirir" solo si no se muestra el botón "Generar Contrato" -->
+            <button *ngIf=" espacio.disponible && (!espacio.tarifaId || obtenerDetalleTarifa(espacio.tarifaId).intervalo !== 'mes') "class="btn-adquirir" (click)="adquirirEspacio(espacio)" > Adquirir </button>
+          
+            <!-- Mostrar espacio como ocupado -->
+            <button *ngIf="!espacio.disponible" disabled>Ocupado</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

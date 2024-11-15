@@ -1,5 +1,3 @@
-import { Ticket } from "./Ticket";
-
 
 export class Usuario {
     public id?: string;
@@ -10,8 +8,7 @@ export class Usuario {
     public rol?: 'cliente' | 'administrador';
     public telefono?: string;
     public perfilCompleto?: boolean;
-    public tickets: Ticket[] = []; // Lista de tickets asociados al usuario
-
+    
       // Datos de perfil
       public fotoPerfil?: string; // Foto de perfil del usuario
       public biografia?: string;
@@ -26,8 +23,7 @@ export class Usuario {
         this.rol = data.rol || 'cliente';
         this.telefono = data.telefono || '';
         this.perfilCompleto = data.perfilCompleto || false;
-        this.tickets = data.tickets || [];
-        this.vehiculos = data.vehiculos || [];
+      
         this.fotoPerfil = data.fotoPerfil || '';
         this.biografia = data.biografia || '';
     }

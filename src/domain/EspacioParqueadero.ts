@@ -1,14 +1,12 @@
 //Representa los espacios de parqueo disponibles en el sistema.
 
-import { Ticket } from "./Ticket";
+import { Tarifa } from './Tarifa';
 
 export class EspacioParqueadero {
-    public id?: string;
-    public ubicacion?: string;
-    public disponible?: boolean;
-    public tarifaId?: string; // Almacena solo el ID de la tarifa
-    public contratoId?: number;
-    public tickets: Ticket[] = []; // Lista de tickets asociados a este espacio de parqueo
-
-  
+  public id?: string;
+  public ubicacion?: string;
+  public disponible?: boolean;
+  public tarifaId?: string; // ID de la tarifa asociada
+  public tarifa?: Tarifa;  // Objeto completo de la tarifa
 }
+

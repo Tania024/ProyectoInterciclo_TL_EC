@@ -90,7 +90,55 @@ export class ParqueaderoComponent {
       console.error("Error al actualizar el espacio:", error);
     });
   }
-  
 
+  obtenerDetalleTarifa(tarifaId: string | undefined): { nombre: string, precio: string, descripcion: string, intervalo: string } {
+    const tarifa = this.tarifas.find(t => t.id === tarifaId);
+    if (tarifa) {
+      return {
+        nombre: tarifa.nombreTarifa || 'Sin nombre',
+        precio: `${tarifa.precio.toFixed(2)} USD`,
+        descripcion: tarifa.descripcion || 'Sin descripción',
+        intervalo: tarifa.intervalo
+      };
+    }
+    return {
+      nombre: 'Tarifa no asignada',
+      precio: '',
+      descripcion: '',
+      intervalo: ''
+    };
+  }
+
+  seleccionarIntervalo(espacio: EspacioParqueadero): string {
+    const tarifaId = espacio.tarifaId;
+    if (tarifaId) {
+      const intervalo = this.obtenerDetalleTarifa(tarifaId).intervalo;
+      console.log('Intervalo seleccionado:', intervalo);
+      return intervalo;
+    }
+    return 'Intervalo no asignado';
+  }
+
+  generarContrato(espacio: EspacioParqueadero): void {
+    if (espacio.tarifaId) {
+      const tarifa = this.obtenerDetalleTarifa(espacio.tarifaId);
+      if (tarifa.intervalo === 'mes') {
+        // Lógica de generación de contrato
+        console.log(`Generando contrato para el espacio ${espacio.ubicacion}`);
+        alert(`Contrato generado para ${tarifa.nombre}. Precio: ${tarifa.precio} por mes.`);
+  
+        // Actualizar el estado de disponibilidad a "No disponible"
+        espacio.disponible = false;
+  
+        // Guardar los cambios en el backend (Firebase o similar)
+        this.espacioService.actualizarEspacio(espacio).then(() => {
+          console.log('Espacio actualizado a ocupado.');
+        }).catch((error) => {
+          console.error('Error al actualizar el espacio:', error);
+        });
+      }
+    }
+  }
+  
 
 }
