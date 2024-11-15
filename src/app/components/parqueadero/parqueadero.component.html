@@ -116,7 +116,6 @@
     <table class="espacios-table">
       <thead>
         <tr>
-          <th>ID</th>
           <th>Ubicación</th>
           <th>Disponibilidad</th>
           <th>Tarifa</th>
@@ -125,7 +124,6 @@
       </thead>
       <tbody>
         <tr *ngFor="let espacio of espacios">
-          <td>{{ espacio.id }}</td>
           <td>{{ espacio.ubicacion || 'No especificada' }}</td>
           <td
             [ngClass]="{
@@ -137,31 +135,16 @@
           </td>
           <td>
             <div *ngIf="espacio.tarifaId as tarifaId">
-              <div>
-                <strong>Nombre:</strong>
-                {{ obtenerDetalleTarifa(tarifaId).nombre }}
-              </div>
-              <div>
-                <strong>Precio:</strong>
-                {{ obtenerDetalleTarifa(tarifaId).precio }}
-              </div>
-              <div>
-                <strong>Descripción:</strong>
-                {{ obtenerDetalleTarifa(tarifaId).descripcion }}
-              </div>
-              <div>
-                <strong>Intervalo:</strong>
-                {{ obtenerDetalleTarifa(tarifaId).intervalo }}
-              </div>
-            </div>
-            <div *ngIf="!espacio.tarifaId">
-              <span class="tarifa-no-asignada">Tarifa no asignada</span>
-            </div>
+              <div><strong>Nombre:</strong>{{ obtenerDetalleTarifa(tarifaId).nombre }}</div>
+              <div> <strong>Precio:</strong> {{ obtenerDetalleTarifa(tarifaId).precio }} </div>
+              <div> <strong>Descripción:</strong> {{ obtenerDetalleTarifa(tarifaId).descripcion }} </div>
+              <div> <strong>Intervalo:</strong> {{ obtenerDetalleTarifa(tarifaId).intervalo }} </div>
+            </div> <div *ngIf="!espacio.tarifaId"> <span class="tarifa-no-asignada">Tarifa no asignada</span> </div>
           </td>
           <td>
             <!-- Botón "Generar Contrato" solo cuando el intervalo es "mes" -->
-            <button class="generarContrato" *ngIf=" espacio.tarifaId && obtenerDetalleTarifa(espacio.tarifaId).intervalo === 'mes' && espacio.disponible " (click)="generarContrato(espacio)"> Generar Contrato </button>
-          
+            <button *ngIf="espacio.disponible && obtenerDetalleTarifa(espacio.tarifaId)?.intervalo === 'mes'" (click)="generarContrato(espacio)" class="generarContrato"> Generar Contrato </button>
+            
             <!-- Botón "Adquirir" solo si no se muestra el botón "Generar Contrato" -->
             <button *ngIf=" espacio.disponible && (!espacio.tarifaId || obtenerDetalleTarifa(espacio.tarifaId).intervalo !== 'mes') "class="btn-adquirir" (click)="adquirirEspacio(espacio)" > Adquirir </button>
           

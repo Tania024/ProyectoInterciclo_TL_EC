@@ -38,12 +38,8 @@ export class UsuarioService {
     return this.firestore.collection<Usuario>(this.collectionName).valueChanges();
   }
 
-  // obtenerUsuarioPorId(id: string): Observable<Usuario | undefined> {
-  //   return this.firestore.collection<Usuario>(this.collectionName).doc(id).valueChanges();
-  // }
-
   obtenerUsuarioPorId(id: string): Observable<Usuario | undefined> {
-    return this.firestore.collection<Usuario>('usuarios').doc(id).valueChanges();
+    return this.firestore.collection<Usuario>(this.collectionName).doc(id).valueChanges();
   }
   
   

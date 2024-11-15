@@ -6,6 +6,8 @@ import { CommonModule } from '@angular/common';
 import { UsuarioService } from '../../services/usuarios.service';
 import { Tarifa } from '../../../domain/Tarifa';
 import { TarifasService } from '../../services/tarifas.service';
+import { Contrato } from '../../../domain/Contrato';
+import { ContratosService } from '../../services/contratos.service';
 
 @Component({
   selector: 'app-parqueadero',
@@ -23,7 +25,8 @@ export class ParqueaderoComponent {
   constructor(
     private espacioService: EspaciosParqueaderoService,
     private usuarioService: UsuarioService,
-    private tarifaService: TarifasService
+    private tarifaService: TarifasService,
+    private contratosService: ContratosService
   ) {}
 
   ngOnInit(): void {
@@ -120,24 +123,26 @@ export class ParqueaderoComponent {
   }
 
   generarContrato(espacio: EspacioParqueadero): void {
-    if (espacio.tarifaId) {
-      const tarifa = this.obtenerDetalleTarifa(espacio.tarifaId);
-      if (tarifa.intervalo === 'mes') {
-        // Lógica de generación de contrato
-        console.log(`Generando contrato para el espacio ${espacio.ubicacion}`);
-        alert(`Contrato generado para ${tarifa.nombre}. Precio: ${tarifa.precio} por mes.`);
-  
-        // Actualizar el estado de disponibilidad a "No disponible"
+    const contrato: Contrato = {
+      usuarioId: localStorage.getItem('userId')!, // Asegúrate de obtener el userId del localStorage
+      espacioParqueaderoId: espacio.id!,
+      espacioParqueadero: espacio,
+      fechaInicio: new Date(),
+      fechaFin: new Date(new Date().setDate(new Date().getDate() + 30)), // 30 días después
+    };
+    
+    console.log('Contrato a guardar:', contrato); // Depuración
+
+    this.contratosService
+      .guardarContrato(contrato)
+      .then(() => {
+        alert('Contrato generado con éxito.');
         espacio.disponible = false;
-  
-        // Guardar los cambios en el backend (Firebase o similar)
-        this.espacioService.actualizarEspacio(espacio).then(() => {
-          console.log('Espacio actualizado a ocupado.');
-        }).catch((error) => {
-          console.error('Error al actualizar el espacio:', error);
-        });
-      }
-    }
+        this.espacioService.actualizarEspacio(espacio);
+      })
+      .catch((error) => {
+        console.error('Error al guardar el contrato:', error);
+      });
   }
   
 

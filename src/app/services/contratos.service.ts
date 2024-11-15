@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Contrato } from '../../domain/Contrato';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
-import { Observable } from 'rxjs';
+import { map, Observable, switchMap } from 'rxjs';
 import { Usuario } from '../../domain/Usuario';
 @Injectable({
   providedIn: 'root'
@@ -13,15 +13,30 @@ export class ContratosService {
 
   // Obtener lista de contratos
   obtenerContratos(): Observable<Contrato[]> {
-    return this.firestore.collection<Contrato>(this.collectionName).valueChanges({ idField: 'id' });
+    return this.firestore
+      .collection<Contrato>(this.collectionName)
+      .valueChanges()
+      .pipe(
+        map((contratos) =>
+          contratos.map((contrato) => ({
+            ...contrato,
+            fechaInicio: contrato.fechaInicio
+              ? (contrato.fechaInicio as any).toDate()
+              : undefined,
+            fechaFin: contrato.fechaFin
+              ? (contrato.fechaFin as any).toDate()
+              : undefined,
+          }))
+        )
+      );
   }
+  
 
   // Crear un nuevo contrato
   crearContrato(contrato: Contrato): Promise<void> {
     const id = this.firestore.createId();
     contrato.id = id;
-    const contratoData = JSON.parse(JSON.stringify(contrato)); // Evita errores de propiedades undefined
-    return this.firestore.collection(this.collectionName).doc(id).set(contratoData);
+    return this.firestore.collection(this.collectionName).doc(id).set(contrato);
   }
 
   // Actualizar un contrato existente
@@ -34,5 +49,35 @@ export class ContratosService {
   eliminarContrato(id: string): Promise<void> {
     return this.firestore.collection(this.collectionName).doc(id).delete();
   }
+
+  // Guardar un contrato
+  guardarContrato(contrato: Contrato): Promise<void> {
+    const id = this.firestore.createId(); // Genera un ID único
+    contrato.id = id;
+    return this.firestore.collection(this.collectionName).doc(id).set(contrato);
+  }
+
+  // Obtener contratos por usuario
+  obtenerContratosPorUsuario(usuarioId: string): Observable<Contrato[]> {
+    return this.firestore
+      .collection<Contrato>(this.collectionName, (ref) =>
+        ref.where('usuarioId', '==', usuarioId)
+      )
+      .valueChanges()
+      .pipe(
+        map((contratos) =>
+          contratos.map((contrato) => ({
+            ...contrato,
+            fechaInicio: contrato.fechaInicio
+              ? (contrato.fechaInicio as any).toDate()
+              : undefined,
+            fechaFin: contrato.fechaFin
+              ? (contrato.fechaFin as any).toDate()
+              : undefined,
+          }))
+        )
+      );
+  }
+
   
 }

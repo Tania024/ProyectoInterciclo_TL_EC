@@ -1,5 +1,6 @@
+/* Contenedor general */
 .espacio-container {
-  max-width: 800px;
+  max-width: 1200px;
   margin: 0 auto;
   padding: 20px;
   background-color: #f9f9f9;
@@ -7,6 +8,7 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
+/* Título */
 .espacio-container h2 {
   text-align: center;
   font-size: 1.8em;
@@ -17,7 +19,7 @@
 /* Formulario */
 .espacio-form {
   display: flex;
-  flex-direction: column;
+  flex-wrap: wrap;
   gap: 15px;
   margin-bottom: 20px;
   padding: 20px;
@@ -27,6 +29,7 @@
 }
 
 .espacio-form .form-group {
+  flex: 1 1 30%; /* Ajusta el ancho de los campos */
   display: flex;
   flex-direction: column;
 }
@@ -52,20 +55,21 @@
 }
 
 .espacio-form button {
+  flex: 1 1 100%;
   padding: 10px 20px;
   font-size: 1em;
   font-weight: bold;
   color: white;
-  background-color: #007bff;
+  background-color: #28a745;
   border: none;
   border-radius: 4px;
   cursor: pointer;
-  align-self: center;
-  transition: background-color 0.2s;
+  text-transform: uppercase;
+  transition: background-color 0.3s ease;
 }
 
 .espacio-form button:hover {
-  background-color: #0056b3;
+  background-color: #218838;
 }
 
 /* Tabla */
@@ -73,53 +77,95 @@
   width: 100%;
   border-collapse: collapse;
   margin-top: 20px;
-}
-
-.espacios-table th, .espacios-table td {
-  padding: 12px;
-  border: 1px solid #ddd;
-  text-align: center;
-  font-size: 0.9em;
+  background-color: #ffffff;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .espacios-table th {
   background-color: #f2f2f2;
   color: #555;
   font-weight: bold;
+  text-align: center;
+  padding: 12px;
+  border: 1px solid #ddd;
+}
+
+.espacios-table td {
+  text-align: center;
+  padding: 12px;
+  border: 1px solid #ddd;
+  font-size: 0.9em;
+  color: #555;
+}
+
+.espacios-table tbody tr:nth-child(even) {
+  background-color: #f9f9f9;
 }
 
 .espacios-table tbody tr:hover {
   background-color: #f1f1f1;
 }
 
-/* Botones */
+/* Botones dentro de la tabla */
 button {
-  padding: 5px 10px;
-  margin: 0 5px;
+  padding: 8px 12px;
+  font-size: 0.9em;
   border: none;
   border-radius: 4px;
   cursor: pointer;
+  text-transform: uppercase;
+  font-weight: bold;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Botones específicos */
+button.generarContrato {
+  background-color: #007bff; /* Azul */
   color: white;
-  font-size: 0.9em;
 }
 
-button.editar {
-  background-color: #28a745;
+button.generarContrato:hover {
+  background-color: #0056b3;
 }
 
-button.editar:hover {
+button.btn-adquirir {
+  background-color: #28a745; /* Verde */
+  color: white;
+}
+
+button.btn-adquirir:hover {
   background-color: #218838;
 }
 
+button.editar {
+  background-color: #ffc107; /* Amarillo */
+  color: #333;
+}
+
+button.editar:hover {
+  background-color: #e0a800;
+}
+
 button.eliminar {
-  background-color: #dc3545;
+  background-color: #dc3545; /* Rojo */
+  color: white;
 }
 
 button.eliminar:hover {
   background-color: #c82333;
 }
 
-/* Acceso denegado */
+button[disabled],
+button.ocupado {
+  background-color: #6c757d; /* Gris */
+  color: white;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+/* Mensaje "Acceso denegado" */
 .acceso-denegado {
   margin-top: 20px;
   padding: 15px;
@@ -131,54 +177,45 @@ button.eliminar:hover {
   border-radius: 4px;
 }
 
-/* RESPONSIVE DESIGN */
+/* Responsividad */
 
-/* Pantallas pequeñas (teléfonos móviles) */
+/* Ajustes para pantallas medianas */
 @media (max-width: 768px) {
   .espacio-form {
-    gap: 10px;
-    padding: 15px;
+    flex-direction: column;
   }
 
-  .espacios-table th, .espacios-table td {
-    font-size: 0.8em;
+  .espacios-table th,
+  .espacios-table td {
+    font-size: 0.85em;
     padding: 8px;
   }
 
   button {
-    font-size: 0.8em;
-    padding: 5px 8px;
-  }
-
-  .espacio-container h2 {
-    font-size: 1.5em;
+    font-size: 0.85em;
+    padding: 6px 10px;
   }
 }
 
-/* Pantallas muy pequeñas (menores a 480px) */
+/* Ajustes para pantallas pequeñas */
 @media (max-width: 480px) {
   .espacios-table {
     display: block;
-    overflow-x: auto; /* Habilitar desplazamiento horizontal */
-    white-space: nowrap; /* Evitar salto de líneas en la tabla */
+    overflow-x: auto; /* Habilita desplazamiento horizontal */
+    white-space: nowrap; /* Evita salto de línea en las celdas */
   }
 
-  .espacio-form {
-    padding: 10px;
-    gap: 8px;
+  .espacio-form .form-group {
+    width: 100%;
   }
 
-  .espacio-form .input {
-    font-size: 0.9em;
-    padding: 8px;
-  }
-
-  .espacios-table th, .espacios-table td {
+  .espacios-table th,
+  .espacios-table td {
     padding: 6px;
   }
 
   button {
     font-size: 0.8em;
-    padding: 6px 10px;
+    padding: 5px 8px;
   }
 }

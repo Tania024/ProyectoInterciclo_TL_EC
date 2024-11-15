@@ -18,113 +18,98 @@ import { AngularFirestore } from '@angular/fire/compat/firestore';
   providers: [DatePipe]
 })
 export class ContratoComponent  implements OnInit{
-  contratoForm: FormGroup;
   contratos: Contrato[] = [];
   usuarios: Usuario[] = []; // Lista de usuarios
-  espaciosParqueadero: EspacioParqueadero[] = []; // Lista de espacios de parqueo
-  editMode: boolean = false;
-  currentContratoId?: string;
   esAdministrador: boolean = false;
 
   constructor(
-    private fb: FormBuilder,
-    private contratoService: ContratosService,
-    private usuarioService: UsuarioService,
-    private espaciosParqueaderoService: EspaciosParqueaderoService
-  ) {
-    this.contratoForm = this.fb.group({
-      usuario: [''],
-      espacioParqueadero: [''],
-      fechaInicio: [''],
-      fechaFin: [''],
-    });
-  }
+    private contratosService: ContratosService,
+    private usuarioService: UsuarioService
+  ) {}
 
   ngOnInit(): void {
+    this.verificarRol();
+    this.cargarUsuarios(); // Cargamos todos los usuarios al iniciar
+  }
+
+  verificarRol(): void {
     this.esAdministrador = this.usuarioService.esAdministrador();
-    console.log('¿Es Administrador?', this.esAdministrador);
-
-    this.getContratos();
-    this.getUsuarios();
-    this.getEspaciosParqueadero();
   }
 
-  getContratos(): void {
-    this.contratoService.obtenerContratos().subscribe((contratos) => {
-      contratos.forEach((contrato) => {
-        if (contrato.usuarioId) {
-          this.usuarioService.obtenerUsuarioPorId(contrato.usuarioId).subscribe((usuario) => {
-            contrato.usuario = usuario;
+  // Cargar todos los usuarios y luego los contratos
+  cargarUsuarios(): void {
+    this.usuarioService.obtenerUsuarios().subscribe(
+      (usuarios) => {
+        this.usuarios = usuarios;
+        this.obtenerContratos(); // Llamamos a obtenerContratos después de cargar los usuarios
+      },
+      (error) => {
+        console.error('Error al cargar los usuarios:', error);
+      }
+    );
+  }
+
+
+  obtenerContratos(): void {
+    if (this.esAdministrador) {
+      // Si es administrador, obtiene todos los contratos
+      this.contratosService.obtenerContratos().subscribe(
+        (data) => {
+          // Vincular contratos con usuarios
+          this.contratos = data.map((contrato) => {
+            const usuario = this.usuarios.find(
+              (user) => user.id === contrato.usuarioId
+            );
+            return {
+              ...contrato,
+              usuario: usuario || { nombre: 'Usuario no encontrado' } as Usuario,
+            };
           });
+        },
+        (error) => {
+          console.error('Error al obtener los contratos:', error);
         }
-
-        if (contrato.espacioParqueaderoId) {
-          this.espaciosParqueaderoService.obtenerEspacioPorId(contrato.espacioParqueaderoId).subscribe((espacio) => {
-            contrato.espacioParqueadero = espacio;
-          });
-        }
-      });
-
-      this.contratos = contratos;
-    });
-  }
-
-  getUsuarios(): void {
-    this.usuarioService.obtenerUsuarios().subscribe((data) => {
-      this.usuarios = data;
-    });
-  }
-
-  getEspaciosParqueadero(): void {
-    this.espaciosParqueaderoService.obtenerEspacios().subscribe((data) => {
-      this.espaciosParqueadero = data;
-    });
-  }
-
-  rentarEspacio(espacioId: string): void {
-    const confirmacion = window.confirm('¿Estás seguro de rentar este espacio?');
-    if (!confirmacion) {
-      console.log('Renta cancelada por el usuario.');
-      return;
+      );
+    } else {
+      const usuarioId = localStorage.getItem('userId'); // ID del usuario actual
+      if (usuarioId) {
+        this.contratosService.obtenerContratosPorUsuario(usuarioId).subscribe(
+          (data) => {
+            // Vincular contratos con usuarios
+            this.contratos = data.map((contrato) => {
+              const usuario = this.usuarios.find(
+                (user) => user.id === contrato.usuarioId
+              );
+              return {
+                ...contrato,
+                usuario: usuario || { nombre: 'Usuario no encontrado' } as Usuario,
+              };
+            });
+          },
+          (error) => {
+            console.error('Error al obtener los contratos del cliente:', error);
+          }
+        );
+      }
     }
-
-    const userId = localStorage.getItem('userId');
-    if (!userId) {
-      console.error('No se encontró el ID del usuario logueado.');
-      return;
-    }
-
-    const contrato: Contrato = {
-      usuarioId: userId,
-      espacioParqueaderoId: espacioId,
-      fechaInicio: new Date(),
-      fechaFin: new Date(new Date().setMonth(new Date().getMonth() + 1)),
-    };
-
-    this.contratoService.crearContrato(contrato).then(() => {
-      console.log('Espacio rentado exitosamente.');
-
-      this.espaciosParqueaderoService.actualizarEspacio({
-        id: espacioId,
-        disponible: false,
-      }).then(() => {
-        console.log('Espacio marcado como ocupado.');
-        this.getEspaciosParqueadero();
-      }).catch((error) => {
-        console.error('Error al actualizar el estado del espacio:', error);
-      });
-
-    }).catch((error) => {
-      console.error('Error al rentar el espacio:', error);
-    });
   }
+  
+  
 
-  deleteContrato(id: string): void {
-    this.contratoService.eliminarContrato(id).then(() => {
-      console.log('Contrato eliminado');
-    }).catch((error) => {
-      console.error('Error al eliminar el contrato:', error);
-    });
+  
+  
+  eliminarContrato(id: string): void {
+    if (confirm('¿Está seguro de que desea eliminar este contrato?')) {
+      this.contratosService
+        .eliminarContrato(id)
+        .then(() => {
+          alert('Contrato eliminado con éxito.');
+          this.contratos = this.contratos.filter((contrato) => contrato.id !== id);
+        })
+        .catch((error) => {
+          console.error('Error al eliminar el contrato:', error);
+        });
+    }
   }
 
 }
