@@ -11,14 +11,12 @@
           <li><a routerLink="/nosotros">Nosotros</a></li>
           <li><a routerLink="/parqueadero">Parqueadero</a></li>
           <li><a routerLink="/contrato">CONTRATOS</a></li>
-           <!-----
-             <li><a routerLink="/administracion-clientes-lista">Clientes Registrados</a></li>
-             <li><a routerLink="/tarifa">TARIFA</a></li>
-             <li *ngIf="isAdmin"><a routerLink="/tarifa">TARIFA</a></li>
-             <li *ngIf="isAuthenticated && isCliente"><a routerLink="/perfil">Perfil</a></li>
-             ---->        
+         <!----------Visible solo para el Administrador------------>
+             <li *ngIf="isAuthenticated && isAdministrador"><a routerLink="/tarifa">Tarifa</a></li>  
+             <li *ngIf="isAuthenticated && isAdministrador"><a routerLink="/seccionHorarios">Horarios</a></li>       
              <li *ngIf="isAuthenticated && isAdministrador"><a routerLink="/administracion-clientes-lista">Clientes Registrados</a></li>  
-          <li *ngIf="isAuthenticated"><a (click)="goToGestion()">Gestion</a></li>
+        <!----------Visible solo para el Cliente------------>  
+             <li *ngIf="isAuthenticated && isClientecliente"><a routerLink="/perfil">Perfil</a></li> 
         </ul>
       </nav>
       <div class="language">

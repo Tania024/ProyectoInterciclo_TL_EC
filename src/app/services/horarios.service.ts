@@ -1,46 +1,46 @@
 import { Injectable } from '@angular/core';
 import { Horario } from '../../domain/Horario';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { Observable } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
-export class HorariosService {
+export class HorarioService {
 
-  private horarios: Horario[] = [];
+  private collectionName = 'Horario';
 
-  obtenerHorarios(rol: 'usuario' | 'administrador'): Horario[] | null {
-    if (rol === 'administrador') {
-      return this.horarios;
-    } else {
-      console.error("Acceso denegado: solo los administradores pueden ver los horarios.");
-      return null;
-    }
+  constructor(private firestore: AngularFirestore) {}
+
+  // Obtener todos los horarios
+  getHorarios(): Observable<Horario[]> {
+    return this.firestore
+      .collection<Horario>(this.collectionName)
+      .valueChanges({ idField: 'id' }); 
   }
 
-  agregarHorario(horario: Horario, rol: 'administrador'): void {
-    if (rol === 'administrador') {
-      this.horarios.push(horario);
-    } else {
-      console.error("Acceso denegado: solo los administradores pueden agregar horarios.");
-    }
+  // Agregar un nuevo horario
+  addHorario(horario: Horario): Promise<void> {
+    const id = this.firestore.createId();
+    return this.firestore
+      .collection(this.collectionName)
+      .doc(id)
+      .set(horario);
   }
 
-  actualizarHorario(id: number, horarioActualizado: Horario, rol: 'administrador'): void {
-    if (rol === 'administrador') {
-      const index = this.horarios.findIndex(h => h.id === id);
-      if (index !== -1) {
-        this.horarios[index] = horarioActualizado;
-      }
-    } else {
-      console.error("Acceso denegado: solo los administradores pueden actualizar horarios.");
-    }
+  // Actualizar un horario existente
+  updateHorario(id: string, horario: Horario): Promise<void> {
+    return this.firestore
+      .collection(this.collectionName)
+      .doc(id)
+      .update(horario);
   }
 
-  eliminarHorario(id: number, rol: 'administrador'): void {
-    if (rol === 'administrador') {
-      this.horarios = this.horarios.filter(h => h.id !== id);
-    } else {
-      console.error("Acceso denegado: solo los administradores pueden eliminar horarios.");
-    }
+  // Eliminar un horario
+  deleteHorario(id: string): Promise<void> {
+    return this.firestore
+      .collection(this.collectionName)
+      .doc(id)
+      .delete();
   }
 }

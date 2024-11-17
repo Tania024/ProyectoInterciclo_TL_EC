@@ -9,7 +9,7 @@ import { PerfilComponent } from './components/perfil/perfil.component';
 import { ContratoComponent } from './components/contrato/contrato.component';
 import { NosotrosComponent } from './components/nosotros/nosotros.component';
 import { AdministracionClientesComponent } from './components/administracion-clientes/administracion-clientes.component';
-import { AuthGuardService } from './services/auth-guard.service';
+import { HorarioComponent } from './components/horario/horario.component';
 
 
 export const routes: Routes = [
@@ -20,9 +20,9 @@ export const routes: Routes = [
     { path: 'parqueadero', component: ParqueaderoComponent },
     { path: 'tarifa', component: TarifaComponent },
     { path: 'contrato', component: ContratoComponent },
-   
     { path: 'nosotros', component: NosotrosComponent },
     { path: 'perfil', component: PerfilComponent },
     { path: 'lista-clientes', component: PerfilComponent },
-    { path: 'administracion-clientes-lista', component: AdministracionClientesComponent}
+    { path: 'administracion-clientes-lista', component: AdministracionClientesComponent},
+    {path:'seccionHorarios',component:HorarioComponent}
   ];

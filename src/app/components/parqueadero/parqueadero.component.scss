@@ -108,6 +108,13 @@
   background-color: #f1f1f1;
 }
 
+
+
+
+
+
+
+
 /* Botones dentro de la tabla */
 button {
   padding: 8px 12px;
@@ -142,6 +149,7 @@ button.btn-adquirir:hover {
 button.editar {
   background-color: #ffc107; /* Amarillo */
   color: #333;
+  margin-right: 10px;
 }
 
 button.editar:hover {
@@ -151,6 +159,7 @@ button.editar:hover {
 button.eliminar {
   background-color: #dc3545; /* Rojo */
   color: white;
+  margin-left: 10px;
 }
 
 button.eliminar:hover {
