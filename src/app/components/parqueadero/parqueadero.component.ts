@@ -9,6 +9,10 @@ import { TarifasService } from '../../services/tarifas.service';
 import { Contrato } from '../../../domain/Contrato';
 import { ContratosService } from '../../services/contratos.service';
 
+//TABLA DEL HORARIO
+import { Horario } from '../../../domain/Horario';
+import { HorarioService } from '../../services/horarios.service';
+
 @Component({
   selector: 'app-parqueadero',
   standalone: true,
@@ -21,18 +25,22 @@ export class ParqueaderoComponent {
   nuevoEspacio: EspacioParqueadero = new EspacioParqueadero();
   esAdministrador: boolean = false;
   tarifas: Tarifa[] = [];
+  //TABLA HORARIO
+  horariosTabla: Horario[] = [];
 
   constructor(
     private espacioService: EspaciosParqueaderoService,
     private usuarioService: UsuarioService,
     private tarifaService: TarifasService,
-    private contratosService: ContratosService
+    private contratosService: ContratosService,
+    private horarioService: HorarioService
   ) {}
 
   ngOnInit(): void {
     this.esAdministrador = this.usuarioService.esAdministrador();
     this.cargarEspacios();
     this.cargarTarifas();
+    this.cargarHorariosTabla();
   }
 
   cargarEspacios(): void {
@@ -46,6 +54,14 @@ export class ParqueaderoComponent {
       this.tarifas = tarifas;
     });
   }
+ 
+ cargarHorariosTabla(): void {
+  this.horarioService.getHorarios().subscribe((horarios) => {
+    this.horariosTabla = horarios;
+  });
+}
+
+
 
   agregarEspacio(): void {
     // Convertir el objeto en un objeto plano JSON
@@ -144,6 +160,7 @@ export class ParqueaderoComponent {
         console.error('Error al guardar el contrato:', error);
       });
   }
+  
   
 
 }

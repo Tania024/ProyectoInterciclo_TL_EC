@@ -1,6 +1,26 @@
 <div class="espacio-container">
-  <h2>Gestión de Espacios de Parqueadero</h2>
+  <div class="horario-container">
+    <h2>Horarios de Atención</h2>
+    <table class="tabla-horarios">
+      <thead>
+        <tr>
+          <th>Día</th>
+          <th>Hora de Apertura</th>
+          <th>Hora de Cierre</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let horario of horariosTabla">
+          <td>{{ horario.diaSemana }}</td>
+          <td>{{ horario.horaApertura }}</td>
+          <td>{{ horario.horaCierre }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  
 
+  <h2>Gestión de Espacios de Parqueadero</h2>
   <!-- Vista de Administrador -->
   <div *ngIf="esAdministrador">
     <div class="espacio-form">

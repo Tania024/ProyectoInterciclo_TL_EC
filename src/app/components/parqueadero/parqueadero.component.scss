@@ -1,6 +1,6 @@
 /* Contenedor general */
 .espacio-container {
-  max-width: 1200px;
+  width: 100%; /* Asegura que ocupe todo el ancho de la página */
   margin: 0 auto;
   padding: 20px;
   background-color: #f9f9f9;
@@ -8,11 +8,12 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
+
 /* Título */
 .espacio-container h2 {
   text-align: center;
   font-size: 1.8em;
-  color: #333;
+  color: #5b3d8c;
   margin-bottom: 20px;
 }
 
@@ -84,8 +85,8 @@
 }
 
 .espacios-table th {
-  background-color: #f2f2f2;
-  color: #555;
+  background-color: #2b79c7f1;
+  color: #e1d8d8;
   font-weight: bold;
   text-align: center;
   padding: 12px;
@@ -185,6 +186,85 @@ button.ocupado {
   font-weight: bold;
   border-radius: 4px;
 }
+
+
+/* Contenedor de la Tabla de Horarios */
+.horario-container {
+  margin: 20px auto;
+  max-width: 600px;
+  background-color: #f9f9f9;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.horario-container h2 {
+  text-align: center;
+  font-size: 1.4rem;
+  color: #5b3d8c;
+  margin-bottom: 15px;
+}
+
+/* Tabla de Horarios */
+.tabla-horarios {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #ffffff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.tabla-horarios th,
+.tabla-horarios td {
+  text-align: left;
+  padding: 8px;
+  border: 1px solid #ddd;
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.tabla-horarios th {
+  background-color: #2b79c7f1;
+  color: white;
+  font-weight: bold;
+
+}
+
+.tabla-horarios tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.tabla-horarios tr:hover {
+  background-color: #eaf3fc;
+}
+
+/* Responsividad */
+@media (max-width: 768px) {
+  .tabla-horarios th,
+  .tabla-horarios td {
+    font-size: 0.8rem;
+    padding: 6px;
+  }
+}
+
+@media (max-width: 480px) {
+  .tabla-horarios {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+
+  .tabla-horarios th,
+  .tabla-horarios td {
+    font-size: 0.85rem;
+    padding: 6px;
+  }
+
+  .horario-container {
+    padding: 10px; /* Reduce el padding interno del contenedor */
+  }
+}
+
+
 
 /* Responsividad */
 

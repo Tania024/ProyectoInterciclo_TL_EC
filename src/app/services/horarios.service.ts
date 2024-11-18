@@ -15,18 +15,17 @@ export class HorarioService {
   // Obtener todos los horarios
   getHorarios(): Observable<Horario[]> {
     return this.firestore
-      .collection<Horario>(this.collectionName)
+      .collection<Horario>(this.collectionName, ref => ref.orderBy('diaSemana'))
       .valueChanges({ idField: 'id' }); 
   }
-
-  // Agregar un nuevo horario
+  
   addHorario(horario: Horario): Promise<void> {
-    const id = this.firestore.createId();
-    return this.firestore
-      .collection(this.collectionName)
-      .doc(id)
-      .set(horario);
+    const docRef = this.firestore.collection(this.collectionName).doc();
+    const id = docRef.ref.id; 
+    horario.id = id;
+    return docRef.set(horario);
   }
+  
 
   // Actualizar un horario existente
   updateHorario(id: string, horario: Horario): Promise<void> {

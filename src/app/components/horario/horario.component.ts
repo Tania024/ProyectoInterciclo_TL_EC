@@ -18,32 +18,9 @@ export class HorarioComponent {
   mostrarFormulario = false; // Controla la visibilidad del formulario
 
   constructor(private horarioService: HorarioService) {}
-
+  
   ngOnInit(): void {
     this.obtenerHorarios();
-  }
-
-  // Obtener horarios desde Firebase
-  obtenerHorarios(): void {
-    this.horarioService.getHorarios().subscribe(
-      (horarios) => {
-        this.horarios = horarios || []; // Asegura que siempre haya un array
-      },
-      (error) => {
-        console.error('Error al obtener los horarios:', error);
-        alert('Hubo un problema al cargar los horarios. Por favor, intenta más tarde.');
-      }
-    );
-  }
-
-  // Mostrar/ocultar formulario
-  toggleFormulario(): void {
-    this.mostrarFormulario = !this.mostrarFormulario;
-
-    // Si cancela el formulario, reinicia los datos
-    if (!this.mostrarFormulario) {
-      this.cancelarEdicion();
-    }
   }
 
   guardarHorario(): void {
@@ -65,20 +42,41 @@ export class HorarioComponent {
           alert('Horario actualizado correctamente.');
           this.cancelarEdicion();
         })
-        .catch(() => alert('Error al actualizar el horario.'));
+        .catch((error) => {
+          console.error('Error al actualizar el horario:', error);
+          alert('Error al actualizar el horario.');
+        });
     } else {
       // Agregar nuevo horario
       this.horarioService
         .addHorario(this.nuevoHorario)
         .then(() => {
           alert('Horario agregado correctamente.');
+          // Limpiar campos y cerrar formulario
           this.nuevoHorario = { diaSemana: '', horaApertura: '', horaCierre: '' };
-          this.mostrarFormulario = false; // Cierra el formulario
+          this.mostrarFormulario = false;
         })
-        .catch(() => alert('Error al agregar el horario.'));
+        .catch((error) => {
+          console.error('Error al agregar el horario:', error);
+          alert('Error al agregar el horario.');
+        });
     }
   }
- 
+  
+  
+  obtenerHorarios(): void {
+    this.horarioService.getHorarios().subscribe(
+      (horarios) => {
+        this.horarios = horarios || []; // Asegúrate de inicializar el array si es null o undefined
+      },
+      (error) => {
+        console.error('Error al obtener los horarios:', error);
+        alert('Hubo un problema al cargar los horarios. Por favor, intenta más tarde.');
+      }
+    );
+  }
+  
+
   // Seleccionar horario para editar
   editarHorario(horario: Horario): void {
     this.mostrarFormulario = true;
