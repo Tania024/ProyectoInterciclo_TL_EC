@@ -1,0 +1,110 @@
+/* Footer General Styles */
+.footer {
+    background-color: #0d0d2d;
+    color: #ffffff;
+    padding: 20px 20px;
+    font-family: Arial, sans-serif;
+    width: 100%;
+  }
+  
+  .footer-social {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+  
+  .footer-social .line {
+    flex-grow: 1;
+    height: 1px;
+    background-color: #ffffff;
+    margin: 0 15px;
+  }
+  
+  .social-icons {
+    display: flex;
+    gap: 15px;
+  }
+  
+  .social-icons a img {
+    width: 24px;
+    height: 24px;
+    transition: transform 0.3s;
+  }
+  
+  .social-icons a:hover img {
+    transform: scale(1.1);
+  }
+  
+  /* Footer Content (Contacto, Soporte, Métodos de Pago) */
+  .footer-content {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .footer-section {
+    flex: 1;
+    min-width: 200px;
+    margin: 10px 20px;
+  }
+  
+  .footer-section h3 {
+    font-size: 18px;
+    color: #f1f1f1;
+    margin-bottom: 10px;
+    border-bottom: 2px solid #5757a3;
+    padding-bottom: 5px;
+    display: inline-block;
+  }
+  
+  .footer-section p,
+  .footer-section ul li a {
+    color: #cccccc;
+    font-size: 14px;
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+  
+  .footer-section ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .footer-section ul li {
+    margin: 8px 0;
+  }
+  
+  .footer-section ul li a:hover {
+    color: #ffffff;
+  }
+  
+  /* Payment Icons */
+  .payment-icons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 15px;
+  }
+  
+  .payment-icons img {
+    width: 32px;
+    height: 32px;
+    transition: opacity 0.3s, transform 0.3s;
+  }
+  
+  .payment-icons img:hover {
+    opacity: 0.8;
+    transform: scale(1.1);
+  }
+  
+  /* Footer Bottom */
+  .footer-bottom {
+    border-top: 1px solid #3e3e73;
+    padding-top: 10px;
+    text-align: center;
+    font-size: 12px;
+    color: #a9a9a9;
+  }

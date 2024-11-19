@@ -4,11 +4,12 @@ import { InicioComponent } from './page/inicio/inicio.component';
 
 import { CommonModule } from '@angular/common';
 import { UsuarioService } from './services/usuarios.service';
+import { FooterComponent } from './components/footer/footer.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet,RouterLink,CommonModule],
+  imports: [RouterOutlet,RouterLink,CommonModule,FooterComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
