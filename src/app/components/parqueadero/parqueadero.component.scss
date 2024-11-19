@@ -1,20 +1,26 @@
-/* Contenedor general */
+/* Variables */
+$color-primario: #2b79c7;
+$color-secundario: #5b3d8c;
+$color-fondo: #f9f9f9;
+$color-blanco: #ffffff;
+$color-texto: #555;
+$sombra: 0 4px 8px rgba(0, 0, 0, 0.1);
+
+/* Contenedor General */
 .espacio-container {
-  width: 100%; /* Asegura que ocupe todo el ancho de la página */
+  width: 100%;
   margin: 0 auto;
   padding: 20px;
-  background-color: #f9f9f9;
+  background-color: $color-fondo;
   border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
+  box-shadow: $sombra;
 
-
-/* Título */
-.espacio-container h2 {
-  text-align: center;
-  font-size: 1.8em;
-  color: #5b3d8c;
-  margin-bottom: 20px;
+  h2 {
+    text-align: center;
+    font-size: 1.8em;
+    color: $color-secundario;
+    margin-bottom: 20px;
+  }
 }
 
 /* Formulario */
@@ -24,251 +30,111 @@
   gap: 15px;
   margin-bottom: 20px;
   padding: 20px;
-  background-color: #ffffff;
+  background-color: $color-blanco;
   border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: $sombra;
+
+  .form-group {
+    flex: 1 1 30%;
+    display: flex;
+    flex-direction: column;
+
+    .label {
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+
+    .input {
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+
+      &:focus {
+        border-color: $color-primario;
+        outline: none;
+      }
+    }
+  }
+
+  button {
+    flex: 1 1 100%;
+    padding: 10px;
+    background-color: #28a745;
+    color: $color-blanco;
+    text-transform: uppercase;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+
+    &:hover {
+      background-color: #218838;
+    }
+  }
 }
 
-.espacio-form .form-group {
-  flex: 1 1 30%; /* Ajusta el ancho de los campos */
-  display: flex;
-  flex-direction: column;
-}
-
-.espacio-form .label {
-  font-size: 1em;
-  font-weight: bold;
-  color: #555;
-  margin-bottom: 5px;
-}
-
-.espacio-form .input {
-  padding: 10px;
-  font-size: 1em;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  transition: border-color 0.2s;
-}
-
-.espacio-form .input:focus {
-  border-color: #007bff;
-  outline: none;
-}
-
-.espacio-form button {
-  flex: 1 1 100%;
-  padding: 10px 20px;
-  font-size: 1em;
-  font-weight: bold;
-  color: white;
-  background-color: #28a745;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  text-transform: uppercase;
-  transition: background-color 0.3s ease;
-}
-
-.espacio-form button:hover {
-  background-color: #218838;
-}
-
-/* Tabla */
-.espacios-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 20px;
-  background-color: #ffffff;
-  border-radius: 8px;
-  overflow: hidden;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.espacios-table th {
-  background-color: #2b79c7f1;
-  color: #e1d8d8;
-  font-weight: bold;
-  text-align: center;
-  padding: 12px;
-  border: 1px solid #ddd;
-}
-
-.espacios-table td {
-  text-align: center;
-  padding: 12px;
-  border: 1px solid #ddd;
-  font-size: 0.9em;
-  color: #555;
-}
-
-.espacios-table tbody tr:nth-child(even) {
-  background-color: #f9f9f9;
-}
-
-.espacios-table tbody tr:hover {
-  background-color: #f1f1f1;
-}
-
-
-
-
-
-
-
-
-/* Botones dentro de la tabla */
-button {
-  padding: 8px 12px;
-  font-size: 0.9em;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  text-transform: uppercase;
-  font-weight: bold;
-  transition: background-color 0.3s ease, color 0.3s ease;
-}
-
-/* Botones específicos */
-button.generarContrato {
-  background-color: #007bff; /* Azul */
-  color: white;
-}
-
-button.generarContrato:hover {
-  background-color: #0056b3;
-}
-
-button.btn-adquirir {
-  background-color: #28a745; /* Verde */
-  color: white;
-}
-
-button.btn-adquirir:hover {
-  background-color: #218838;
-}
-
-button.editar {
-  background-color: #ffc107; /* Amarillo */
-  color: #333;
-  margin-right: 10px;
-}
-
-button.editar:hover {
-  background-color: #e0a800;
-}
-
-button.eliminar {
-  background-color: #dc3545; /* Rojo */
-  color: white;
-  margin-left: 10px;
-}
-
-button.eliminar:hover {
-  background-color: #c82333;
-}
-
-button[disabled],
-button.ocupado {
-  background-color: #6c757d; /* Gris */
-  color: white;
-  cursor: not-allowed;
-  opacity: 0.7;
-}
-
-/* Mensaje "Acceso denegado" */
-.acceso-denegado {
-  margin-top: 20px;
-  padding: 15px;
-  text-align: center;
-  background-color: #ffe6e6;
-  border: 1px solid #ffcccc;
-  color: #cc0000;
-  font-weight: bold;
-  border-radius: 4px;
-}
-
-
-/* Contenedor de la Tabla de Horarios */
-.horario-container {
-  margin: 20px auto;
-  max-width: 600px;
-  background-color: #f9f9f9;
-  padding: 15px;
-  border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-.horario-container h2 {
-  text-align: center;
-  font-size: 1.4rem;
-  color: #5b3d8c;
-  margin-bottom: 15px;
-}
-
-/* Tabla de Horarios */
+/* Tabla General */
+.espacios-table,
 .tabla-horarios {
   width: 100%;
   border-collapse: collapse;
-  background-color: #ffffff;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background-color: $color-blanco;
+  box-shadow: $sombra;
+
+  th {
+    background-color: $color-primario;
+    color: $color-blanco;
+    padding: 12px;
+    text-align: center;
+  }
+
+  td {
+    text-align: center;
+    padding: 12px;
+    border: 1px solid #ddd;
+    color: $color-texto;
+  }
+
+  tbody tr:nth-child(even) {
+    background-color: $color-fondo;
+  }
 }
 
-.tabla-horarios th,
-.tabla-horarios td {
-  text-align: left;
-  padding: 8px;
-  border: 1px solid #ddd;
-  font-size: 0.9rem;
-  color: #555;
-}
-
-.tabla-horarios th {
-  background-color: #2b79c7f1;
-  color: white;
+/* Botones */
+button {
+  padding: 8px 12px;
+  border-radius: 4px;
   font-weight: bold;
+  text-transform: uppercase;
+  cursor: pointer;
 
-}
+  &.generarContrato {
+    background-color: $color-primario;
+    color: $color-blanco;
+  }
 
-.tabla-horarios tr:nth-child(even) {
-  background-color: #f9f9f9;
-}
+  &.btn-adquirir {
+    background-color: #28a745;
+    color: $color-blanco;
 
-.tabla-horarios tr:hover {
-  background-color: #eaf3fc;
+    &:hover {
+      background-color: #218838;
+    }
+  }
+
+  &.editar,
+  &.eliminar {
+    background-color: #ffc107;
+    color: $color-texto;
+  }
+
+  &[disabled] {
+    background-color: #6c757d;
+    cursor: not-allowed;
+    opacity: 0.7;
+  }
 }
 
 /* Responsividad */
-@media (max-width: 768px) {
-  .tabla-horarios th,
-  .tabla-horarios td {
-    font-size: 0.8rem;
-    padding: 6px;
-  }
-}
-
-@media (max-width: 480px) {
-  .tabla-horarios {
-    display: block;
-    overflow-x: auto;
-    white-space: nowrap;
-  }
-
-  .tabla-horarios th,
-  .tabla-horarios td {
-    font-size: 0.85rem;
-    padding: 6px;
-  }
-
-  .horario-container {
-    padding: 10px; /* Reduce el padding interno del contenedor */
-  }
-}
-
-
-
-/* Responsividad */
-
-/* Ajustes para pantallas medianas */
 @media (max-width: 768px) {
   .espacio-form {
     flex-direction: column;
@@ -279,28 +145,13 @@ button.ocupado {
     font-size: 0.85em;
     padding: 8px;
   }
-
-  button {
-    font-size: 0.85em;
-    padding: 6px 10px;
-  }
 }
 
-/* Ajustes para pantallas pequeñas */
 @media (max-width: 480px) {
   .espacios-table {
     display: block;
-    overflow-x: auto; /* Habilita desplazamiento horizontal */
-    white-space: nowrap; /* Evita salto de línea en las celdas */
-  }
-
-  .espacio-form .form-group {
-    width: 100%;
-  }
-
-  .espacios-table th,
-  .espacios-table td {
-    padding: 6px;
+    overflow-x: auto;
+    white-space: nowrap;
   }
 
   button {
