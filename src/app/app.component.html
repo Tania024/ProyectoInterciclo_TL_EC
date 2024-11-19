@@ -7,21 +7,19 @@
       </div>
       <nav class="nav">
         <ul>
-          <li><a routerLink="/inicio">Inicio</a></li>
-          <li><a routerLink="/nosotros">Nosotros</a></li>
-          <li><a routerLink="/parqueadero">Parqueadero</a></li>
+          <li><a routerLink="/inicio">INICIO</a></li>
+          <li><a routerLink="/nosotros">NOSOTROS</a></li>
+          <li><a routerLink="/parqueadero">PARQUEADERO</a></li>
           <li><a routerLink="/contrato">CONTRATOS</a></li>
          <!----------Visible solo para el Administrador------------>
-             <li *ngIf="isAuthenticated && isAdministrador"><a routerLink="/tarifa">Tarifa</a></li>  
-             <li *ngIf="isAuthenticated && isAdministrador"><a routerLink="/seccionHorarios">Horarios</a></li>       
+             <li *ngIf="isAuthenticated && isAdministrador"><a routerLink="/tarifa">TARIFA</a></li>  
+             <li *ngIf="isAuthenticated && isAdministrador"><a routerLink="/seccionHorarios">HORARIOS</a></li>       
              <li *ngIf="isAuthenticated && isAdministrador"><a routerLink="/administracion-clientes-lista">Clientes Registrados</a></li>  
         <!----------Visible solo para el Cliente------------>  
-             <li *ngIf="isAuthenticated && isClientecliente"><a routerLink="/perfil">Perfil</a></li> 
-        </ul>
+             <li *ngIf="isAuthenticated && isClientecliente"><a routerLink="/perfil">PERFIL</a></li> 
+            </ul>
       </nav>
-      <div class="language">
-        <button class="language-btn">🌐 EN</button>
-      </div>
+      
       <div class="auth-buttons">
         <!-- Botones de Iniciar Sesión y Registro solo se muestran si no está autenticado -->
         <a *ngIf="!isAuthenticated" routerLink="/iniciarSesion" class="sign-in-btn">Iniciar Sesión</a>

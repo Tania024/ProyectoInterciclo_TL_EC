@@ -33,23 +33,12 @@
     <form (ngSubmit)="guardarHorario()">
       <div>
         <label for="diaSemana">Día de la Semana:</label>
-        <input
-          id="diaSemana"
-          [(ngModel)]="nuevoHorario.diaSemana"
-          name="diaSemana"
-          required
-         
-        />
+        <input id="diaSemana" [(ngModel)]="nuevoHorario.diaSemana" name="diaSemana" required  />
       </div>
       <div>
         <label for="horaApertura">Hora de Apertura:</label>
         <input
-          id="horaApertura"
-          [(ngModel)]="nuevoHorario.horaApertura"
-          name="horaApertura"
-          type="time"
-          required
-        />
+          id="horaApertura" [(ngModel)]="nuevoHorario.horaApertura"  name="horaApertura" type="time"required/>
       </div>
       <div>
         <label for="horaCierre">Hora de Cierre:</label>

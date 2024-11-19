@@ -26,12 +26,10 @@ export class IniciarSesionComponent {
   constructor(private usuarioService: UsuarioService, private router: Router,private authService: AuthService) {}
 
   signInWithGoogle() {
-    this.authService.signInWithGoogle().then(() => {
-      this.router.navigate(['/inicio']);
-    }).catch(error => {
-      console.error('Error al iniciar sesión con Google:', error);
-    });
+    console.log('Iniciando sesión con Google...');
+    this.authService.signInWithGoogle();
   }
+  
 
   iniciarSesion(): void {
     this.usuarioService.iniciarSesion(this.username, this.contrasena)

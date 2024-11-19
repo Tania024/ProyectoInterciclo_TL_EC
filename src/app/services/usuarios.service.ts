@@ -42,63 +42,6 @@ export class UsuarioService {
     return this.firestore.collection<Usuario>(this.collectionName).doc(id).valueChanges();
   }
   
-  
-
-  
-    /*iniciarSesion(username: string, contrasena: string): Promise<Usuario | undefined> {
-      return new Promise((resolve, reject) => {
-        this.firestore.collection<Usuario>(this.collectionName, ref => ref.where('username', '==', username).where('contrasena', '==', contrasena)).get().subscribe(
-          (querySnapshot) => {
-            if (querySnapshot.empty) {
-              reject('Usuario o contraseña incorrectos');
-            } else {
-              const usuario = querySnapshot.docs[0].data();
-              
-              if (usuario.rol) {
-                // Usa coalescencia nula para asegurarte de que siempre se pase un string a localStorage
-                localStorage.setItem('userId', usuario.id ?? ''); // Si usuario.id es undefined, se asigna una cadena vacía
-                localStorage.setItem('rol', usuario.rol);
-    
-                // Actualizar el estado global de autenticación
-                this.isAuthenticatedSubject.next(true);
-                this.isClienteSubject.next(usuario.rol === 'cliente');
-              }
-              resolve(usuario);
-            }
-          },
-          (error) => {
-            reject(error);
-          }
-        );
-      });
-    }
-
-      iniciarSesion(username: string, contrasena: string): Promise<Usuario | undefined> {
-        return new Promise((resolve, reject) => {
-          this.firestore.collection<Usuario>(this.collectionName, ref => ref.where('username', '==', username).where('contrasena', '==', contrasena)).get().subscribe(
-            (querySnapshot) => {
-              if (querySnapshot.empty) {
-                reject('Usuario o contraseña incorrectos');
-              } else {
-                const usuario = querySnapshot.docs[0].data();
-                
-                if (usuario.rol) {
-                  localStorage.setItem('userId', usuario.id ?? '');
-                  localStorage.setItem('rol', usuario.rol);
-      
-                  // Actualizar el estado global de autenticación
-                  this.isAuthenticatedSubject.next(true);
-                  this.isClienteSubject.next(usuario.rol === 'cliente');
-                }
-                resolve(usuario);
-              }
-            },
-            (error) => {
-              reject(error);
-            }
-          );
-        });
-      }*/
         iniciarSesion(username: string, contrasena: string): Promise<Usuario | undefined> {
           return new Promise((resolve, reject) => {
             this.firestore.collection<Usuario>(this.collectionName, ref => ref.where('username', '==', username).where('contrasena', '==', contrasena)).get().subscribe(
@@ -150,6 +93,16 @@ cerrarSesion(): Promise<void> {
   this.isAdminSubject.next(false); 
   return this.afAuth.signOut();
 }
+
+//INICIAR SESION CON GOOGLE
+updateAuthenticationState(isAuthenticated: boolean, rol: string): void {
+  this.isAuthenticatedSubject.next(isAuthenticated);
+  this.isClienteSubject.next(rol === 'cliente');
+  this.isAdminSubject.next(rol === 'administrador');
+}
+
+
+
 
   // Método para verificar si el usuario es administrador
   esAdministrador(): boolean {

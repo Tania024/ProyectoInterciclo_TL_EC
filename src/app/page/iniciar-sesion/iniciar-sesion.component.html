@@ -14,18 +14,15 @@
           <label for="contrasena" class="label">Contraseña:</label>
           <input type="password" id="contrasena" class="input" [(ngModel)]="contrasena" name="contrasena" placeholder="Ingrese su contraseña">
         </div>
-        <button type="submit" class="button">Login</button>
-        <br><br>
-        <div class="form-group">
-          
-          <button type="button" class="google-button" (click)="signInWithGoogle()">Iniciar sesión con Google</button>
 
-
-
-          <br><br>
-          <button type="button" class="facebook-button">Iniciar sesión con Facebook</button>
-        </div>
-      </form>
+      <button type="submit" class="button">Login</button>
+    <br><br>
+    <div class="form-group">
+     <button type="button" class="google-button" (click)="signInWithGoogle()">Iniciar sesión con Google</button>
+     <br><br>
+     <button type="button" class="facebook-button">Iniciar sesión con Facebook</button>
+     </div>
+    </form>
     </div>
   </div>
 </section>
