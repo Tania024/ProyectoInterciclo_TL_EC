@@ -35,7 +35,7 @@ body, html {
 
 .logo img {
   width: 120px;
-  border: radius 8px; ;
+  border-radius: 8px;
 }
 
 .nav ul {
@@ -44,10 +44,11 @@ body, html {
   padding: 0;
   margin: 0;
   flex-wrap: wrap; /* Permite que los elementos del menú se ajusten */
+  justify-content: center;
 }
 
 .nav ul li {
-  margin: 0 10px;
+  margin: 5px 10px; /* Ajuste de espaciado */
 }
 
 .nav ul li a {
@@ -64,29 +65,14 @@ body, html {
   background: rgba(255, 255, 255, 0.2);
 }
 
-/* Botón de idioma */
-.language {
-  margin-right: 10px;
-}
-
-.language-btn {
-  color: #ffffff;
-  background: none;
-  border: none;
-  font-size: 16px;
-  cursor: pointer;
-}
-
-.language-btn:hover {
-  color: #cccccc;
-}
-
 /* Botones de autenticación */
 .auth-buttons {
   display: flex;
   align-items: center;
   gap: 10px;
   margin-top: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
 .auth-buttons a {
@@ -117,13 +103,14 @@ body, html {
     margin-top: 10px;
   }
 
+  .nav ul li {
+    margin: 5px 5px; /* Reduce el margen entre los enlaces */
+  }
+
   .auth-buttons {
     margin-top: 10px;
     flex-direction: column; /* Cambia los botones a columna en pantallas pequeñas */
-  }
-
-  .language-btn {
-    font-size: 14px;
+    gap: 5px;
   }
 }
 
@@ -142,14 +129,19 @@ body, html {
     width: 100px; /* Ajusta el tamaño del logo en pantallas muy pequeñas */
   }
 
-  .language-btn {
-    font-size: 12px;
+  .nav ul {
+    flex-direction: column; /* Menú en columna para pantallas muy pequeñas */
+    align-items: center;
+  }
+
+  .nav ul li {
+    margin: 5px 0; /* Ajuste adicional para separación vertical */
   }
 }
 
 /* Botón de Cerrar Sesión */
 .sign-out-btn {
-  background-color: #178374; /* Rojo para indicar acción de cierre de sesión */
+  background-color: #178374;
   color: #ffffff;
   font-size: 16px;
   padding: 10px 20px;
@@ -160,22 +152,10 @@ body, html {
 }
 
 .sign-out-btn:hover {
-  background-color: #398f9ac3; /* Un rojo más oscuro al pasar el mouse */
+  background-color: #398f9ac3;
 }
-
-
-
-
-
-
-
-
-
-
-
 
 .sign-out-btn:focus {
   outline: none;
   box-shadow: 0 0 4px #c0392b;
 }
-
