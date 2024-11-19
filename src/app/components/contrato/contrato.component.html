@@ -1,32 +1,73 @@
 <!-- Sección exclusiva para Administrador -->
 <div *ngIf="esAdministrador">
-  <h2>Gestión de Contratos de Arrendamiento</h2>
-  <div *ngIf="contratos.length === 0">
-    <p>No se encontraron contratos.</p>
-  </div>
-  <table *ngIf="contratos.length > 0">
-    <thead>
-      <tr>
-        <th>Usuario</th>
-        <th>Espacio de Parqueo</th>
-        <th>Fecha Inicio</th>
-        <th>Fecha Fin</th>
-        <th>Acciones</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let contrato of contratos">
-        <td>{{ contrato.usuario?.nombre || 'Usuario no encontrado' }}</td>
-        <td>{{ contrato.espacioParqueadero?.ubicacion || 'Espacio no encontrado' }}</td>
-        <td>{{ contrato.fechaInicio | date: 'mediumDate' }}</td>
-        <td>{{ contrato.fechaFin | date: 'mediumDate' }}</td>
-        <td>
-          <button (click)="eliminarContrato(contrato.id!)" class="btn-eliminar">Eliminar</button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+  <h3>{{ editando ? 'Editar Contrato' : 'Crear Nuevo Contrato' }}</h3>
+  <form [formGroup]="contratoForm" (ngSubmit)="editando ? actualizarContrato() : crearContrato()">
+    <div>
+      <label for="usuarioId">Usuario</label>
+      <select formControlName="usuarioId" required>
+        <option value="" disabled selected>Seleccione un usuario</option>
+        <option *ngFor="let usuario of usuarios" [value]="usuario.id">
+          {{ usuario.nombre }}
+        </option>
+      </select>
+    </div>    
+
+    <div>
+      <label for="espacioParqueaderoId">Espacio de Parqueo</label>
+      <select formControlName="espacioParqueaderoId" required>
+        <option value="" disabled selected>Seleccione un espacio</option>
+        <option *ngFor="let espacio of espaciosParqueadero" [value]="espacio.id">
+          {{ espacio.ubicacion }} - {{ espacio.tarifa?.nombreTarifa }}
+        </option>
+      </select>
+      <p *ngIf="espaciosParqueadero.length === 0">No hay espacios disponibles con tarifa mensual.</p>
+    </div>
+                    
+
+    <div>
+      <label for="fechaInicio">Fecha Inicio</label>
+      <input type="date" formControlName="fechaInicio" required />
+    </div>
+
+    <div>
+      <label for="fechaFin">Fecha Fin</label>
+      <input type="date" formControlName="fechaFin" required />
+    </div>
+
+    <button type="submit" [disabled]="!contratoForm.valid">
+      {{ editando ? 'Actualizar Contrato' : 'Crear Contrato' }}
+    </button>
+    <button *ngIf="editando" type="button" (click)="cancelarEdicion()">Cancelar</button>
+  </form>
+
+  <!-- Tabla de Contratos Existentes -->
+<table>
+  <thead>
+    <tr>
+      <th>Usuario</th>
+      <th>Espacio de Parqueo</th>
+      <th>Fecha Inicio</th>
+      <th>Fecha Fin</th>
+      <th>Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let contrato of contratos">
+      <td>{{ contrato.usuario?.nombre || 'Usuario no encontrado' }}</td>
+      <td>{{ contrato.espacioParqueadero?.ubicacion || 'Espacio no encontrado' }}</td>
+      <td>{{ contrato.fechaInicio | date: 'mediumDate' }}</td>
+      <td>{{ contrato.fechaFin | date: 'mediumDate' }}</td>
+      <td>
+        <button (click)="editarContrato(contrato)">Editar</button>
+        <button (click)="eliminarContrato(contrato.id!)">Eliminar</button>
+      </td>
+    </tr>
+  </tbody>
+</table>
 </div>
+
+
+
 
 
 

@@ -99,16 +99,18 @@ export class ParqueaderoComponent {
 
   // Método para cambiar el estado de disponibilidad al presionar "Adquirir"
   adquirirEspacio(espacio: EspacioParqueadero): void {
-    espacio.disponible = false;  // Cambia el estado a "No disponible"
-    
-    // Opcional: Actualizar el estado en Firebase para reflejar el cambio
-    this.espacioService.actualizarEspacio(espacio).then(() => {
-      console.log("Espacio adquirido con éxito.");
-      alert("Has separado tu espacio en el parqueadero.");
-    }).catch(error => {
-      console.error("Error al actualizar el espacio:", error);
-    });
+    espacio.disponible = false; // Cambiar el estado a no disponible
+  
+    this.espacioService
+      .actualizarEspacio(espacio)
+      .then(() => {
+        alert('Espacio adquirido con éxito.');
+      })
+      .catch((error) => {
+        console.error('Error al actualizar el espacio:', error);
+      });
   }
+  
 
   obtenerDetalleTarifa(tarifaId: string | undefined): { nombre: string, precio: string, descripcion: string, intervalo: string } {
     const tarifa = this.tarifas.find(t => t.id === tarifaId);
@@ -139,27 +141,31 @@ export class ParqueaderoComponent {
   }
 
   generarContrato(espacio: EspacioParqueadero): void {
+    if (!espacio.tarifaId || this.obtenerDetalleTarifa(espacio.tarifaId).intervalo !== 'mes') {
+      alert('Solo se pueden generar contratos para tarifas mensuales.');
+      return;
+    }
+  
     const contrato: Contrato = {
-      usuarioId: localStorage.getItem('userId')!, // Asegúrate de obtener el userId del localStorage
+      usuarioId: localStorage.getItem('userId')!, // Obtén el ID del usuario logueado
       espacioParqueaderoId: espacio.id!,
       espacioParqueadero: espacio,
       fechaInicio: new Date(),
-      fechaFin: new Date(new Date().setDate(new Date().getDate() + 30)), // 30 días después
+      fechaFin: new Date(new Date().setMonth(new Date().getMonth() + 1)), // Contrato válido por 1 mes
     };
-    
-    console.log('Contrato a guardar:', contrato); // Depuración
-
+  
     this.contratosService
       .guardarContrato(contrato)
       .then(() => {
         alert('Contrato generado con éxito.');
-        espacio.disponible = false;
-        this.espacioService.actualizarEspacio(espacio);
+        espacio.disponible = false; // Marcar el espacio como no disponible
+        this.espacioService.actualizarEspacio(espacio); // Actualizar en Firebase
       })
       .catch((error) => {
         console.error('Error al guardar el contrato:', error);
       });
   }
+  
   
   
 

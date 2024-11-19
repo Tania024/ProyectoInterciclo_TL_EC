@@ -20,15 +20,18 @@ export class ContratosService {
         map((contratos) =>
           contratos.map((contrato) => ({
             ...contrato,
-            fechaInicio: contrato.fechaInicio
-              ? (contrato.fechaInicio as any).toDate()
-              : undefined,
-            fechaFin: contrato.fechaFin
-              ? (contrato.fechaFin as any).toDate()
-              : undefined,
+            fechaInicio: this.convertirFecha(contrato.fechaInicio),
+            fechaFin: this.convertirFecha(contrato.fechaFin),
           }))
         )
       );
+  }
+
+  private convertirFecha(fecha: any): Date | undefined {
+    if (!fecha) return undefined; // Si la fecha es nula o indefinida
+    if (fecha instanceof Date) return fecha; // Ya es un objeto Date
+    if (fecha.toDate) return fecha.toDate(); // Es un Timestamp, conviértelo
+    return new Date(fecha); // Último recurso: intenta convertirlo a Date
   }
   
 

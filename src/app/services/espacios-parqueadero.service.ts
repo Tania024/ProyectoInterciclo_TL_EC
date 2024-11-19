@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
  import { EspacioParqueadero } from '../../domain/EspacioParqueadero';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Usuario } from '../../domain/Usuario';
-import { Observable } from 'rxjs';
+import { map, Observable, switchMap } from 'rxjs';
+import { Tarifa } from '../../domain/Tarifa';
 @Injectable({
   providedIn: 'root'
 })
@@ -38,7 +39,24 @@ export class EspaciosParqueaderoService {
       .doc(espacio.id)
       .update(JSON.parse(JSON.stringify(espacio)));
   }
-  
+
+
+
+  obtenerEspaciosConTarifas(): Observable<EspacioParqueadero[]> {
+    return this.firestore.collection<EspacioParqueadero>('EspacioParqueadero').valueChanges({ idField: 'id' }).pipe(
+      switchMap((espacios) => {
+        return this.firestore.collection<Tarifa>('tarifas').valueChanges({ idField: 'id' }).pipe(
+          map((tarifas) => {
+            return espacios.map((espacio) => {
+              // Buscar la tarifa asociada por tarifaId
+              const tarifa = tarifas.find((t) => t.id === espacio.tarifaId);
+              return { ...espacio, tarifa }; // Asociar el objeto tarifa al espacio
+            });
+          })
+        );
+      })
+    );
+  }
 
   // Eliminar un espacio de parqueo
   eliminarEspacio(id: string): Promise<void> {

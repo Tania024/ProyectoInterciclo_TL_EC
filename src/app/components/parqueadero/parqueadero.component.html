@@ -164,10 +164,10 @@
           </td>
           <td>
             <!-- Botón "Generar Contrato" solo cuando el intervalo es "mes" -->
-            <button *ngIf="espacio.disponible && obtenerDetalleTarifa(espacio.tarifaId)?.intervalo === 'mes'" (click)="generarContrato(espacio)" class="generarContrato"> Generar Contrato </button>
-            
+            <button *ngIf="espacio.disponible && obtenerDetalleTarifa(espacio.tarifaId)?.intervalo === 'mes'" (click)="generarContrato(espacio)" class="generarContrato">  Generar Contrato </button>
+          
             <!-- Botón "Adquirir" solo si no se muestra el botón "Generar Contrato" -->
-            <button *ngIf=" espacio.disponible && (!espacio.tarifaId || obtenerDetalleTarifa(espacio.tarifaId).intervalo !== 'mes') "class="btn-adquirir" (click)="adquirirEspacio(espacio)" > Adquirir </button>
+            <button *ngIf="espacio.disponible && (!espacio.tarifaId || obtenerDetalleTarifa(espacio.tarifaId)?.intervalo !== 'mes')" class="btn-adquirir" (click)="adquirirEspacio(espacio)" > Adquirir </button>
           
             <!-- Mostrar espacio como ocupado -->
             <button *ngIf="!espacio.disponible" disabled>Ocupado</button>
