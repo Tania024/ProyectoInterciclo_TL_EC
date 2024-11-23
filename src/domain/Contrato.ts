@@ -6,9 +6,9 @@ import { Usuario } from "./Usuario";
 export class Contrato {
     public id?: string;
   public usuarioId?: string; // Almacena solo el ID del usuario
-  public usuario?: Usuario; // Almacena el objeto completo, si es necesario
+  public usuario?: Usuario; 
   public espacioParqueaderoId?: string; // Almacena solo el ID del espacio
-  public espacioParqueadero?: EspacioParqueadero; // Almacena el objeto completo, si es necesario
+  public espacioParqueadero?: EspacioParqueadero; 
   public fechaInicio?: Date;
   public fechaFin?: Date;
 

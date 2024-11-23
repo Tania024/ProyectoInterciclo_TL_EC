@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Contrato } from '../../domain/Contrato';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
-import { map, Observable, switchMap } from 'rxjs';
-import { Usuario } from '../../domain/Usuario';
+import { map, Observable } from 'rxjs';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -52,6 +52,7 @@ export class ContratosService {
   eliminarContrato(id: string): Promise<void> {
     return this.firestore.collection(this.collectionName).doc(id).delete();
   }
+  
 
   // Guardar un contrato
   guardarContrato(contrato: Contrato): Promise<void> {
@@ -71,12 +72,8 @@ export class ContratosService {
         map((contratos) =>
           contratos.map((contrato) => ({
             ...contrato,
-            fechaInicio: contrato.fechaInicio
-              ? (contrato.fechaInicio as any).toDate()
-              : undefined,
-            fechaFin: contrato.fechaFin
-              ? (contrato.fechaFin as any).toDate()
-              : undefined,
+            fechaInicio: this.convertirFecha(contrato.fechaInicio),
+            fechaFin: this.convertirFecha(contrato.fechaFin),
           }))
         )
       );

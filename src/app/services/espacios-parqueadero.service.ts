@@ -29,16 +29,28 @@ export class EspaciosParqueaderoService {
   }
 
   // Actualizar un espacio de parqueo existente
-  actualizarEspacio(espacio: Partial<EspacioParqueadero>): Promise<void> {
-    if (!espacio.id) {
+  // actualizarEspacio(espacio: Partial<EspacioParqueadero>): Promise<void> {
+  //   if (!espacio.id) {
+  //     return Promise.reject(new Error('El ID del espacio es necesario para actualizarlo.'));
+  //   }
+  
+  //   return this.firestore
+  //     .collection(this.collectionName)
+  //     .doc(espacio.id)
+  //     .update(JSON.parse(JSON.stringify(espacio)));
+  // }
+
+  actualizarEspacio(cambios: Partial<EspacioParqueadero>): Promise<void> {
+    if (!cambios.id) {
       return Promise.reject(new Error('El ID del espacio es necesario para actualizarlo.'));
     }
   
     return this.firestore
       .collection(this.collectionName)
-      .doc(espacio.id)
-      .update(JSON.parse(JSON.stringify(espacio)));
+      .doc(cambios.id)
+      .update(JSON.parse(JSON.stringify(cambios)));
   }
+  
 
 
 

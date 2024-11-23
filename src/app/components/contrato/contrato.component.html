@@ -16,9 +16,9 @@
       <label for="espacioParqueaderoId">Espacio de Parqueo</label>
       <select formControlName="espacioParqueaderoId" required>
         <option value="" disabled selected>Seleccione un espacio</option>
-        <option *ngFor="let espacio of espaciosParqueadero" [value]="espacio.id">
+        <option *ngFor="let espacio of espaciosParqueadero" [value]="espacio.id" [disabled]="!espacio.disponible">
           {{ espacio.ubicacion }} - {{ espacio.tarifa?.nombreTarifa }}
-        </option>
+        </option>        
       </select>
       <p *ngIf="espaciosParqueadero.length === 0">No hay espacios disponibles con tarifa mensual.</p>
     </div>
@@ -41,29 +41,29 @@
   </form>
 
   <!-- Tabla de Contratos Existentes -->
-<table>
-  <thead>
-    <tr>
-      <th>Usuario</th>
-      <th>Espacio de Parqueo</th>
-      <th>Fecha Inicio</th>
-      <th>Fecha Fin</th>
-      <th>Acciones</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let contrato of contratos">
-      <td>{{ contrato.usuario?.nombre || 'Usuario no encontrado' }}</td>
-      <td>{{ contrato.espacioParqueadero?.ubicacion || 'Espacio no encontrado' }}</td>
-      <td>{{ contrato.fechaInicio | date: 'mediumDate' }}</td>
-      <td>{{ contrato.fechaFin | date: 'mediumDate' }}</td>
-      <td>
-        <button (click)="editarContrato(contrato)">Editar</button>
-        <button (click)="eliminarContrato(contrato.id!)">Eliminar</button>
-      </td>
-    </tr>
-  </tbody>
-</table>
+  <table>
+    <thead>
+      <tr>
+        <th>Nombre Usuario</th>
+        <th>Espacio de Parqueo</th>
+        <th>Fecha Inicio</th>
+        <th>Fecha Fin</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let contrato of contratos">
+        <td>{{ contrato.usuario?.nombre || 'Usuario no encontrado' }}</td>
+        <td>{{ contrato.espacioParqueadero?.ubicacion || 'Espacio no encontrado' }}</td>
+        <td>{{ contrato.fechaInicio | date: 'mediumDate' }}</td>
+        <td>{{ contrato.fechaFin | date: 'mediumDate' }}</td>
+        <td>
+          <button (click)="editarContrato(contrato)">Editar</button>
+          <button (click)="eliminarContrato(contrato.id!)">Eliminar</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
 </div>
 
 
