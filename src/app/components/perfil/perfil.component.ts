@@ -17,19 +17,18 @@ export class PerfilComponent {
 
   usuario: Usuario = new Usuario();
 
-  isLoading: boolean = false; // Nueva variable para el indicador de carga
+  isLoading: boolean = false; 
   successMessage: string = '';
   errorMessage: string = '';
 
   constructor(private usuarioService: UsuarioService,private router:Router) {}
-
 
     ngOnInit(): void {
       const userId = localStorage.getItem('userId');
       const rol = localStorage.getItem('rol');
       
       if (!userId || rol !== 'cliente') {
-        this.router.navigate(['/iniciarSesion']); // Redirige si no es un cliente autenticado
+        this.router.navigate(['/iniciarSesion']); 
         return;
       }
     
@@ -49,7 +48,7 @@ export class PerfilComponent {
     this.usuarioService.actualizarPerfil(this.usuario)
       .then(() => {
         this.isLoading = false;
-        this.successMessage = 'Perfil actualizado exitosamente';
+        this.successMessage = 'Perfil Actualizado Exitosamente';
       })
       .catch(error => {
         this.isLoading = false;
@@ -57,5 +56,6 @@ export class PerfilComponent {
         console.error('Error al actualizar perfil:', error);
       });
   }
+ 
  
 }

@@ -1,139 +1,113 @@
 #administracion-clientes-lista {
   font-family: Arial, sans-serif;
-  padding: 20px;
-  background-color: #f9f9f9;
+  padding: 16px; /* Reducido */
+  background: #f9f9f9;
   border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra simplificada */
 }
 
 #administracion-clientes-lista h1 {
   text-align: center;
   color: #333;
-  margin-bottom: 20px;
+  margin-bottom: 16px;
+  font-size: 18px; /* Compacto */
 }
 
 #administracion-clientes-lista .container {
-  max-width: 600px; /* Más angosto */
+  max-width: 100%; /* Usa todo el espacio disponible */
   margin: 0 auto;
-  padding: 10px;
 }
 
 #administracion-clientes-lista ul {
   list-style: none;
   padding: 0;
+  margin: 0;
 }
 
 #administracion-clientes-lista li {
-  background-color: #fff;
-  padding: 10px; /* Reduce el espacio interno */
-  margin-bottom: 10px;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background: #fff;
+  padding: 8px; /* Compacto */
+  margin-bottom: 8px;
+  border-radius: 6px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1); /* Más simple */
 }
 
 #administracion-clientes-lista .cliente-info {
   display: flex;
   flex-direction: column;
-  gap: 8px; /* Reduce la separación */
+  gap: 4px; /* Menor separación */
 }
 
 #administracion-clientes-lista .cliente-info span {
-  font-size: 14px;
+  font-size: 13px; /* Más pequeño */
   color: #555;
 }
 
 #administracion-clientes-lista .form-group {
-  margin-bottom: 8px; /* Reduce el espacio */
+  margin-bottom: 6px; /* Más compacto */
 }
 
 #administracion-clientes-lista .form-group label {
-  font-weight: bold;
+  font-weight: 600; /* Peso reducido */
   display: block;
-  margin-bottom: 5px;
+  margin-bottom: 4px;
   color: #333;
 }
 
 #administracion-clientes-lista .form-group input,
 #administracion-clientes-lista .form-group textarea {
   width: 100%;
-  padding: 6px; /* Más compacto */
+  padding: 6px; /* Reducido */
   border: 1px solid #ccc;
   border-radius: 4px;
-  font-size: 14px;
+  font-size: 13px; /* Más pequeño */
 }
 
 #administracion-clientes-lista button {
-  padding: 8px 12px; /* Más pequeños */
+  padding: 6px 10px; /* Más compacto */
   border: none;
   border-radius: 4px;
-  font-size: 14px;
+  font-size: 13px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  background-color: #28a745; /* Estilo por defecto */
+  color: #fff;
+  transition: opacity 0.2s;
 }
 
 #administracion-clientes-lista button:hover {
-  opacity: 0.9;
-}
-
-#administracion-clientes-lista button:first-of-type {
-  background-color: #28a745;
-  color: #fff;
-}
-
-#administracion-clientes-lista button:first-of-type:hover {
-  background-color: #218838;
+  opacity: 0.85; /* Efecto simplificado */
 }
 
 #administracion-clientes-lista button:last-of-type {
   background-color: #dc3545;
-  color: #fff;
 }
 
 #administracion-clientes-lista button:last-of-type:hover {
-  background-color: #c82333;
+  opacity: 0.85;
 }
 
 /* Responsividad */
 @media (max-width: 768px) {
-  #administracion-clientes-lista .container {
-    max-width: 90%; /* Ajusta ancho en dispositivos más pequeños */
+  #administracion-clientes-lista {
+    padding: 12px; /* Más compacto */
   }
 
   #administracion-clientes-lista h1 {
-    font-size: 18px;
-    margin-bottom: 15px;
-  }
-
-  #administracion-clientes-lista .cliente-info {
-    gap: 6px; /* Más compacto */
-  }
-
-  #administracion-clientes-lista .form-group input,
-  #administracion-clientes-lista .form-group textarea {
-    font-size: 12px;
-    padding: 5px; /* Más pequeño para pantallas reducidas */
+    font-size: 16px;
   }
 
   #administracion-clientes-lista button {
-    width: 100%;
     font-size: 12px;
-    padding: 8px;
   }
 }
 
 @media (max-width: 480px) {
   #administracion-clientes-lista h1 {
-    font-size: 16px;
-  }
-
-  #administracion-clientes-lista .form-group input,
-  #administracion-clientes-lista .form-group textarea {
-    font-size: 12px;
-    padding: 4px; /* Más compacto */
+    font-size: 14px;
   }
 
   #administracion-clientes-lista button {
     font-size: 12px;
-    padding: 6px;
+    padding: 4px;
   }
 }
