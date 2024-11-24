@@ -13,7 +13,7 @@ import { map } from 'rxjs/operators';
 })
 export class UsuarioService {
   private collectionName = 'usuarios';
-//PARA AUTENTIFICACION PARA EDITARPERFIL
+//PARA AUTENTIFICACION PARA EDITAR PERFIL
   
   private isAuthenticatedSubject = new BehaviorSubject<boolean>(false);
   private isClienteSubject = new BehaviorSubject<boolean>(false);

@@ -1,21 +1,18 @@
 #administracion-clientes-lista {
   font-family: Arial, sans-serif;
-  padding: 16px; /* Reducido */
+  padding: 16px;
   background: #f9f9f9;
   border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra simplificada */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  max-width: 100%; /* Contenedor principal ocupa todo el ancho */
+  margin: 0 auto;
 }
 
 #administracion-clientes-lista h1 {
   text-align: center;
   color: #333;
-  margin-bottom: 16px;
-  font-size: 18px; /* Compacto */
-}
-
-#administracion-clientes-lista .container {
-  max-width: 100%; /* Usa todo el espacio disponible */
-  margin: 0 auto;
+  margin-bottom: 24px;
+  font-size: 20px;
 }
 
 #administracion-clientes-lista ul {
@@ -26,88 +23,96 @@
 
 #administracion-clientes-lista li {
   background: #fff;
-  padding: 8px; /* Compacto */
-  margin-bottom: 8px;
-  border-radius: 6px;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1); /* Más simple */
+  padding: 16px; /* Espaciado interno */
+  margin-bottom: 24px; /* Espaciado entre las listas */
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra suave */
+  max-width: 400px; /* Ancho de cada cuadro */
+  margin-left: auto;
+  margin-right: auto; /* Centra los cuadros */
+}
+
+#administracion-clientes-lista li:last-of-type {
+  margin-bottom: 0; /* Sin margen para el último cuadro */
 }
 
 #administracion-clientes-lista .cliente-info {
   display: flex;
   flex-direction: column;
-  gap: 4px; /* Menor separación */
+  gap: 8px; /* Espaciado entre los elementos internos */
 }
 
 #administracion-clientes-lista .cliente-info span {
-  font-size: 13px; /* Más pequeño */
+  font-size: 14px;
   color: #555;
 }
 
 #administracion-clientes-lista .form-group {
-  margin-bottom: 6px; /* Más compacto */
+  margin-bottom: 12px;
 }
 
 #administracion-clientes-lista .form-group label {
-  font-weight: 600; /* Peso reducido */
+  font-weight: 600;
   display: block;
-  margin-bottom: 4px;
+  margin-bottom: 8px;
   color: #333;
 }
 
 #administracion-clientes-lista .form-group input,
 #administracion-clientes-lista .form-group textarea {
   width: 100%;
-  padding: 6px; /* Reducido */
+  max-width: 400px; /* Reduce el ancho de los campos */
+  padding: 8px;
   border: 1px solid #ccc;
   border-radius: 4px;
-  font-size: 13px; /* Más pequeño */
+  font-size: 14px;
+  margin: 0 auto; /* Centra los campos */
 }
 
 #administracion-clientes-lista button {
-  padding: 6px 10px; /* Más compacto */
+  padding: 8px 16px;
   border: none;
   border-radius: 4px;
-  font-size: 13px;
+  font-size: 14px;
   cursor: pointer;
-  background-color: #28a745; /* Estilo por defecto */
   color: #fff;
-  transition: opacity 0.2s;
+  transition: background-color 0.2s, opacity 0.2s;
 }
 
 #administracion-clientes-lista button:hover {
-  opacity: 0.85; /* Efecto simplificado */
+  opacity: 0.9; /* Pequeño efecto al pasar el mouse */
 }
 
-#administracion-clientes-lista button:last-of-type {
-  background-color: #dc3545;
+#administracion-clientes-lista button:nth-of-type(1) {
+  background-color: #28a745; /* Botón editar: verde */
 }
 
-#administracion-clientes-lista button:last-of-type:hover {
-  opacity: 0.85;
+#administracion-clientes-lista button:nth-of-type(2) {
+  background-color: #dc3545; /* Botón eliminar: rojo */
 }
 
 /* Responsividad */
 @media (max-width: 768px) {
   #administracion-clientes-lista {
-    padding: 12px; /* Más compacto */
+    padding: 12px;
   }
 
-  #administracion-clientes-lista h1 {
-    font-size: 16px;
+  #administracion-clientes-lista li {
+    max-width: 90%; /* Ocupa más espacio en pantallas medianas */
   }
 
   #administracion-clientes-lista button {
-    font-size: 12px;
+    font-size: 12px; /* Botones más pequeños */
   }
 }
 
 @media (max-width: 480px) {
-  #administracion-clientes-lista h1 {
-    font-size: 14px;
+  #administracion-clientes-lista li {
+    padding: 12px; /* Ajusta el espacio interno en pantallas pequeñas */
   }
 
   #administracion-clientes-lista button {
     font-size: 12px;
-    padding: 4px;
+    padding: 6px; /* Botones más compactos */
   }
 }

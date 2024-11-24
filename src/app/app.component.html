@@ -14,7 +14,7 @@
          <!----------Visible solo para el Administrador------------>
              <li *ngIf="isAuthenticated && isAdministrador"><a routerLink="/tarifa">TARIFA</a></li>  
              <li *ngIf="isAuthenticated && isAdministrador"><a routerLink="/seccionHorarios">HORARIOS</a></li>       
-             <li *ngIf="isAuthenticated && isAdministrador"><a routerLink="/administracion-clientes-lista">Clientes Registrados</a></li>  
+             <li *ngIf="isAuthenticated && isAdministrador"><a routerLink="/administracion-clientes-lista">CLIENTES REGISTRADOS</a></li>  
         <!----------Visible solo para el Cliente------------>  
              <li *ngIf="isAuthenticated && isClientecliente"><a routerLink="/perfil">PERFIL</a></li> 
             </ul>

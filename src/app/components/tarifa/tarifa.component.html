@@ -47,8 +47,10 @@
           <td>{{ tarifa.descripcion }}</td>
           <td>{{ tarifa.intervalo }}</td>
           <td>
+            <div class="button-group">
             <button (click)="seleccionarTarifa(tarifa)">Editar</button>
             <button (click)="eliminarTarifa(tarifa.id!)">Eliminar</button>
+          </div>
           </td>
         </tr>
       </tbody>

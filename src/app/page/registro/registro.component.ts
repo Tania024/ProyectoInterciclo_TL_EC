@@ -15,7 +15,7 @@ import { CommonModule } from '@angular/common';
 })
 export class RegistroComponent {
   usuario: Usuario = new Usuario();
-  mensajeErrorEmail: string = ''; // Variable para el mensaje de error
+  mensajeErrorEmail: string = ''; 
 
   constructor(private usuarioService: UsuarioService, private router: Router) {}
 
@@ -24,7 +24,7 @@ export class RegistroComponent {
       this.mensajeErrorEmail = 'El correo electrónico debe contener un @.';
       return;
     }
-    this.mensajeErrorEmail = ''; // Limpia el mensaje de error si la validación pasa
+    this.mensajeErrorEmail = ''; 
 
     this.usuario.rol = 'cliente'; // Solo se registran usuarios como clientes
     this.usuarioService.registrarUsuario(this.usuario)

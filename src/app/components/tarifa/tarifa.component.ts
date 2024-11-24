@@ -15,7 +15,7 @@ export class TarifaComponent {
   tarifas: Tarifa[] = [];
   nuevaTarifa: Tarifa = new Tarifa();
   editandoTarifa: Tarifa | null = null;
-  esAdministrador: boolean = false; // Nuevo campo para verificar el rol
+  esAdministrador: boolean = false; 
 
   constructor(private tarifaService: TarifasService) {}
 
@@ -27,37 +27,61 @@ export class TarifaComponent {
   }
 
   verificarRolUsuario(): void {
-    // Verificar si el usuario es administrador; asumiendo que el rol está en localStorage
-    const rol = localStorage.getItem('rol'); // Cambia esto según cómo manejes la autenticación
+    const rol = localStorage.getItem('rol');
     this.esAdministrador = rol === 'administrador';
   }
 
-  cargarTarifas(): void {
+ cargarTarifas(): void {
     this.tarifaService.obtenerTarifas().subscribe((tarifas) => {
       this.tarifas = tarifas;
     });
   }
-
+  
   agregarTarifa(): void {
-    this.tarifaService.crearTarifa(this.nuevaTarifa).then(() => {
-      this.nuevaTarifa = new Tarifa(); // Resetear el formulario
-    });
+    if (this.nuevaTarifa.nombreTarifa && this.nuevaTarifa.precio) { // Verifica campos requeridos
+      this.tarifaService.crearTarifa(this.nuevaTarifa).then(() => {
+        alert("Tarifa agregada correctamente"); // Mensaje de éxito
+        this.nuevaTarifa = new Tarifa(); // Limpia el formulario
+        this.cargarTarifas(); // Recarga la lista de tarifas
+      }).catch((error) => {
+        console.error("Error al agregar la tarifa:", error);
+        alert("Ocurrió un error al intentar agregar la tarifa. Intenta de nuevo.");
+      });
+    } else {
+      alert("Por favor, completa todos los campos obligatorios antes de agregar la tarifa.");
+    }
   }
+  
 
   seleccionarTarifa(tarifa: Tarifa): void {
     this.editandoTarifa = { ...tarifa };
   }
 
-  actualizarTarifa(): void {
-    if (this.editandoTarifa) {
-      this.tarifaService.actualizarTarifa(this.editandoTarifa).then(() => {
-        this.editandoTarifa = null;
+    actualizarTarifa(): void {
+      if (this.editandoTarifa) {
+        this.tarifaService.actualizarTarifa(this.editandoTarifa).then(() => {
+          alert("Tarifa editada correctamente"); 
+          this.editandoTarifa = null; 
+          this.cargarTarifas(); 
+        }).catch((error) => {
+          console.error("Error al actualizar la tarifa:", error);
+          alert("Ocurrió un error al editar la tarifa. Intenta de nuevo.");
+        });
+      }
+    }
+
+  eliminarTarifa(id: string): void {
+    const confirmacion = confirm("¿Estás seguro de eliminar esta tarifa?");
+    
+    if (confirmacion) {
+      this.tarifaService.eliminarTarifa(id).then(() => {
+        alert("Tarifa eliminada correctamente"); // Mensaje de éxito
+        this.cargarTarifas(); // Recarga la lista de tarifas actualizada
+      }).catch((error) => {
+        console.error("Error al eliminar la tarifa:", error);
+        alert("Ocurrió un error al intentar eliminar la tarifa. Intenta de nuevo.");
       });
     }
   }
-
-  eliminarTarifa(id: string): void {
-    this.tarifaService.eliminarTarifa(id);
-  }
-
+  
 }

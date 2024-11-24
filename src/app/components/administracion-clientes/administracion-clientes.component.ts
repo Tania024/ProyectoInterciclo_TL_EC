@@ -3,6 +3,7 @@ import { Usuario } from '../../../domain/Usuario';
 import { UsuarioService } from '../../services/usuarios.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+
 @Component({
   selector: 'app-administracion-clientes',
   standalone: true,
@@ -11,7 +12,7 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './administracion-clientes.component.scss'
 })
 export class AdministracionClientesComponent implements OnInit {
-  clientes: Partial<Usuario>[] = []; // Permite objetos parciales de Usuario
+  clientes: Partial<Usuario>[] = []; 
   editCliente: Partial<Usuario> | null = null;
 
   constructor(private usuarioService: UsuarioService) {}
@@ -22,17 +23,17 @@ export class AdministracionClientesComponent implements OnInit {
 
   obtenerClientes(): void {
     this.usuarioService.obtenerClientes().subscribe(clientes => {
-      this.clientes = clientes; // `clientes` ya es de tipo `Partial<Usuario>[]`
+      this.clientes = clientes; 
     });
   }
 
   editarCliente(cliente: Partial<Usuario>): void {
-    this.editCliente = { ...cliente }; // Crear una copia para editar
+    this.editCliente = { ...cliente }; 
   }
 
   guardarCambios(): void {
     if (this.editCliente) {
-      const usuarioCompleto = new Usuario(this.editCliente); // Convertir a instancia completa
+      const usuarioCompleto = new Usuario(this.editCliente);
       this.usuarioService.actualizarPerfil(usuarioCompleto)
         .then(() => {
           // Actualizar la lista de clientes en la vista

@@ -7,10 +7,11 @@ export class Usuario {
     public email: string = '';
     public rol?: 'cliente' | 'administrador';
     public telefono?: string;
-    public fotoPerfil?: string; // Foto de perfil del usuario
     public biografia?: string;
 
 
+    //Para el administrador Observe y modifique la informacion
+    //de los clientes registrados
     constructor(data: Partial<Usuario> = {}) {
       this.id = data.id || '';
       this.username = data.username || '';
@@ -19,7 +20,6 @@ export class Usuario {
       this.email = data.email || '';
       this.rol = data.rol || 'cliente';
       this.telefono = data.telefono || '';
-      this.fotoPerfil = data.fotoPerfil || '';
       this.biografia = data.biografia || '';
     }
   }

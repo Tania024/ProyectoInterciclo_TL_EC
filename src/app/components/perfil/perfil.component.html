@@ -18,10 +18,6 @@
           <label for="biografia">Biografía:</label>
           <textarea id="biografia" [(ngModel)]="usuario.biografia" name="biografia"></textarea>
         </div>
-        <div class="form-group">
-          <label for="fotoPerfil">Foto de Perfil (URL):</label>
-          <input type="text" id="fotoPerfil" [(ngModel)]="usuario.fotoPerfil" name="fotoPerfil" />
-        </div>
         <button type="submit" class="button">Guardar Cambios</button>
       </form>
       <div *ngIf="isLoading">Guardando cambios...........</div>
