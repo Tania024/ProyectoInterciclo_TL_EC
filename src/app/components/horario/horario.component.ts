@@ -12,10 +12,20 @@ import { HorarioService } from '../../services/horarios.service';
   styleUrl: './horario.component.scss'
 })
 export class HorarioComponent {
-  horarios: Horario[] = []; // Arreglo inicializado vacío
+  horarios: Horario[] = []; 
   nuevoHorario: Horario = { diaSemana: '', horaApertura: '', horaCierre: '' };
-  editandoHorario: Horario | null = null; // Para manejar edición de horarios
-  mostrarFormulario = false; // Controla la visibilidad del formulario
+  editandoHorario: Horario | null = null; 
+  mostrarFormulario = false; 
+
+  private diasOrdenados = [
+    'lunes',
+    'martes',
+    'miercoles',
+    'jueves',
+    'viernes',
+    'sábado',
+    'domingo',
+  ];
 
   constructor(private horarioService: HorarioService) {}
   
@@ -24,16 +34,21 @@ export class HorarioComponent {
   }
 
   guardarHorario(): void {
-    // Validar que todos los campos estén llenos
     if (
       !this.nuevoHorario.diaSemana?.trim() || 
       !this.nuevoHorario.horaApertura?.trim() || 
       !this.nuevoHorario.horaCierre?.trim()
     ) {
       alert('Por favor, completa todos los campos antes de guardar.');
-      return; // Detiene la ejecución si los campos están vacíos
+      return;
     }
-  
+       const diaValidado = this.validarDiaSemana(this.nuevoHorario.diaSemana);
+       if (!diaValidado) {
+         alert('Por favor, ingresa un día de la semana válido.');
+         return;
+       }
+       this.nuevoHorario.diaSemana = diaValidado;
+
     if (this.editandoHorario) {
       // Actualizar horario existente
       this.horarioService
@@ -63,11 +78,10 @@ export class HorarioComponent {
     }
   }
   
-  
   obtenerHorarios(): void {
     this.horarioService.getHorarios().subscribe(
       (horarios) => {
-        this.horarios = horarios || []; // Asegúrate de inicializar el array si es null o undefined
+        this.horarios = this.ordenarHorarios(horarios || []);
       },
       (error) => {
         console.error('Error al obtener los horarios:', error);
@@ -76,12 +90,36 @@ export class HorarioComponent {
     );
   }
   
+   // para validar y normalizar el día de la semana
+   private validarDiaSemana(dia: string): string | null {
+    const diaNormalizado = dia.toLowerCase().trim();
+    const indice = this.diasOrdenados.indexOf(diaNormalizado);
+    if (indice === -1) {
+      return null; 
+    }
+    return this.diasOrdenados[indice].charAt(0).toUpperCase() + this.diasOrdenados[indice].slice(1);
+  }
+
+  // para ordenar horarios por día de la semana y hora de apertura
+  private ordenarHorarios(horarios: Horario[]): Horario[] {
+    return horarios.sort((a, b) => {
+      const diaA = this.diasOrdenados.indexOf((a.diaSemana || '').toLowerCase());
+      const diaB = this.diasOrdenados.indexOf((b.diaSemana || '').toLowerCase());
+
+      // Comparar días
+      if (diaA !== diaB) {
+        return diaA - diaB;
+      }
+
+      return (a.horaApertura || '').localeCompare(b.horaApertura || '');
+    });
+  }
 
   // Seleccionar horario para editar
   editarHorario(horario: Horario): void {
     this.mostrarFormulario = true;
     this.editandoHorario = horario;
-    this.nuevoHorario = { ...horario }; // Copia el horario seleccionado
+    this.nuevoHorario = { ...horario };
   }
 
   // Eliminar horario
@@ -101,8 +139,8 @@ export class HorarioComponent {
 
   // Cancelar edición o creación de horario
   cancelarEdicion(): void {
-    this.mostrarFormulario = false; // Oculta el formulario
-    this.nuevoHorario = { diaSemana: '', horaApertura: '', horaCierre: '' }; // Resetea los campos
-    this.editandoHorario = null; // Limpia el estado de edición
+    this.mostrarFormulario = false; 
+    this.nuevoHorario = { diaSemana: '', horaApertura: '', horaCierre: '' }; 
+    this.editandoHorario = null; 
   }
 }
