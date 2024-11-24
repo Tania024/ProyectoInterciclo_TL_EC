@@ -5,46 +5,44 @@
     <div>
       <label for="usuarioId">Usuario</label>
       <select formControlName="usuarioId" required>
-        <option value="" disabled selected>Seleccione un usuario</option>
-        <option *ngFor="let usuario of usuarios" [value]="usuario.id">
-          {{ usuario.nombre }}
-        </option>
+        <option [value]="null" disabled selected>Seleccione un cliente</option> <!-- Valor null para coincidir -->
+        <ng-container *ngFor="let usuario of usuarios">
+          <option *ngIf="usuario.rol === 'cliente'" [value]="usuario.id">
+            {{ usuario.username }}
+          </option>
+        </ng-container>
       </select>
-    </div>    
-
+    </div>
     <div>
       <label for="espacioParqueaderoId">Espacio de Parqueo</label>
       <select formControlName="espacioParqueaderoId" required>
-        <option value="" disabled selected>Seleccione un espacio</option>
-        <option *ngFor="let espacio of espaciosParqueadero" [value]="espacio.id" [disabled]="!espacio.disponible">
-          {{ espacio.ubicacion }} - {{ espacio.tarifa?.nombreTarifa }}
-        </option>        
+        <option [value]="null" disabled selected>Seleccione un espacio</option>
+        <ng-container *ngFor="let espacio of espaciosParqueadero">
+          <option 
+            [value]="espacio.id" 
+            [disabled]="!espacio.disponible" 
+            *ngIf="espacio.tarifa?.intervalo === 'mes'">
+            {{ espacio.ubicacion }} {{ !espacio.disponible ? '(No disponible)' : '' }}
+          </option>
+        </ng-container>
       </select>
-      <p *ngIf="espaciosParqueadero.length === 0">No hay espacios disponibles con tarifa mensual.</p>
     </div>
-                    
-
     <div>
       <label for="fechaInicio">Fecha Inicio</label>
-      <input type="date" formControlName="fechaInicio" required />
+      <input type="date" formControlName="fechaInicio" />
     </div>
-
     <div>
       <label for="fechaFin">Fecha Fin</label>
-      <input type="date" formControlName="fechaFin" required />
+      <input type="date" formControlName="fechaFin" />
     </div>
-
-    <button type="submit" [disabled]="!contratoForm.valid">
-      {{ editando ? 'Actualizar Contrato' : 'Crear Contrato' }}
-    </button>
+    <button type="submit">{{ editando ? 'Actualizar Contrato' : 'Crear Contrato' }}</button>
     <button *ngIf="editando" type="button" (click)="cancelarEdicion()">Cancelar</button>
   </form>
 
-  <!-- Tabla de Contratos Existentes -->
   <table>
     <thead>
       <tr>
-        <th>Nombre Usuario</th>
+        <th>Usuario</th>
         <th>Espacio de Parqueo</th>
         <th>Fecha Inicio</th>
         <th>Fecha Fin</th>
@@ -53,31 +51,24 @@
     </thead>
     <tbody>
       <tr *ngFor="let contrato of contratos">
-        <td>{{ contrato.usuario?.nombre || 'Usuario no encontrado' }}</td>
+        <td>{{ contrato.usuario?.username || 'Usuario no encontrado' }}</td>
         <td>{{ contrato.espacioParqueadero?.ubicacion || 'Espacio no encontrado' }}</td>
         <td>{{ contrato.fechaInicio | date: 'mediumDate' }}</td>
         <td>{{ contrato.fechaFin | date: 'mediumDate' }}</td>
         <td>
-          <button (click)="editarContrato(contrato)">Editar</button>
-          <button (click)="eliminarContrato(contrato.id!)">Eliminar</button>
+          <button (click)="editarContrato(contrato)" [disabled]="!contrato.id">Editar</button>
+          <button (click)="eliminarContrato(contrato.id!)" [disabled]="!contrato.id">Eliminar</button>
         </td>
       </tr>
     </tbody>
   </table>
 </div>
 
-
-
-
-
-
-<!-- Sección exclusiva para Cliente -->
+<!-- Sección exclusiva para Clientes -->
 <div *ngIf="!esAdministrador">
   <h3>Mis Contratos</h3>
-  <div *ngIf="contratos.length === 0">
-    <p class="no-contratos">Usted por el momento no tiene contratos.</p>
-  </div>
-  <table class="contratos-table" *ngIf="contratos.length > 0">
+  <div *ngIf="contratos.length === 0">No tiene contratos registrados.</div>
+  <table *ngIf="contratos.length > 0">
     <thead>
       <tr>
         <th>Espacio de Parqueo</th>
