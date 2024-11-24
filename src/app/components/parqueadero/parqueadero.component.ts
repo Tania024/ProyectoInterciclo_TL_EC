@@ -68,6 +68,7 @@ export class ParqueaderoComponent {
     const espacioPlano = JSON.parse(JSON.stringify(this.nuevoEspacio));
   
     this.espacioService.crearEspacio(espacioPlano).then(() => {
+      alert('El espacio ha sido agregado exitosamente.');
       this.nuevoEspacio = new EspacioParqueadero(); // Resetear el formulario
       this.cargarEspacios(); // Recargar la lista de espacios
     }).catch(error => {
@@ -84,12 +85,14 @@ export class ParqueaderoComponent {
     if (this.nuevoEspacio.id) {
       this.espacioService.actualizarEspacio(this.nuevoEspacio).then(() => {
         this.nuevoEspacio = new EspacioParqueadero();
+        alert('El espacio ha sido actualizado exitosamente.'); 
       });
     }
   }
 
   eliminarEspacio(id: string): void {
     this.espacioService.eliminarEspacio(id);
+    alert('El espacio ha sido eliminado exitosamente.');
   }
 
   obtenerNombreTarifa(tarifaId: string | undefined): string {
@@ -99,6 +102,12 @@ export class ParqueaderoComponent {
 
   // Método para cambiar el estado de disponibilidad al presionar "Adquirir"
   adquirirEspacio(espacio: EspacioParqueadero): void {
+    const userId = localStorage.getItem('userId');
+  if (!userId) {
+    alert('Debes iniciar sesión para adquirir este espacio.'); // Mensaje si no está autenticado
+    return; // Salir del método si el usuario no está logueado
+  }
+
     espacio.disponible = false; // Cambiar el estado a no disponible
   
     this.espacioService
@@ -141,6 +150,11 @@ export class ParqueaderoComponent {
   }
 
   generarContrato(espacio: EspacioParqueadero): void {
+    const userId = localStorage.getItem('userId');
+  if (!userId) {
+    alert('Debes iniciar sesión para generar contrato.'); // Mensaje si no está autenticado
+    return; 
+  }
     if (!espacio.tarifaId || this.obtenerDetalleTarifa(espacio.tarifaId).intervalo !== 'mes') {
       alert('Solo se pueden generar contratos para tarifas mensuales.');
       return;

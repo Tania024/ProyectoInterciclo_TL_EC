@@ -45,7 +45,6 @@ export class TarifaComponent {
         this.cargarTarifas(); // Recarga la lista de tarifas
       }).catch((error) => {
         console.error("Error al agregar la tarifa:", error);
-        alert("Ocurrió un error al intentar agregar la tarifa. Intenta de nuevo.");
       });
     } else {
       alert("Por favor, completa todos los campos obligatorios antes de agregar la tarifa.");
@@ -71,17 +70,12 @@ export class TarifaComponent {
     }
 
   eliminarTarifa(id: string): void {
-    const confirmacion = confirm("¿Estás seguro de eliminar esta tarifa?");
-    
-    if (confirmacion) {
-      this.tarifaService.eliminarTarifa(id).then(() => {
-        alert("Tarifa eliminada correctamente"); // Mensaje de éxito
-        this.cargarTarifas(); // Recarga la lista de tarifas actualizada
-      }).catch((error) => {
-        console.error("Error al eliminar la tarifa:", error);
-        alert("Ocurrió un error al intentar eliminar la tarifa. Intenta de nuevo.");
-      });
-    }
+    this.tarifaService.eliminarTarifa(id).then(() => {
+      alert("Tarifa eliminada correctamente"); // Mensaje de éxito
+      this.cargarTarifas(); // Recarga la lista de tarifas actualizada
+    }).catch((error) => {
+      console.error("Error al eliminar la tarifa:", error);
+    });
   }
   
 }
