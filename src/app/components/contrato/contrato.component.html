@@ -8,7 +8,7 @@
         <option [value]="null" disabled selected>Seleccione un cliente</option> <!-- Valor null para coincidir -->
         <ng-container *ngFor="let usuario of usuarios">
           <option *ngIf="usuario.rol === 'cliente'" [value]="usuario.id">
-            {{ usuario.nombre }}
+            {{ usuario.username }}
           </option>
         </ng-container>
       </select>
