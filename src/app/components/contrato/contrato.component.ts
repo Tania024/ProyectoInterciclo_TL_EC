@@ -172,8 +172,8 @@ export class ContratoComponent  implements OnInit{
   
       const contrato: Contrato = {
         ...this.contratoForm.value,
-        fechaInicio: new Date(this.contratoForm.value.fechaInicio),
-        fechaFin: new Date(this.contratoForm.value.fechaFin),
+        fechaInicio: new Date(this.contratoForm.value.fechaInicio + 'T00:00:00'),
+        fechaFin: new Date(this.contratoForm.value.fechaFin + 'T23:59:59'),
       };
   
       this.contratosService.crearContrato(contrato).then(() => {
@@ -202,8 +202,8 @@ export class ContratoComponent  implements OnInit{
     if (this.contratoForm.valid && this.contratoSeleccionadoId) {
       const contratoActualizado: Partial<Contrato> = {
         ...this.contratoForm.value,
-        fechaInicio: new Date(this.contratoForm.value.fechaInicio),
-        fechaFin: new Date(this.contratoForm.value.fechaFin),
+        fechaInicio: new Date(this.contratoForm.value.fechaInicio + 'T00:00:00'),
+        fechaFin: new Date(this.contratoForm.value.fechaFin + 'T23:59:59'),
       };
 
       this.contratosService
@@ -250,6 +250,9 @@ export class ContratoComponent  implements OnInit{
     const fin = new Date(fechaFin);
     const diferenciaDias = (fin.getTime() - inicio.getTime()) / (1000 * 60 * 60 * 24);
 
-    return diferenciaDias !== 30 ? { duracionInvalida: true } : null;
+    if (diferenciaDias !== 30) {
+      return { duracionInvalida: `La duración del contrato debe ser exactamente 30 días, pero se ingresaron ${diferenciaDias} días.` };
+    }
+    return null;
   }
 }

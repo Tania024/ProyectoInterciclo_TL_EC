@@ -28,11 +28,15 @@ export class ContratosService {
   }
 
   private convertirFecha(fecha: any): Date | undefined {
-    if (!fecha) return undefined; // Si la fecha es nula o indefinida
+    if (!fecha) return undefined; // Si es nulo o indefinido
     if (fecha instanceof Date) return fecha; // Ya es un objeto Date
-    if (fecha.toDate) return fecha.toDate(); // Es un Timestamp, conviértelo
-    return new Date(fecha); // Último recurso: intenta convertirlo a Date
+    if (fecha.toDate) return fecha.toDate(); // Es un Timestamp de Firestore
+    if (typeof fecha === 'string') return new Date(fecha); // Es un string
+    console.warn('Formato de fecha desconocido:', fecha); // Log de formato desconocido
+    return undefined; // Retorna undefined si no se reconoce el formato
   }
+  
+  
   
 
   // Crear un nuevo contrato

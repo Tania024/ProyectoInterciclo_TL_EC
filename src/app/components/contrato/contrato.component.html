@@ -35,6 +35,13 @@
       <label for="fechaFin">Fecha Fin</label>
       <input type="date" formControlName="fechaFin" />
     </div>
+
+    <!-- Mensaje de advertencia para la duración del contrato -->
+    <div *ngIf="contratoForm.errors?.['duracionInvalida']" class="error">
+      {{ contratoForm.errors?.['duracionInvalida'] }}
+    </div>
+    
+
     <button type="submit">{{ editando ? 'Actualizar Contrato' : 'Crear Contrato' }}</button>
     <button *ngIf="editando" type="button" (click)="cancelarEdicion()">Cancelar</button>
   </form>
@@ -53,8 +60,9 @@
       <tr *ngFor="let contrato of contratos">
         <td>{{ contrato.usuario?.username || 'Usuario no encontrado' }}</td>
         <td>{{ contrato.espacioParqueadero?.ubicacion || 'Espacio no encontrado' }}</td>
-        <td>{{ contrato.fechaInicio | date: 'mediumDate' }}</td>
-        <td>{{ contrato.fechaFin | date: 'mediumDate' }}</td>
+        <td>{{ contrato.fechaInicio | date: 'yyyy-MM-dd' }}</td>
+        <td>{{ contrato.fechaFin | date: 'yyyy-MM-dd' }}</td>
+
         <td>
           <button (click)="editarContrato(contrato)" [disabled]="!contrato.id">Editar</button>
           <button (click)="eliminarContrato(contrato.id!)" [disabled]="!contrato.id">Eliminar</button>
@@ -79,8 +87,9 @@
     <tbody>
       <tr *ngFor="let contrato of contratos">
         <td>{{ contrato.espacioParqueadero?.ubicacion || 'Espacio no encontrado' }}</td>
-        <td>{{ contrato.fechaInicio | date: 'mediumDate' }}</td>
-        <td>{{ contrato.fechaFin | date: 'mediumDate' }}</td>
+        <td>{{ contrato.fechaInicio | date: 'yyyy-MM-dd' }}</td>
+        <td>{{ contrato.fechaFin | date: 'yyyy-MM-dd' }}</td>
+
       </tr>
     </tbody>
   </table>
