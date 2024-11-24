@@ -4,20 +4,28 @@ import { Usuario } from '../../../domain/Usuario';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { UsuarioService } from '../../services/usuarios.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-registro',
   standalone: true,
-  imports: [FormsModule],
+  imports: [FormsModule, CommonModule],
   templateUrl: './registro.component.html',
   styleUrl: './registro.component.scss'
 })
 export class RegistroComponent {
   usuario: Usuario = new Usuario();
+  mensajeErrorEmail: string = ''; // Variable para el mensaje de error
 
   constructor(private usuarioService: UsuarioService, private router: Router) {}
 
   registrar(): void {
+    if (!this.validarCorreo(this.usuario.email)) {
+      this.mensajeErrorEmail = 'El correo electrónico debe contener un @.';
+      return;
+    }
+    this.mensajeErrorEmail = ''; // Limpia el mensaje de error si la validación pasa
+
     this.usuario.rol = 'cliente'; // Solo se registran usuarios como clientes
     this.usuarioService.registrarUsuario(this.usuario)
       .then(() => {
@@ -28,6 +36,10 @@ export class RegistroComponent {
         console.error('Error al registrar usuario:', error);
         alert('Error al registrar usuario');
       });
+  }
+
+  validarCorreo(email: string): boolean {
+    return email.includes('@'); // Valida que el correo contenga un '@'
   }
 
   redirigirALogin() {

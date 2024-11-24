@@ -4,7 +4,7 @@ export class Usuario {
     public username: string = '';
     public contrasena: string = '';
     public nombre?: string;
-    public email?: string;
+    public email: string = '';
     public rol?: 'cliente' | 'administrador';
     public telefono?: string;
     public perfilCompleto?: boolean;

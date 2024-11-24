@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Contrato } from '../../../domain/Contrato';
 import { Usuario } from '../../../domain/Usuario';
 import { EspacioParqueadero } from '../../../domain/EspacioParqueadero';
@@ -19,28 +19,29 @@ import { switchMap } from 'rxjs';
 })
 export class ContratoComponent  implements OnInit{
   contratos: Contrato[] = [];
-  usuarios: Usuario[] = []; // Lista de usuarios
+  usuarios: Usuario[] = [];
   espaciosParqueadero: EspacioParqueadero[] = [];
   esAdministrador: boolean = false;
   contratoForm!: FormGroup;
-  editando: boolean = false; // Indica si estamos editando un contrato existente
+  editando: boolean = false;
   contratoSeleccionadoId?: string;
 
   constructor(
     private contratosService: ContratosService,
     private usuarioService: UsuarioService,
     private espaciosService: EspaciosParqueaderoService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
     this.verificarRol();
     this.cargarUsuarios();
-    this.cargarEspaciosParqueadero(); // Primero cargar espacios
-    this.cargarContratos(); // Luego cargar contratos
+    this.cargarEspaciosParqueadero();
+    this.cargarContratos();
     this.inicializarFormulario();
   }
-  
+
 
   verificarRol(): void {
     this.esAdministrador = this.usuarioService.esAdministrador();
@@ -50,8 +51,15 @@ export class ContratoComponent  implements OnInit{
   cargarUsuarios(): void {
     this.usuarioService.obtenerUsuarios().subscribe(
       (usuarios) => {
-        this.usuarios = usuarios;
-        this.obtenerContratos(); // Llamamos a obtenerContratos después de cargar los usuarios
+        console.log('Usuarios recibidos desde el backend:', usuarios); // Ver estructura completa
+        this.usuarios = usuarios.filter(usuario => usuario.rol === 'cliente'); // Filtrar clientes
+        console.log('Usuarios cargados (solo clientes):', this.usuarios); // Confirmar filtrado
+        
+        // Reiniciar el campo del formulario (si había un valor previo seleccionado)
+        this.contratoForm.get('usuarioId')?.setValue(null);
+  
+        // Forzar la detección de cambios para actualizar la vista
+        this.cdr.detectChanges();
       },
       (error) => {
         console.error('Error al cargar los usuarios:', error);
@@ -59,132 +67,134 @@ export class ContratoComponent  implements OnInit{
     );
   }
 
-
   cargarEspaciosParqueadero(): void {
-    this.espaciosService.obtenerEspaciosConTarifas().subscribe((espacios) => {
-      this.espaciosParqueadero = espacios;
-      console.log('Espacios cargados:', this.espaciosParqueadero);
-    });
+    this.espaciosService.obtenerEspaciosConTarifas().subscribe(
+      (espacios) => {
+        console.log('Espacios cargados desde el backend:', espacios); // Verificar datos originales
+        // Filtrar espacios por intervalo "mes"
+        this.espaciosParqueadero = espacios.filter(
+          (espacio) => espacio.tarifa?.intervalo === 'mes'
+        );
+        console.log('Espacios disponibles por mes:', this.espaciosParqueadero); // Confirmar filtrado
+      },
+      (error) => {
+        console.error('Error al cargar espacios de parqueadero:', error);
+      }
+    );
   }
-  
-  
 
   cargarContratos(): void {
-    // Asegurarse de que los espacios y usuarios están cargados antes de los contratos
-    this.espaciosService.obtenerEspaciosConTarifas().pipe(
-      switchMap((espacios) => {
-        this.espaciosParqueadero = espacios.filter((espacio) => espacio.tarifa?.intervalo === 'mes');
-        return this.usuarioService.obtenerUsuarios();
-      }),
-      switchMap((usuarios) => {
-        this.usuarios = usuarios;
-        return this.contratosService.obtenerContratos();
-      })
-    ).subscribe((contratos) => {
-      this.contratos = contratos.map((contrato) => {
-        const usuario = this.usuarios.find((u) => u.id === contrato.usuarioId) || { nombre: 'Usuario no encontrado' };
-        const espacio = this.espaciosParqueadero.find((e) => e.id === contrato.espacioParqueaderoId) || { ubicacion: 'Espacio no encontrado' };
-        return { ...contrato, usuario, espacioParqueadero: espacio } as Contrato;
-      });
-  
-      console.log('Contratos cargados:', this.contratos);
-    }, (error) => {
-      console.error('Error al cargar contratos:', error);
-    });
-  }
-
-  obtenerContratos(): void {
     if (this.esAdministrador) {
-      // Si es administrador, obtiene todos los contratos
-      this.contratosService.obtenerContratos().subscribe(
-        (data) => {
-          this.contratos = data;
+      // Asegurarnos de cargar usuarios y espacios antes de los contratos
+      this.usuarioService.obtenerUsuarios().pipe(
+        switchMap((usuarios) => {
+          this.usuarios = usuarios;
+          return this.espaciosService.obtenerEspaciosConTarifas();
+        }),
+        switchMap((espacios) => {
+          this.espaciosParqueadero = espacios;
+          return this.contratosService.obtenerContratos();
+        })
+      ).subscribe(
+        (contratos) => {
+          this.contratos = contratos.map((contrato) => {
+            // Buscar el usuario y el espacio relacionados con el contrato
+            const usuario = this.usuarios.find((u) => u.id === contrato.usuarioId) || { nombre: 'Usuario no encontrado' };
+            const espacio = this.espaciosParqueadero.find((e) => e.id === contrato.espacioParqueaderoId) || { ubicacion: 'Espacio no encontrado' };
+  
+            // Mapear los datos al contrato
+            return {
+              ...contrato,
+              usuario,
+              espacioParqueadero: espacio,
+            } as Contrato;
+          });
+  
+          console.log('Contratos cargados (Administrador):', this.contratos);
         },
         (error) => {
-          console.error('Error al obtener los contratos:', error);
+          console.error('Error al cargar contratos:', error);
         }
       );
     } else {
-      // Si es cliente, filtra por usuarioId
-      const usuarioId = localStorage.getItem('userId'); // ID del usuario que inició sesión
+      // Cliente: cargar solo los contratos asociados al usuario logueado
+      const usuarioId = localStorage.getItem('userId');
       if (usuarioId) {
-        this.contratosService.obtenerContratosPorUsuario(usuarioId).subscribe(
-          (data) => {
-            this.contratos = data; // Solo contratos del cliente logueado
+        this.espaciosService.obtenerEspaciosConTarifas().pipe(
+          switchMap((espacios) => {
+            this.espaciosParqueadero = espacios;
+            return this.contratosService.obtenerContratosPorUsuario(usuarioId);
+          })
+        ).subscribe(
+          (contratos) => {
+            this.contratos = contratos.map((contrato) => {
+              const espacio = this.espaciosParqueadero.find((e) => e.id === contrato.espacioParqueaderoId) || { ubicacion: 'Espacio no encontrado' };
+  
+              return {
+                ...contrato,
+                espacioParqueadero: espacio,
+              } as Contrato;
+            });
+  
+            console.log('Contratos cargados (Cliente):', this.contratos);
           },
           (error) => {
-            console.error('Error al obtener los contratos del cliente:', error);
+            console.error('Error al cargar contratos (Cliente):', error);
           }
         );
       } else {
-        this.contratos = []; // Si no hay usuario logueado, no muestra contratos
+        console.warn('No se encontró usuario logueado.');
+        this.contratos = [];
       }
     }
-  }
-  
-  
-  
+  }  
+
   inicializarFormulario(): void {
     this.contratoForm = this.fb.group(
       {
-        usuarioId: ['', Validators.required], // Selección de usuario
-        espacioParqueaderoId: ['', Validators.required], // Selección de espacio
+        usuarioId: [null, Validators.required], // Inicializa con null explícito
+        espacioParqueaderoId: [null, Validators.required], // Inicializa con null explícito
         fechaInicio: ['', Validators.required],
         fechaFin: ['', Validators.required],
       },
-      { validators: this.validarDuracionContrato } // Aplica el validador personalizado
+      { validators: this.validarDuracionContrato }
     );
   }
-  
 
   crearContrato(): void {
-  if (this.contratoForm.valid) {
-    const espacio = this.espaciosParqueadero.find((e) => e.id === this.contratoForm.value.espacioParqueaderoId);
-
-    if (!espacio) {
-      alert('Espacio no válido. Seleccione un espacio existente.');
-      return;
-    }
-
-    const contrato: Contrato = {
-      ...this.contratoForm.value,
-      fechaInicio: new Date(this.contratoForm.value.fechaInicio),
-      fechaFin: new Date(this.contratoForm.value.fechaFin),
-    };
-
-    this.contratosService
-      .crearContrato(contrato)
-      .then(() => {
-        // Actualizar disponibilidad del espacio
-        this.espaciosService
-          .actualizarEspacio({ id: espacio.id, disponible: false })
+    if (this.contratoForm.valid) {
+      const espacio = this.espaciosParqueadero.find((e) => e.id === this.contratoForm.value.espacioParqueaderoId);
+  
+      if (!espacio) { // Validación de espacio
+        alert('Espacio no válido. Seleccione un espacio existente.');
+        return;
+      }
+  
+      const contrato: Contrato = {
+        ...this.contratoForm.value,
+        fechaInicio: new Date(this.contratoForm.value.fechaInicio),
+        fechaFin: new Date(this.contratoForm.value.fechaFin),
+      };
+  
+      this.contratosService.crearContrato(contrato).then(() => {
+        this.espaciosService.actualizarEspacio({ id: espacio.id, disponible: false }) // Actualización de disponibilidad
           .then(() => {
             alert('Contrato creado y espacio actualizado.');
+            this.cargarContratos();
             this.contratoForm.reset();
-            this.cargarContratos(); // Recargar la lista de contratos
-          })
-          .catch((error) => {
-            console.error('Error al actualizar disponibilidad del espacio:', error);
           });
-      })
-      .catch((error) => {
-        console.error('Error al crear el contrato:', error);
       });
-  } else {
-    alert('Por favor, complete todos los campos del formulario.');
+    }
   }
-}
 
   editarContrato(contrato: Contrato): void {
     this.editando = true;
     this.contratoSeleccionadoId = contrato.id;
-
-    // Carga los datos del contrato en el formulario
     this.contratoForm.patchValue({
       usuarioId: contrato.usuarioId,
       espacioParqueaderoId: contrato.espacioParqueaderoId,
       fechaInicio: contrato.fechaInicio?.toISOString().split('T')[0],
-      fechaFin: contrato.fechaFin?.toISOString().split('T')[0]
+      fechaFin: contrato.fechaFin?.toISOString().split('T')[0],
     });
   }
 
@@ -200,67 +210,46 @@ export class ContratoComponent  implements OnInit{
         .actualizarContrato(this.contratoSeleccionadoId, contratoActualizado)
         .then(() => {
           alert('Contrato actualizado con éxito.');
+          this.cargarContratos();
           this.contratoForm.reset();
           this.editando = false;
-          this.cargarContratos();
-        })
-        .catch((error) => {
-          console.error('Error al actualizar el contrato:', error);
         });
     } else {
-      alert('Por favor, complete todos los campos del formulario.');
+      alert('Complete todos los campos del formulario.');
     }
   }
 
   eliminarContrato(id: string): void {
     const contrato = this.contratos.find((c) => c.id === id);
   
-    this.contratosService
-      .eliminarContrato(id)
-      .then(() => {
-        if (contrato?.espacioParqueaderoId) {
-          // Actualizar disponibilidad del espacio
-          this.espaciosService
-            .actualizarEspacio({ id: contrato.espacioParqueaderoId, disponible: true })
-            .then(() => {
-              alert('Contrato eliminado y espacio marcado como disponible.');
-              this.cargarContratos(); // Recargar contratos después de eliminar uno
-            })
-            .catch((error) => {
-              console.error('Error al actualizar disponibilidad del espacio:', error);
-            });
-        }
-      })
-      .catch((error) => {
-        console.error('Error al eliminar el contrato:', error);
-      });
+    this.contratosService.eliminarContrato(id).then(() => {
+      if (contrato?.espacioParqueaderoId) {
+        this.espaciosService.actualizarEspacio({ id: contrato.espacioParqueaderoId, disponible: true }) // Actualización de disponibilidad
+          .then(() => {
+            alert('Contrato eliminado y espacio marcado como disponible.');
+            this.cargarContratos();
+          });
+      }
+    });
   }
-  
-  
+
   cancelarEdicion(): void {
     this.editando = false;
     this.contratoForm.reset();
   }
 
-
-  // Validador personalizado para verificar que las fechas tengan una diferencia de 30 días
   validarDuracionContrato(control: AbstractControl): ValidationErrors | null {
     const fechaInicio = control.get('fechaInicio')?.value;
     const fechaFin = control.get('fechaFin')?.value;
-  
+
     if (!fechaInicio || !fechaFin) {
-      return null; // Si faltan fechas, no validar todavía
+      return null;
     }
-  
+
     const inicio = new Date(fechaInicio);
     const fin = new Date(fechaFin);
     const diferenciaDias = (fin.getTime() - inicio.getTime()) / (1000 * 60 * 60 * 24);
-  
-    if (diferenciaDias !== 30) {
-      return { duracionInvalida: true }; // Retorna error si no son 30 días exactos
-    }
-  
-    return null; // Todo está correcto
-  }
 
+    return diferenciaDias !== 30 ? { duracionInvalida: true } : null;
+  }
 }
