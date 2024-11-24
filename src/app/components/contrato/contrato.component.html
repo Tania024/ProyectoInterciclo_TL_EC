@@ -51,7 +51,7 @@
     </thead>
     <tbody>
       <tr *ngFor="let contrato of contratos">
-        <td>{{ contrato.usuario?.nombre || 'Usuario no encontrado' }}</td>
+        <td>{{ contrato.usuario?.username || 'Usuario no encontrado' }}</td>
         <td>{{ contrato.espacioParqueadero?.ubicacion || 'Espacio no encontrado' }}</td>
         <td>{{ contrato.fechaInicio | date: 'mediumDate' }}</td>
         <td>{{ contrato.fechaFin | date: 'mediumDate' }}</td>
